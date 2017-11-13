@@ -1,6 +1,6 @@
 
 
-##水研官网后台管理系统。(基于thinkjs：http://www.thinkjs.org)
+## 水研官网后台管理系统。(基于thinkjs：http://www.thinkjs.org)
 
 ## Install dependencies
 
