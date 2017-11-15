@@ -17,7 +17,6 @@ let captcha=new ThinkSvgCaptcha(options);
 
 module.exports = class extends Base {
   indexAction() {
-      //captcha.svgCaptcha('abcsd'); // return a svg captcha based on text provided.
       return this.display();
   }
   /*
