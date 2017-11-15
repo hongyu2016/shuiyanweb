@@ -1,20 +1,6 @@
 const Base = require('./base.js');
 import ThinkSvgCaptcha from 'think-svg-captcha';
 
-const options = {
-    size: 4, // size of random string
-    ignoreChars: '', // filter out some characters
-    noise: 1, // number of noise lines
-    color: false, // default grey, true if background option is set
-    background: '#ffffff', // background color of the svg image
-    width: 80, // width of captcha
-    height: 35, // height of captcha
-    //fontPath: './fonts/Comismsh.ttf', // your font path
-    fontSize: 50, // captcha text size
-    charPreset: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789' // random character preset
-};
-let captcha=new ThinkSvgCaptcha(options);
-
 module.exports = class extends Base {
   indexAction() {
       return this.display();
@@ -23,9 +9,23 @@ module.exports = class extends Base {
   * 验证码
   * */
     captchaAction(){
+        const options = {
+            size: 4, // size of random string
+            ignoreChars: '', // filter out some characters
+            noise: 1, // number of noise lines
+            color: false, // default grey, true if background option is set
+            background: '#ffffff', // background color of the svg image
+            width: 80, // width of captcha
+            height: 35, // height of captcha
+            //fontPath: './fonts/Comismsh.ttf', // your font path
+            fontSize: 50, // captcha text size
+            charPreset: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789' // random character preset
+        };
+        let captcha=new ThinkSvgCaptcha(options);
         let c=captcha.create(); // returns an object that has the following property: {data: 'svg path data', text: 'captcha text'}
         this.success({captcha:c},'获取验证码成功');
     }
+
   /*
   * 登陆
   * */
@@ -46,4 +46,11 @@ module.exports = class extends Base {
      }
      //return this.display();
   }
+    /**
+     * 注销
+     */
+    async logoutAction(){
+        await this.session(null);
+        return this.redirect('/index/index');//登录成功将用户信息写入session，返回到user首页。
+    }
 };

@@ -9,7 +9,7 @@ module.exports = class extends think.Controller {
     if(!think.isEmpty(userinfo)){
       this.assign('userinfo',userinfo);
     }else {
-      return this.redirect('/admin/index');
+      //return this.redirect('/admin/index');
     }
   }
 };

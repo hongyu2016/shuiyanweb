@@ -101,6 +101,7 @@
                     <div class="box-footer text-center">
                         <button type="submit" class="btn btn-info" id="login-btn">登陆</button>
                     </div>
+                    {{userinfo.admin_name}}
                     <!-- /.box-footer -->
                 </form>
             </div>
@@ -133,7 +134,7 @@
                     $('.captcha').html(data.data.captcha.data);
                     gloCaptchaText=data.data.captcha.text;
                 }
-            })
+            },'json')
         }
         captcha();
         $('.captcha').off('click').on('click',function () {
