@@ -79,10 +79,19 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label for="password" class="col-sm-2 control-label">验证码</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="captcha" name="captcha" placeholder="验证码">
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="captcha"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox"> 记住用户名
+                                        <input type="checkbox" class="remenber-user"> 记住用户名
                                     </label>
                                 </div>
                             </div>
@@ -103,6 +112,8 @@
 <!-- jQuery 3 -->
 <script src="/static/bower_components/jquery/dist/jquery.min.js"></script>
 <script src="/static/js/jquery.md5.js"></script>
+<script src="/static/js/jquery.cookie.js"></script>
+<script src="/static/js/layer/layer.js"></script>
 <script>
     $(function () {
         //居中
@@ -111,23 +122,57 @@
         if(wHeight>fHeight){
             $('.login').css('padding-top',(wHeight-fHeight)/2);
         }
+        if($.cookie('username')){
+            $('#username').val($.cookie('username'));//读取cookie填充用户名
+        }
+        //获取更换验证码
+        var gloCaptchaText; //验证码文字
+        function captcha() {
+            $.get('/admin/captcha',{},function (data) {
+                if(data.errno==0){
+                    $('.captcha').html(data.data.captcha.data);
+                    gloCaptchaText=data.data.captcha.text;
+                }
+            })
+        }
+        captcha();
+        $('.captcha').off('click').on('click',function () {
+            captcha();
+        });
         //登陆提交
         $('#login-btn').off('click').on('click',function (e) {
             e.preventDefault();
             var userName=$('#username').val();
             var passWord=$('#password').val();
+            var captchaTxet=$('#captcha').val();
             if(!userName||!passWord){
-                alert('请输入账号密码')
+                layer.msg('请输入账号密码');
                 return false;
             }
+
+            if(captchaTxet!=gloCaptchaText.toLowerCase()){
+                if(!gloCaptchaText){
+                    layer.msg('请刷新页面获取验证码');
+                    return false;
+                }
+                layer.msg('验证码输入错误');
+                captcha();
+                return false;
+            }
+
             $.post('/admin/login',{username:userName,password:$.md5(passWord)},function (data) {
                 if(data.errno==0){
+                    if($('.remenber-user').prop('checked')){//存储用户名进cookie
+                        $.cookie('username', userName, { expires: 7 });
+                    }
+
                     window.location.href='/index/index';
                 }else{
-                    alert('账号密码错误')
+                    layer.msg('账号密码错误');
                 }
             },'json')
         });
+
     });
 </script>
 </body>

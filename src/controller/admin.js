@@ -1,9 +1,32 @@
 const Base = require('./base.js');
+import ThinkSvgCaptcha from 'think-svg-captcha';
+
+const options = {
+    size: 4, // size of random string
+    ignoreChars: '', // filter out some characters
+    noise: 1, // number of noise lines
+    color: false, // default grey, true if background option is set
+    background: '#ffffff', // background color of the svg image
+    width: 80, // width of captcha
+    height: 35, // height of captcha
+    //fontPath: './fonts/Comismsh.ttf', // your font path
+    fontSize: 50, // captcha text size
+    charPreset: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789' // random character preset
+};
+let captcha=new ThinkSvgCaptcha(options);
 
 module.exports = class extends Base {
   indexAction() {
-    return this.display();
+      //captcha.svgCaptcha('abcsd'); // return a svg captcha based on text provided.
+      return this.display();
   }
+  /*
+  * 验证码
+  * */
+    captchaAction(){
+        let c=captcha.create(); // returns an object that has the following property: {data: 'svg path data', text: 'captcha text'}
+        this.success({captcha:c},'获取验证码成功');
+    }
   /*
   * 登陆
   * */
