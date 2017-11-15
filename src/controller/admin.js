@@ -51,6 +51,6 @@ module.exports = class extends Base {
      */
     async logoutAction(){
         await this.session(null);
-        return this.redirect('/index/index');//登录成功将用户信息写入session，返回到user首页。
+        this.redirect('/index/index');//登录成功将用户信息写入session，返回到user首页。
     }
 };
