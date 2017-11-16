@@ -5,8 +5,7 @@
 
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu" data-widget="tree">
-            <li class="header">菜单导航</li>
-            <!-- Optionally, you can add icons to the links -->
+            <!--<li class="header">菜单导航</li>
             <li class="active"><a href="#"><i class="fa fa-link"></i> <span>一级菜单1</span></a></li>
             <li><a href="#"><i class="fa fa-link"></i> <span>一级菜单2</span></a></li>
             <li class="treeview">
@@ -19,7 +18,28 @@
                     <li><a href="#">二级菜单1</a></li>
                     <li><a href="#">二级菜单2</a></li>
                 </ul>
+            </li>-->
+
+
+            <li class="header">菜单导航</li>
+            {% for m in oneMenu %}
+
+            <li class="treeview">
+                <a href="#"><i class="fa fa-link"></i> <span>{{m.menu_name}}</span>
+                    <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+                </a>
+                <ul class="treeview-menu">
+                    {% for k in subMenu %}
+                    {% if m.menu_id==k.parent_menu %}
+                    <li><a href="#">{{k.menu_name}}</a></li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
             </li>
+
+            {% endfor %}
         </ul>
         <!-- /.sidebar-menu -->
     </section>
