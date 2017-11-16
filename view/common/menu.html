@@ -22,19 +22,19 @@
 
 
             <li class="header">菜单导航</li>
-            {% for m in oneMenu %}
+            {% for m in newMenu %}
 
             <li class="treeview">
-                <a href="#"><i class="fa fa-link"></i> <span>{{m.menu_name}}</span>
+                <a href="#"><i class="{{m.icon_class}}"></i> <span>{{m.menu_name}}</span>
                     <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
               </span>
                 </a>
                 <ul class="treeview-menu">
-                    {% for k in subMenu %}
-                    {% if m.menu_id==k.parent_menu %}
-                    <li><a href="#"><i class="fa fa-file"></i> {{k.menu_name}}</a></li>
-                    {% endif %}
+                    {% for k in m.child_menu %}
+                    <!--{% if m.menu_id==k.parent_menu %}-->
+                    <li><a href="#"><i class="{{k.icon_class}}"></i> {{k.menu_name}}</a></li>
+                    <!--{% endif %}-->
                     {% endfor %}
                 </ul>
             </li>
