@@ -33,7 +33,7 @@
                 <ul class="treeview-menu">
                     {% for k in subMenu %}
                     {% if m.menu_id==k.parent_menu %}
-                    <li><a href="#">{{k.menu_name}}</a></li>
+                    <li><a href="#"><i class="fa fa-file"></i> {{k.menu_name}}</a></li>
                     {% endif %}
                     {% endfor %}
                 </ul>
