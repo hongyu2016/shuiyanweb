@@ -2,6 +2,7 @@
  * Created by Administrator on 2017/11/17.
  */
 const Base=require('./base');
+//const NewsSort=require('../model/news_sort');
 module.exports = class extends Base {
     /*
     * 栏目列表
@@ -18,7 +19,7 @@ module.exports = class extends Base {
     async addAction(){
         //如果sort-id存在 则是编辑栏目
         let sortId=this.ctx.param('sort-id');
-        console.log('sort',sortId)
+        console.log('sort',sortId);
         if(sortId){
             let editSort=await this.model('news_sort').where({sort_id:sortId}).find();
             this.assign('editSort',editSort);
