@@ -1,9 +1,11 @@
 {
-  "name": "thinkjs-application",
-  "description": "application created by thinkjs",
+  "name": "shuiyanweb",
+  "description": "shuiyanweb created by thinkjs",
   "version": "1.0.0",
+  "author": "yuge",
   "scripts": {
     "start": "node development.js",
+    "test": "THINK_UNIT_TEST=1 nyc ava test/ && nyc report --reporter=html",
     "compile": "babel --no-babelrc src/ --presets think-node --out-dir app/",
     "lint": "eslint src/",
     "lint-fix": "eslint --fix src/"
@@ -25,11 +27,13 @@
     "babel-cli": "^6.24.1",
     "babel-preset-think-node": "^1.0.0",
     "node-notifier": "^5.0.2",
-    "think-watcher": "^3.0.0",
     "think-inspect": "0.0.2",
     "think-babel": "^1.0.3",
+    "think-watcher": "^3.0.0",
     "eslint": "^4.2.0",
-    "eslint-config-think": "^1.0.0"
+    "eslint-config-think": "^1.0.0",
+    "ava": "^0.18.0",
+    "nyc": "^7.0.0"
   },
   "repository": "",
   "license": "MIT",
@@ -39,12 +43,15 @@
   "readmeFilename": "README.md",
   "thinkjs": {
     "metadata": {
-      "name": "shuiyan",
-      "description": "水研官网",
-      "author": "羽歌"
+      "name": "shuiyanweb",
+      "description": "shuiyanweb created by thinkjs",
+      "author": "yuge",
+      "babel": true,
+      "defaultModule": "admin"
     },
-    "projectName": "shuiyan",
-    "templateName": "C:\\Users\\Administrator\\AppData\\Roaming\\npm\\node_modules\\think-cli\\default_template",
-    "isMultiModule": false
+    "projectName": "shuiyanweb",
+    "cacheTemplatePath": "C:\\Users\\Administrator\\.think-templates\\C--Users-Administrator-AppData-Roaming-npm-node_modules-think-cli-default_template",
+    "clone": false,
+    "isMultiModule": true
   }
 }
