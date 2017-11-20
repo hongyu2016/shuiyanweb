@@ -25,7 +25,7 @@
             {% for m in newMenu %}
 
             <li class="{% if m.child_menu.length>0 %}treeview{% endif %}"> <!--若存在子菜单-->
-                <a href="{% if m.child_menu.length>0 %}javascript:;{% elif m.child_menu.length<=0 %}{{m.menu_url}}{% else %}{% endif %}">
+                <a href="{% if m.child_menu.length>0 %}javascript:;{% else %}{{m.menu_url}}{% endif %}">
                     <i class="{{m.icon_class}}"></i>
                     <span>{{m.menu_name}}</span>
 

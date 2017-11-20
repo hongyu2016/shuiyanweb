@@ -3,3 +3,7 @@
     padding-bottom: 15px;
     color: #fff;
 }
+.main-content{
+    border: solid #ddd 1px;
+    background-color: #fff;
+}

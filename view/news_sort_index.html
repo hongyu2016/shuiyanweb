@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block main %}
+    <div class="box-body table-responsive no-padding">
+        <table class="table table-hover table-bordered">
+            <thead>
+                <tr>
+                    <td>
+                        序号
+                    </td>
+                    <td>
+                        分类名称
+                    </td>
+                    <td>
+                        创建时间
+                    </td>
+                    <td>
+                        操作
+                    </td>
+                </tr>
+            </thead>
+            {% for list in sortList%}
+                <tr>
+                    <td>{{loop.index}}</td> <!--当前循环数-->
+                    <td>{{list.sort_name}}</td>
+                    <td>{{list.create_time}}</td>
+                    <td>
+                        <button type="button" class="btn btn-info btn-sm edit" data-id="{{list.sort_id}}">编辑</button>
+                        <button type="button" class="btn btn-warning btn-sm delete" data-id="{{list.sort_id}}">删除</button>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script>
+        $(function () {
+            /*
+            * 编辑栏目
+            * */
+            $('.edit').off('click').on('click',function (e) {
+                var id=$(this).attr('data-id');
+                window.location.href='/news_sort/add?sort-id='+id+'';
+            });
+            /*
+            * 删除栏目
+            * */
+            $('.delete').off('click').on('click',function (e) {
+                var that=this;
+                layer.confirm('您确定执行删除操作？', {
+                    btn: ['确定','取消']
+                }, function(){
+                    var id=$(that).attr('data-id');
+                    var loading=layer.load(2);
+                    $.get('/news_sort/delete',{'sort-id':Number(id)},function (data) {
+                        if(data.errno==0){
+                            layer.close(loading);
+                            layer.msg(data.errmsg);
+                        }
+                    },'json')
+                }, function(){
+
+                });
+
+            });
+        })
+    </script>
+
+{% endblock%}
