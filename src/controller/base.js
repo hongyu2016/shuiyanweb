@@ -1,3 +1,4 @@
+import {formatMenu} from "../common_function/common_function.js";
 module.exports = class extends think.Controller {
   async __before() {
     let userinfo=await this.session('userinfo');
@@ -6,64 +7,14 @@ module.exports = class extends think.Controller {
             return this.redirect('/admin/index');
         }
     }else {
-        this.assign('userinfo',userinfo);
-        let menuList=await this.model('menu').order('menu_id ASC, menu_name DESC').select(); //菜单
-        //this.assign('menuList',menuList);
-
-        let oneMenu=[];
-        let subMenu=[];
-        for (let i in menuList){
-            if(menuList[i].parent_menu==-1 ){
-                oneMenu.push(menuList[i]);
-            }
-            else{
-                subMenu.push(menuList[i]);
-            }
-        }
+        let menuList=await this.model('menu').order('menu_id ASC, menu_name DESC').select(); //从数据库取出菜单
+        let newMenu=formatMenu(menuList);
         this.assign({
-            'oneMenu':oneMenu,
-            'subMenu':subMenu
+            'newMenu':newMenu, //赋值菜单
+            'userinfo':userinfo//赋值用户登陆session
         });
-
-        //重新组成新数组
-        function format(list) {
-            let arr = [];
-            list.map(function(item, index) {
-                if (item.parent_menu == -1) {
-                    let o = arr.find(x => {
-                        return x.menu_id == item.menu_id
-                    })
-                    if (!o) {
-                        o = {
-                            child_menu: []
-                        }
-                        arr.push(o)
-                    }
-                    Object.assign(o, item)
-
-                }else{
-                    let o=arr.find(x=>{
-                        return x.menu_id==item.parent_menu;
-                    })
-                    if(!o){
-                        o={
-                            child_menu:[item],
-                            menu_id:item.parent_menu
-                        }
-                        arr.push(o)
-                    }else{
-                        o.child_menu.push(item)
-                    }
-                }
-
-            })
-            return arr;
-        }
-
-       let newMenu= format(menuList);
-        this.assign('newMenu',newMenu);
-
     }
   }
+
 
 };

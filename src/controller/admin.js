@@ -1,7 +1,6 @@
-const Base = require('./base.js');
 import ThinkSvgCaptcha from 'think-svg-captcha';
 
-module.exports = class extends Base {
+module.exports = class extends think.Controller {
   indexAction() {
       return this.display();
   }

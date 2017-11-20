@@ -3,3 +3,4 @@ module.exports = (options, app) => {
     return next();
   };
 };
+

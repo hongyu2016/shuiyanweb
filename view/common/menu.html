@@ -21,20 +21,23 @@
             </li>-->
 
 
-            <li class="header">菜单导航</li>
+            <li class="header">菜单导航{{menu_0}}</li>
             {% for m in newMenu %}
 
-            <li class="treeview">
-                <a href="#"><i class="{{m.icon_class}}"></i> <span>{{m.menu_name}}</span>
+            <li class="{% if m.child_menu.length>0 %}treeview{% endif %}"> <!--若存在子菜单-->
+                <a href="{% if m.child_menu.length>0 %}javascript:;{% elif m.child_menu.length<=0 %}{{m.menu_url}}{% else %}{% endif %}">
+                    <i class="{{m.icon_class}}"></i>
+                    <span>{{m.menu_name}}</span>
+
+                    {% if m.child_menu.length>0 %} <!--若存在子菜单-->
                     <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                    {% endif %}
                 </a>
                 <ul class="treeview-menu">
                     {% for k in m.child_menu %}
-                    <!--{% if m.menu_id==k.parent_menu %}-->
-                    <li><a href="#"><i class="{{k.icon_class}}"></i> {{k.menu_name}}</a></li>
-                    <!--{% endif %}-->
+                    <li><a href="{{k.menu_url}}"><i class="{{k.icon_class}}"></i> {{k.menu_name}}</a></li>
                     {% endfor %}
                 </ul>
             </li>
