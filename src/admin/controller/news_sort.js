@@ -4,6 +4,13 @@
 const Base=require('./base');
 module.exports = class extends Base {
     /*
+    * 构造函数 便于使用model文件
+    * */
+    constructor(...args) {
+        super(...args);
+        this.modelInstance = this.model('news_sort');
+    }
+    /*
     * 栏目列表
     * */
     async indexAction() {
@@ -18,7 +25,6 @@ module.exports = class extends Base {
     async addAction(){
         //如果sort-id存在 则是编辑栏目
         let sortId=this.ctx.param('sort-id');
-        console.log('sort',sortId);
         if(sortId){
             let editSort=await this.model('news_sort').where({sort_id:sortId}).find();
             this.assign('editSort',editSort);
@@ -34,8 +40,7 @@ module.exports = class extends Base {
             let sortName=this.get('sort-name');
             let userInfo=await this.session('userinfo');
             let userName=userInfo.admin_name;
-            let model=this.model('news_sort');
-            let insertId=await model.add({sort_name:sortName,create_user:userName,create_time:think.datetime(new Date())});
+            let insertId=await this.modelInstance.addSort(sortName,userName);
             if(insertId){
                 this.success({data:insertId},'添加成功');
             }else {
