@@ -8,3 +8,13 @@
     border: solid #ddd 1px;
     background-color: #fff;
 }
+.star{
+    font-weight: 200;
+    color: red;
+    font-size: 20px;
+    line-height: 0;
+    vertical-align: -6px;
+    font-style: normal;
+    font-family: "微软雅黑";
+    margin-right: 3px;
+}

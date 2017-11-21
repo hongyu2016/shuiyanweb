@@ -19,6 +19,7 @@
     "think-session": "^1.0.0",
     "think-session-file": "^1.0.5",
     "think-svg-captcha": "^1.0.3",
+    "think-ueditor": "^1.0.0",
     "think-view": "^1.0.0",
     "think-view-nunjucks": "^1.0.1",
     "thinkjs": "^3.0.0"

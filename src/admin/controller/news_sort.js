@@ -7,8 +7,8 @@ module.exports = class extends Base {
     * 构造函数 便于使用model文件
     * */
     constructor(...args) {
-        super(...args);
-        this.modelInstance = this.model('news_sort');
+        super(...args);//调用父级的 constructor 方法
+        this.modelInstance = this.model('news_sort'); //增加一个方法
     }
     /*
     * 栏目列表
