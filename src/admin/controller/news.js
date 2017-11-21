@@ -11,7 +11,8 @@ module.exports = class extends Base {
     }
   /*文章列表*/
   indexAction() {
-    return this.display();
+      //分页查询列表
+      return this.display();
   }
   /*
   * 发布新闻显示页面
