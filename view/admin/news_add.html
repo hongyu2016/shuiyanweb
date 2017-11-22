@@ -70,6 +70,12 @@
             * */
             var ue = UE.getEditor('editor');
             $('#push-btn').click(function (e) {
+                var editId=GetQueryString('news-id');//是否是编辑
+                if(editId){
+                    editId=1
+                }else{
+                    editId=0
+                }
                 e.preventDefault();
                 var sort=$('#sort').find('option:selected').attr('data-id');  //分类
                 var title=$('#title').val();//标题
@@ -98,11 +104,12 @@
                     intro:intro,
                     author:author,
                     content:content,
-                    copyfrom:copyfrom
+                    copyfrom:copyfrom,
+                    editId:editId
                 };
                 $.post('/news/doadd',postData,function (data) {
                     if(data.errno==0){
-                        layer.msg('添加文章成功');
+                        layer.msg(data.errmsg);
                     }else{
                         layer.msg(data.errmsg);
                     }

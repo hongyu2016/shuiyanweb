@@ -48,6 +48,7 @@ module.exports = class extends Base {
     }
     async doaddAction(){
         if(this.isPost){
+            let editId=this.post('editId');
             let sort=this.post('sort');
             let title=this.post('title');
             let subTitle=this.post('subTitle');
@@ -76,13 +77,26 @@ module.exports = class extends Base {
                 content:content,
                 copyfrom:copyfrom
             };
-            let artitleId=await this.modelInstance.addArticle(data);
-            if(!artitleId){
-                this.fail(403,'添加文章失败');
+
+            if(editId){//编辑文章
+                let artitleId=await this.modelInstance.where({'article_id':editId}).update(data);
+                if(!artitleId){
+                    this.fail(403,'编辑文章失败');
+                }
+                else{
+                    this.success({data:artitleId},'编辑文章成功');
+                }
+            }else{//新增文章
+                let artitleId=await this.modelInstance.addArticle(data);
+                if(!artitleId){
+                    this.fail(403,'添加文章失败');
+                }
+                else{
+                    this.success({data:artitleId},'添加文章成功');
+                }
             }
-            else{
-                this.success({data:artitleId},'添加文章成功');
-            }
+
+
         }
     }
 };
