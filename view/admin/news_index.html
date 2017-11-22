@@ -6,6 +6,7 @@
                 <tr>
                     <td>序号</td>
                     <td>缩略图</td>
+                    <td>所属分类</td>
                     <td>文章标题</td>
                     <td>副标题</td>
                     <td>简介</td>
@@ -18,27 +19,29 @@
                     <td>操作</td>
                 </tr>
             </thead>
-            {% for list in sortList%}
+            {% for list in news_list.data%}
                 <tr>
                     <td>{{loop.index}}</td> <!--当前循环数-->
+                    <td>{{list.thumb}}</td>
                     <td>{{list.sort_name}}</td>
+                    <td>{{list.title}}</td>
+                    <td>{{list.sub_title}}</td>
+                    <td>{{list.intro}}</td>
+                    <td>{{list.content}}</td>
+                    <td>{{list.author}}</td>
+                    <td>{{list.copyfrom}}</td>
+                    <td>{{list.hits}}</td>
                     <td>{{list.create_time}}</td>
-                    <td>{{list.sort_name}}</td>
-                    <td>{{list.create_time}}</td>
-                    <td>{{list.sort_name}}</td>
-                    <td>{{list.create_time}}</td>
-                    <td>{{list.sort_name}}</td>
-                    <td>{{list.create_time}}</td>
-                    <td>{{list.sort_name}}</td>
-                    <td>{{list.create_time}}</td>
+                    <td>{{list.update_time}}</td>
                     <td>
-                        <button type="button" class="btn btn-info btn-sm edit" data-id="{{list.sort_id}}">编辑</button>
-                        <button type="button" class="btn btn-warning btn-sm delete" data-id="{{list.sort_id}}">删除</button>
+                        <button type="button" class="btn btn-info btn-sm edit" data-id="{{list.article_id}}">编辑</button>
+                        <button type="button" class="btn btn-warning btn-sm delete" data-id="{{list.article_id}}">删除</button>
                     </td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
+        {{ pagination | safe}}
     </div>
     <script>
         $(function () {

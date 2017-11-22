@@ -1,4 +1,5 @@
 const ThinkUeditor=require('think-ueditor');
+const pagination = require('think-pagination');
 const Base = require('./base.js');
 
 module.exports = class extends Base {
@@ -10,8 +11,21 @@ module.exports = class extends Base {
         this.modelInstance = this.model('news'); //增加一个方法
     }
   /*文章列表*/
-  indexAction() {
+  async indexAction() {
       //分页查询列表
+      const data = await this.model('news').join('sy_news_sort ON sy_news.sort_id=sy_news_sort.sort_id').page(this.get('page'),2).countSelect();
+      const html = pagination(data, this.ctx, {
+          desc: false, //show description
+          pageNum: 2,
+          url: '', //page url, when not set, it will auto generated
+          class: '', //pagenation extra class
+          text: {
+              next: '下一页',
+              prev: '上一页',
+              total: 'count: __COUNT__ , pages: __PAGE__'
+          }
+      });
+      this.assign({'pagination':html,'news_list':data});
       return this.display();
   }
   /*
