@@ -10,7 +10,7 @@
                 <div class="col-lg-4 col-md-6 col-sm-10">
                     <select class="form-control" id="sort">
                         {% for list in sortList %}
-                        <option data-id="{{list.sort_id}}">{{list.sort_name}}</option>
+                        <option data-id="{{list.sort_id}}" >{{list.sort_name}}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -18,31 +18,31 @@
             <div class="form-group">
                 <label for="title" class="col-md-1 col-sm-2 control-label"><i class="star">*</i>文章标题</label>
                 <div class="col-lg-4 col-md-6 col-sm-10">
-                    <input type="text" class="form-control" id="title" placeholder="文章标题" value="{{editSort.sort_name}}">
+                    <input type="text" class="form-control" id="title" placeholder="文章标题" value="{{newsData.title}}">
                 </div>
             </div>
             <div class="form-group">
                 <label for="sub-title" class="col-md-1 col-sm-2 control-label">副标题</label>
                 <div class="col-lg-4 col-md-6 col-sm-10">
-                    <input type="text" class="form-control" id="sub-title" placeholder="副标题" value="{{editSort.sort_name}}">
+                    <input type="text" class="form-control" id="sub-title" placeholder="副标题" value="{{newsData.sub_title}}">
                 </div>
             </div>
             <div class="form-group">
                 <label for="intro" class="col-md-1 col-sm-2 control-label">简介</label>
                 <div class="col-lg-4 col-md-6 col-sm-10">
-                    <textarea class="form-control" id="intro" rows="5" placeholder="文章简介"></textarea>
+                    <textarea class="form-control" id="intro" rows="5" placeholder="文章简介">{{newsData.intro}}</textarea>
                 </div>
             </div>
             <div class="form-group">
                 <label for="author" class="col-md-1 col-sm-2 control-label">作者</label>
                 <div class="col-lg-4 col-md-6 col-sm-10">
-                    <input type="text" class="form-control" id="author" placeholder="作者" value="{{editSort.sort_name}}">
+                    <input type="text" class="form-control" id="author" placeholder="作者" value="{{newsData.author}}">
                 </div>
             </div>
             <div class="form-group">
                 <label for="copyfrom" class="col-md-1 col-sm-2 control-label">文章来源</label>
                 <div class="col-lg-4 col-md-6 col-sm-10">
-                    <input type="text" class="form-control" id="copyfrom" placeholder="文章来源" value="{{editSort.sort_name}}">
+                    <input type="text" class="form-control" id="copyfrom" placeholder="文章来源" value="{{newsData.copyfrom}}">
                 </div>
             </div>
             <div class="form-group">
@@ -54,15 +54,15 @@
         </div>
         <div class="box-footer">
             <div class="col-md-offset-1 col-sm-offset-2">
-                {% if editSort %}
+                {% if newsData %}
                 <button type="button" class="btn btn-default" onclick="javascript:window.history.back();">返回</button>
                 {% endif %}
                 <button type="submit" class="btn btn-success" id="push-btn" style="margin-left: 20px;">确定</button>
             </div>
         </div>
+        <div id="edit-content" style="display: none;"></div>
 
     </form>
-
     <script>
         $(function () {
             /*
@@ -108,8 +108,17 @@
                     }
                 },'json');
 
-            })
+            });
+            //编辑时 设置所属栏目选中
+            var news_sortId ='{{newsData.sort_id}}';
 
+            $('#edit-content').html('{{newsData.content}}');//把数据库的内容先写入隐藏div
+            if(news_sortId){
+                $('#sort').find('option[data-id = '+news_sortId+']').attr("selected","selected");
+                ue.ready(function() {
+                    ue.execCommand( 'inserthtml', $('#edit-content').text()); //取出div的内容 进行html转义插入
+                });
+            }
         })
     </script>
 

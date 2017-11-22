@@ -13,7 +13,7 @@ module.exports = class extends Base {
   /*文章列表*/
   async indexAction() {
       //分页查询列表
-      const data = await this.model('news').join('sy_news_sort ON sy_news.sort_id=sy_news_sort.sort_id').page(this.get('page'),2).countSelect();
+      const data = await this.modelInstance.join('sy_news_sort ON sy_news.sort_id=sy_news_sort.sort_id').page(this.get('page'),2).countSelect();
       const html = pagination(data, this.ctx, {
           desc: false, //show description
           pageNum: 2,
@@ -34,6 +34,11 @@ module.exports = class extends Base {
     async addAction(){
         let sortList=await this.model('news_sort').select();
         this.assign('sortList',sortList);
+        let newsId=this.get('news-id');
+        if(newsId){//有文章id 则是编辑页面 从news表根据id查询数据
+            let newsData=await this.modelInstance.where({'article_id':newsId}).find();
+            this.assign('newsData',newsData);
+        }
         return this.display();
     }
     uploadAction(){
