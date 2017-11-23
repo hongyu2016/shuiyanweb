@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-11-20 17:50:19
+Date: 2017-11-23 14:28:48
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -69,12 +69,12 @@ INSERT INTO `sy_menu` VALUES ('10', '通知公告', '', null, '-1', 'fa fa-map')
 INSERT INTO `sy_menu` VALUES ('11', '水研新闻', '', null, '-1', 'fa fa-photo');
 INSERT INTO `sy_menu` VALUES ('12', '添加公告', '', null, '10', 'fa fa-pencil');
 INSERT INTO `sy_menu` VALUES ('13', '公告列表', '', null, '10', 'fa fa-star');
-INSERT INTO `sy_menu` VALUES ('14', '发布新闻', '', null, '11', 'fa fa-tags');
-INSERT INTO `sy_menu` VALUES ('15', '新闻列表', '', null, '11', 'fa fa-taxi');
+INSERT INTO `sy_menu` VALUES ('14', '发布新闻', '/news/add?menu_id=14', null, '11', 'fa fa-tags');
+INSERT INTO `sy_menu` VALUES ('15', '新闻列表', '/news/index?menu_id=15', null, '11', 'fa fa-taxi');
 INSERT INTO `sy_menu` VALUES ('16', '系统设置', '', null, '-1', 'fa fa-star');
 INSERT INTO `sy_menu` VALUES ('17', '新闻分类', '', null, '-1', 'fa fa-star');
-INSERT INTO `sy_menu` VALUES ('18', '添加分类', '/news_sort/add', null, '17', 'fa fa-star');
-INSERT INTO `sy_menu` VALUES ('19', '分类列表', '/news_sort/index', null, '17', 'fa fa-star');
+INSERT INTO `sy_menu` VALUES ('18', '添加分类', '/news_sort/add?menu_id=18', null, '17', 'fa fa-star');
+INSERT INTO `sy_menu` VALUES ('19', '分类列表', '/news_sort/index?menu_id=19', null, '17', 'fa fa-star');
 
 -- ----------------------------
 -- Table structure for sy_news
@@ -95,11 +95,26 @@ CREATE TABLE `sy_news` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `thumb` varchar(200) DEFAULT NULL COMMENT '缩略图地址',
   PRIMARY KEY (`article_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sy_news
 -- ----------------------------
+INSERT INTO `sy_news` VALUES ('1', '2', '论水研张林的才华', '论水研张林的才华2', '', '<p>从前有座山。。。。。</p><p><br/></p>', '张林', '原创', null, null, '2017-11-21 17:17:35', '2017-11-23 10:07:42', null);
+INSERT INTO `sy_news` VALUES ('2', '2', '论水研张林的才华', '', '', '<p>从前有座山。。。。。</p>', '', '', null, null, '2017-11-21 17:23:07', null, null);
+INSERT INTO `sy_news` VALUES ('3', '1', '通告1', '', '', '<p>通告1</p>', '', '', null, null, '2017-11-21 17:50:06', null, null);
+INSERT INTO `sy_news` VALUES ('4', '1', '通告2', '', '', '<p>通告2</p>', '', '', null, null, '2017-11-21 17:50:14', null, null);
+INSERT INTO `sy_news` VALUES ('5', '1', '通告3', '', '', '<p>通告3</p>', '', '', null, null, '2017-11-21 17:50:20', null, null);
+INSERT INTO `sy_news` VALUES ('6', '1', '通告4', '', '', '<p>通告4</p>', '', '', null, null, '2017-11-21 17:50:26', null, null);
+INSERT INTO `sy_news` VALUES ('7', '1', '通告5', '', '', '<p>通告5</p>', '', '', null, null, '2017-11-21 17:50:32', null, null);
+INSERT INTO `sy_news` VALUES ('8', '1', '通告6', '', '', '<p>通告6</p>', '', '', null, null, '2017-11-21 17:50:40', null, null);
+INSERT INTO `sy_news` VALUES ('9', '2', '新闻1', '', '', '<p>新闻1</p>', '', '', null, null, '2017-11-21 17:50:49', null, null);
+INSERT INTO `sy_news` VALUES ('10', '2', '新闻2', '', '', '<p>新闻2</p>', '', '', null, null, '2017-11-21 17:50:57', null, null);
+INSERT INTO `sy_news` VALUES ('11', '2', '新闻3', '', '', '<p>新闻3</p>', '', '', null, null, '2017-11-21 17:51:03', null, null);
+INSERT INTO `sy_news` VALUES ('12', '2', '新闻4', '', '', '<p>新闻4</p>', '', '', null, null, '2017-11-21 17:51:09', null, null);
+INSERT INTO `sy_news` VALUES ('13', '2', '新闻5', '', '', '<p>新闻5</p>', '', '', null, null, '2017-11-21 17:51:15', null, null);
+INSERT INTO `sy_news` VALUES ('14', '2', '新闻6', '', '', '<p>新闻6</p>', '', '', null, null, '2017-11-21 17:51:20', null, null);
+INSERT INTO `sy_news` VALUES ('15', '1', '村长家开会', '', '', '<p>时间：2017-11-21</p><p>地点：村长家</p><p><img src=\"https://gss0.bdstatic.com/5bVWsj_p_tVS5dKfpU_Y_D3/res/r/image/2017-11-22/17d2f53da644baec2b4ae9c9cd34bb97.jpg\"/></p>', '', '', null, null, '2017-11-22 17:03:15', null, null);
 
 -- ----------------------------
 -- Table structure for sy_news_sort
@@ -111,7 +126,7 @@ CREATE TABLE `sy_news_sort` (
   `create_user` varchar(20) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`sort_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sy_news_sort
@@ -122,6 +137,8 @@ INSERT INTO `sy_news_sort` VALUES ('3', '水研快报', 'admin', '2017-11-20 11:
 INSERT INTO `sy_news_sort` VALUES ('4', '测试分类', 'admin', '2017-11-20 14:28:22');
 INSERT INTO `sy_news_sort` VALUES ('5', '测试分类2', 'admin', '2017-11-20 14:29:13');
 INSERT INTO `sy_news_sort` VALUES ('9', '测试分类5', 'admin', '2017-11-20 17:47:36');
+INSERT INTO `sy_news_sort` VALUES ('10', '测试分类4', 'admin', '2017-11-21 11:04:18');
+INSERT INTO `sy_news_sort` VALUES ('11', '测试分类22', 'admin', '2017-11-21 11:06:10');
 
 -- ----------------------------
 -- Table structure for sy_role
