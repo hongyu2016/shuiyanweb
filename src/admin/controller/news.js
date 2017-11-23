@@ -13,7 +13,8 @@ module.exports = class extends Base {
   /*文章列表*/
   async indexAction() {
       //分页查询列表
-      const data = await this.modelInstance.join('sy_news_sort ON sy_news.sort_id=sy_news_sort.sort_id').page(this.get('page'),2).countSelect();
+      let pageIndex=this.get('page');
+      const data = await this.modelInstance.indexList(pageIndex);   ////  两个表的字段重复了
       const html = pagination(data, this.ctx, {
           desc: false, //show description
           pageNum: 2,
@@ -26,6 +27,7 @@ module.exports = class extends Base {
           }
       });
       this.assign({'pagination':html,'news_list':data});
+
       return this.display();
   }
   /*
@@ -42,10 +44,14 @@ module.exports = class extends Base {
         return this.display();
     }
     uploadAction(){
+        //百度编辑器
         const ueditor = new ThinkUeditor(this.ctx);
         this.json(ueditor.init());
 
     }
+    /*
+    * 提交新增/编辑文章
+    * */
     async doaddAction(){
         if(this.isPost){
             let editId=this.post('editId');
@@ -79,7 +85,7 @@ module.exports = class extends Base {
             };
 
             if(editId){//编辑文章
-                let artitleId=await this.modelInstance.where({'article_id':editId}).update(data);
+                let artitleId=await this.modelInstance.where({'article_id':editId}).editNews(data);
                 if(!artitleId){
                     this.fail(403,'编辑文章失败');
                 }
@@ -97,6 +103,21 @@ module.exports = class extends Base {
             }
 
 
+        }
+    }
+    /*
+    * 删除文章
+    * */
+    async deleteAction(){
+        if(this.isGet){
+            let newsId=this.get('news-id');
+            let dataId=await this.modelInstance.where({'article_id':newsId}).delete();
+            if(!dataId){
+                this.fail(403,'删除文章失败');
+            }
+            else{
+                this.success({data:dataId},'删除文章成功');
+            }
         }
     }
 };

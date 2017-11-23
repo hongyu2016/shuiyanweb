@@ -110,6 +110,9 @@
                 $.post('/news/doadd',postData,function (data) {
                     if(data.errno==0){
                         layer.msg(data.errmsg);
+                        setTimeout(function () {
+                            window.location.href='/news/index';
+                        },2000)
                     }else{
                         layer.msg(data.errmsg);
                     }
