@@ -48,7 +48,9 @@
             <div class="form-group">
                 <label for="editor" class="col-md-1 col-sm-2 control-label">文章内容</label>
                 <div class="col-lg-10 col-md-10 col-sm-10">
-                    <script id="editor" type="text/plain" style="width:100%;min-height:300px;"></script>
+                    <script id="editor" type="text/plain" style="width:100%;min-height:300px;">
+                        {{newsData.content | safe}}
+                    </script>
                 </div>
             </div>
         </div>
@@ -120,7 +122,7 @@
 
             });
             //编辑时 设置所属栏目选中
-            var news_sortId ='{{newsData.sort_id}}';
+            /*var news_sortId ='{{newsData.sort_id}}';
 
             $('#edit-content').html('{{newsData.content}}');//把数据库的内容先写入隐藏div
             if(news_sortId){
@@ -128,7 +130,7 @@
                 ue.ready(function() {
                     ue.execCommand( 'inserthtml', $('#edit-content').text()); //取出div的内容 进行html转义插入
                 });
-            }
+            }*/
         })
     </script>
 

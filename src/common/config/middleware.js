@@ -31,7 +31,7 @@ module.exports = [
   {
     handle: 'router',
     options: {
-      defaultModule: 'admin', //默认的模块
+      defaultModule: 'admin', //默认的模块 
       defaultController: 'index',
       defaultAction: 'index',
       prefix: [],
