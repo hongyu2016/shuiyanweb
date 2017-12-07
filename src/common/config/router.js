@@ -1,3 +1,1 @@
-module.exports = [
-	['/','/admin']
-];
+module.exports = [['/', '/admin']];
