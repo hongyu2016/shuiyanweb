@@ -22,7 +22,9 @@
     "think-ueditor": "^1.0.0",
     "think-view": "^1.0.0",
     "think-view-nunjucks": "^1.0.1",
-    "thinkjs": "^3.0.0"
+    "thinkjs": "^3.0.0",
+    "think-pagination": "2.0.0",
+    "nodejs": "7.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
