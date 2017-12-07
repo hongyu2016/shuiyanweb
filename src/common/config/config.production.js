@@ -1,5 +1,5 @@
 // production config, it will load in production enviroment
 module.exports = {
     workers: 1,
-    port: $port
+    port: 193254
 };
