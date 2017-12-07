@@ -9,7 +9,7 @@ module.exports = [{
   }
 }, {
   handle: 'resource',
-  enable: isDev,
+  enable: true, //默认是isDev 开发时才开启 现在开发和生产环境都开启
   options: {
     root: path.join(think.ROOT_PATH, 'www'),
     publicPath: /^\/(static|favicon\.ico)/
