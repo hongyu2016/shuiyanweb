@@ -2,7 +2,7 @@ const fileCache = require('think-cache-file');
 const nunjucks = require('think-view-nunjucks');
 const fileSession = require('think-session-file');
 const mysql = require('think-model-mysql');
-const { Console, File, DateFile } = require('think-logger3');
+const {Console, File, DateFile} = require('think-logger3');
 const path = require('path');
 const isDev = think.env === 'development';
 
@@ -36,13 +36,13 @@ exports.model = {
   },
   mysql: {
     handle: mysql,
-    database: 'sql3209873',
+    database: 'shuiyan',
     prefix: 'sy_',
     encoding: 'utf8',
-    host: 'sql3.freemysqlhosting.net',
-    port: '3306',
-    user: 'sql3209873',
-    password: 'xGiVNLHlMy',
+    host: '127.0.0.1',
+    port: '',
+    user: 'root',
+    password: '123456',
     dateStrings: true
   }
 };
