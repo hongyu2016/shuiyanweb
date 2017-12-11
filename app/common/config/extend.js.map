@@ -1,0 +1,22 @@
+{
+    "version": 3,
+    "sources": [
+        "..\\..\\..\\src\\common\\config\\extend.js"
+    ],
+    "names": [
+        "view",
+        "require",
+        "model",
+        "cache",
+        "session",
+        "module",
+        "exports",
+        "think",
+        "app"
+    ],
+    "mappings": "AAAA,MAAMA,OAAOC,QAAQ,YAAR,CAAb;AACA,MAAMC,QAAQD,QAAQ,aAAR,CAAd;AACA,MAAME,QAAQF,QAAQ,aAAR,CAAd;AACA,MAAMG,UAAUH,QAAQ,eAAR,CAAhB;;AAEAI,OAAOC,OAAP,GAAiB,CAACN,IAAD,EAAO;AACxBE,MAAMK,MAAMC,GAAZ,CADiB,EACCL,KADD,EACQC,OADR,CAAjB",
+    "file": "..\\..\\..\\src\\common\\config\\extend.js",
+    "sourcesContent": [
+        "const view = require('think-view');\nconst model = require('think-model');\nconst cache = require('think-cache');\nconst session = require('think-session');\n\nmodule.exports = [view, // make application support view\nmodel(think.app), cache, session];"
+    ]
+}

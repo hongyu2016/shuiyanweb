@@ -1,0 +1,18 @@
+{
+    "version": 3,
+    "sources": [
+        "..\\..\\..\\src\\api\\controller\\base.js"
+    ],
+    "names": [
+        "module",
+        "exports",
+        "think",
+        "Controller",
+        "__before"
+    ],
+    "mappings": "AAAAA,OAAOC,OAAP,GAAiB,cAAcC,MAAMC,UAApB,CAA+B;AAC9CC,aAAW,CAAE;AADiC,CAAhD",
+    "file": "..\\..\\..\\src\\api\\controller\\base.js",
+    "sourcesContent": [
+        "module.exports = class extends think.Controller {\n  __before() {}\n};"
+    ]
+}

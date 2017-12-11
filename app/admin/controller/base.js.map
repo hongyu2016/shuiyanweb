@@ -1,0 +1,51 @@
+{
+    "version": 3,
+    "sources": [
+        "..\\..\\..\\src\\admin\\controller\\base.js"
+    ],
+    "names": [
+        "_common_function",
+        "require",
+        "_asyncToGenerator",
+        "fn",
+        "gen",
+        "apply",
+        "arguments",
+        "Promise",
+        "resolve",
+        "reject",
+        "step",
+        "key",
+        "arg",
+        "info",
+        "value",
+        "error",
+        "done",
+        "then",
+        "err",
+        "module",
+        "exports",
+        "think",
+        "Controller",
+        "__before",
+        "_this",
+        "userinfo",
+        "session",
+        "isEmpty",
+        "ctx",
+        "controller",
+        "redirect",
+        "menuList",
+        "model",
+        "order",
+        "select",
+        "newMenu",
+        "formatMenu",
+        "assign"
+    ],
+    "mappings": "AAAA,IAAIA,mBAAmBC,QAAQ,uCAAR,CAAvB;;AAEA,SAASC,iBAAT,CAA2BC,EAA3B,EAA+B;AAC3B,WAAO,YAAY;AACf,YAAIC,MAAMD,GAAGE,KAAH,CAAS,IAAT,EAAeC,SAAf,CAAV,CAAoC,OAAO,IAAIC,OAAJ,CAAY,UAAUC,OAAV,EAAmBC,MAAnB,EAA2B;AAC9E,qBAASC,IAAT,CAAcC,GAAd,EAAmBC,GAAnB,EAAwB;AACpB,oBAAI;AACA,wBAAIC,OAAOT,IAAIO,GAAJ,EAASC,GAAT,CAAX,CAAyB,IAAIE,QAAQD,KAAKC,KAAjB;AAC5B,iBAFD,CAEE,OAAOC,KAAP,EAAc;AACZN,2BAAOM,KAAP,EAAc;AACjB,qBAAIF,KAAKG,IAAT,EAAe;AACZR,4BAAQM,KAAR;AACH,iBAFA,MAEM;AACH,2BAAOP,QAAQC,OAAR,CAAgBM,KAAhB,EAAuBG,IAAvB,CAA4B,UAAUH,KAAV,EAAiB;AAChDJ,6BAAK,MAAL,EAAaI,KAAb;AACH,qBAFM,EAEJ,UAAUI,GAAV,EAAe;AACdR,6BAAK,OAAL,EAAcQ,GAAd;AACH,qBAJM,CAAP;AAKH;AACJ,oBAAOR,KAAK,MAAL,CAAP;AACJ,SAhB0C,CAAP;AAiBvC,KAlBD;AAmBH;;AAEDS,OAAOC,OAAP,GAAiB,cAAcC,MAAMC,UAApB,CAA+B;AAC5CC,eAAW;AACP,YAAIC,QAAQ,IAAZ;;AAEA,eAAOtB,kBAAkB,aAAa;AAClC,gBAAIuB,WAAW,MAAMD,MAAME,OAAN,CAAc,UAAd,CAArB;AACA,gBAAIL,MAAMM,OAAN,CAAcF,QAAd,CAAJ,EAA6B;AACzB,oBAAID,MAAMI,GAAN,CAAUC,UAAV,IAAwB,OAA5B,EAAqC;AACjC,2BAAOL,MAAMM,QAAN,CAAe,oBAAf,CAAP;AACH;AACJ,aAJD,MAIO;AACH,oBAAIC,WAAW,MAAMP,MAAMQ,KAAN,CAAY,MAAZ,EAAoBC,KAApB,CAA0B,6BAA1B,EAAyDC,MAAzD,EAArB,CADG,CACqF;AACxF,oBAAIC,UAAU,CAAC,GAAGnC,iBAAiBoC,UAArB,EAAiCL,QAAjC,CAAd;AACAP,sBAAMa,MAAN,CAAa;AACT,+BAAWF,OADF,EACW;AACpB,gCAAYV,QAFH,CAEY;AAFZ,iBAAb;AAIH;AACJ,SAdM,GAAP;AAeH;AAnB2C,CAAhD",
+    "file": "..\\..\\..\\src\\admin\\controller\\base.js",
+    "sourcesContent": [
+        "var _common_function = require('../common_function/common_function.js');\n\nfunction _asyncToGenerator(fn) {\n    return function () {\n        var gen = fn.apply(this, arguments);return new Promise(function (resolve, reject) {\n            function step(key, arg) {\n                try {\n                    var info = gen[key](arg);var value = info.value;\n                } catch (error) {\n                    reject(error);return;\n                }if (info.done) {\n                    resolve(value);\n                } else {\n                    return Promise.resolve(value).then(function (value) {\n                        step(\"next\", value);\n                    }, function (err) {\n                        step(\"throw\", err);\n                    });\n                }\n            }return step(\"next\");\n        });\n    };\n}\n\nmodule.exports = class extends think.Controller {\n    __before() {\n        var _this = this;\n\n        return _asyncToGenerator(function* () {\n            let userinfo = yield _this.session('userinfo');\n            if (think.isEmpty(userinfo)) {\n                if (_this.ctx.controller != 'login') {\n                    return _this.redirect('/admin/login/index');\n                }\n            } else {\n                let menuList = yield _this.model('menu').order('menu_id ASC, menu_name DESC').select(); //从数据库取出菜单\n                let newMenu = (0, _common_function.formatMenu)(menuList);\n                _this.assign({\n                    'newMenu': newMenu, //赋值菜单\n                    'userinfo': userinfo //赋值用户登陆session\n                });\n            }\n        })();\n    }\n};"
+    ]
+}

@@ -1,0 +1,40 @@
+{
+    "version": 3,
+    "sources": [
+        "..\\..\\..\\src\\common\\config\\middleware.js"
+    ],
+    "names": [
+        "path",
+        "require",
+        "isDev",
+        "think",
+        "env",
+        "module",
+        "exports",
+        "handle",
+        "options",
+        "logRequest",
+        "sendResponseTime",
+        "enable",
+        "root",
+        "join",
+        "ROOT_PATH",
+        "publicPath",
+        "isCli",
+        "debug",
+        "defaultModule",
+        "defaultController",
+        "defaultAction",
+        "prefix",
+        "suffix",
+        "enableDefaultRouter",
+        "subdomainOffset",
+        "subdomain",
+        "denyModules"
+    ],
+    "mappings": "AAAA,MAAMA,OAAOC,QAAQ,MAAR,CAAb;AACA,MAAMC,QAAQC,MAAMC,GAAN,KAAc,aAA5B;;AAEAC,OAAOC,OAAP,GAAiB,CAAC;AAChBC,UAAQ,MADQ;AAEhBC,WAAS;AACPC,gBAAYP,KADL;AAEPQ,sBAAkBR;AAFX;AAFO,CAAD,EAMd;AACDK,UAAQ,UADP;AAEDI,UAAQ,IAFP,EAEa;AACdH,WAAS;AACPI,UAAMZ,KAAKa,IAAL,CAAUV,MAAMW,SAAhB,EAA2B,KAA3B,CADC;AAEPC,gBAAY;AAFL;AAHR,CANc,EAad;AACDR,UAAQ,OADP;AAEDI,UAAQ,CAACR,MAAMa,KAFd;AAGDR,WAAS;AACPS,WAAOf;AADA;AAHR,CAbc,EAmBd;AACDK,UAAQ,SADP;AAEDC,WAAS;AAFR,CAnBc,EAsBd;AACDD,UAAQ,QADP;AAEDC,WAAS;AACPU,mBAAe,OADR,EACiB;AACxBC,uBAAmB,OAFZ;AAGPC,mBAAe,OAHR;AAIPC,YAAQ,EAJD;AAKPC,YAAQ,CAAC,OAAD,CALD;AAMPC,yBAAqB,IANd;AAOPC,qBAAiB,CAPV;AAQPC,eAAW,EARJ;AASPC,iBAAa;AATN;AAFR,CAtBc,EAmCd,OAnCc,EAmCL,YAnCK,CAAjB",
+    "file": "..\\..\\..\\src\\common\\config\\middleware.js",
+    "sourcesContent": [
+        "const path = require('path');\nconst isDev = think.env === 'development';\n\nmodule.exports = [{\n  handle: 'meta',\n  options: {\n    logRequest: isDev,\n    sendResponseTime: isDev\n  }\n}, {\n  handle: 'resource',\n  enable: true, //默认是isDev 开发时才开启 现在开发和生产环境都开启\n  options: {\n    root: path.join(think.ROOT_PATH, 'www'),\n    publicPath: /^\\/(static|favicon\\.ico)/\n  }\n}, {\n  handle: 'trace',\n  enable: !think.isCli,\n  options: {\n    debug: isDev\n  }\n}, {\n  handle: 'payload',\n  options: {}\n}, {\n  handle: 'router',\n  options: {\n    defaultModule: 'admin', //默认的模块 \n    defaultController: 'index',\n    defaultAction: 'index',\n    prefix: [],\n    suffix: ['.html'],\n    enableDefaultRouter: true,\n    subdomainOffset: 2,\n    subdomain: {},\n    denyModules: []\n  }\n}, 'logic', 'controller'];"
+    ]
+}
