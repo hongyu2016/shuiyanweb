@@ -36,13 +36,13 @@ exports.model = {
   },
   mysql: {
     handle: mysql,
-    database: 'shuiyan',
+    database: 'sql3209873',
     prefix: 'sy_',
     encoding: 'utf8',
-    host: '127.0.0.1',
-    port: '',
-    user: 'root',
-    password: '123456',
+    host: 'sql3.freemysqlhosting.net',
+    port: '3306',
+    user: 'sql3209873',
+    password: 'xGiVNLHlMy',
     dateStrings: true
   }
 };
