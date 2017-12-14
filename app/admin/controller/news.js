@@ -57,7 +57,7 @@ module.exports = class extends Base {
     uploadAction() {
         //百度编辑器
         const ueditor = new ThinkUeditor(this.ctx);
-        this.json(ueditor.init());
+        return this.json(ueditor.init());
     }
     /*
     * 提交新增/编辑文章
