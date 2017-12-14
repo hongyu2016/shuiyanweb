@@ -1,36 +1,19 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : 水研远程5M数据库
-Source Server Version : 50554
-Source Host           : sql3.freemysqlhosting.net:3306
-Source Database       : sql3209873
+Source Server         : localhost
+Source Server Version : 50717
+Source Host           : localhost:3306
+Source Database       : shuiyan
 
 Target Server Type    : MYSQL
-Target Server Version : 50554
+Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-12-14 11:45:56
+Date: 2017-12-14 17:06:00
 */
 
 SET FOREIGN_KEY_CHECKS=0;
-
--- ----------------------------
--- Table structure for slideshow
--- ----------------------------
-DROP TABLE IF EXISTS `slideshow`;
-CREATE TABLE `slideshow` (
-  `slide_id` int(11) NOT NULL COMMENT 'id',
-  `slide_title` varchar(50) CHARACTER SET utf8 NOT NULL COMMENT '轮播图标题',
-  `slide_img` varchar(200) CHARACTER SET utf8 NOT NULL COMMENT '图片路径',
-  `slide_text` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '轮播图文字描述',
-  `slide_img_name` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '图片名字',
-  PRIMARY KEY (`slide_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- ----------------------------
--- Records of slideshow
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for sy_admin
@@ -92,7 +75,7 @@ INSERT INTO `sy_menu` VALUES ('16', '系统设置', '', null, '-1', 'fa fa-star'
 INSERT INTO `sy_menu` VALUES ('17', '新闻分类', '', null, '-1', 'fa fa-star');
 INSERT INTO `sy_menu` VALUES ('18', '添加分类', '/news_sort/add?menu_id=18', null, '17', 'fa fa-star');
 INSERT INTO `sy_menu` VALUES ('19', '分类列表', '/news_sort/index?menu_id=19', null, '17', 'fa fa-star');
-INSERT INTO `sy_menu` VALUES ('20', '轮播图管理', '', null, '-1', 'fa fa-photo');
+INSERT INTO `sy_menu` VALUES ('20', '轮播图管理', '/slideshow/index?menu_id=20', null, '-1', 'fa fa-photo');
 
 -- ----------------------------
 -- Table structure for sy_news
@@ -193,4 +176,21 @@ CREATE TABLE `sy_role_auth` (
 
 -- ----------------------------
 -- Records of sy_role_auth
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for sy_slideshow
+-- ----------------------------
+DROP TABLE IF EXISTS `sy_slideshow`;
+CREATE TABLE `sy_slideshow` (
+  `slide_id` int(11) NOT NULL COMMENT 'id',
+  `slide_title` varchar(50) CHARACTER SET utf8 NOT NULL COMMENT '轮播图标题',
+  `slide_img` varchar(200) CHARACTER SET utf8 NOT NULL COMMENT '图片路径',
+  `slide_text` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '轮播图文字描述',
+  `slide_img_name` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '图片名字',
+  PRIMARY KEY (`slide_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of sy_slideshow
 -- ----------------------------
