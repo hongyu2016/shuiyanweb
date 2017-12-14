@@ -18,7 +18,7 @@ module.exports = [{
   handle: 'trace',
   enable: !think.isCli,
   options: {
-    debug: isDev
+    debug: false //关闭错误提示
   }
 }, {
   handle: 'payload',
