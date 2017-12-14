@@ -1,19 +1,36 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : localhost_3306
-Source Server Version : 50717
-Source Host           : localhost:3306
-Source Database       : shuiyan
+Source Server         : 水研远程5M数据库
+Source Server Version : 50554
+Source Host           : sql3.freemysqlhosting.net:3306
+Source Database       : sql3209873
 
 Target Server Type    : MYSQL
-Target Server Version : 50717
+Target Server Version : 50554
 File Encoding         : 65001
 
-Date: 2017-11-23 14:28:48
+Date: 2017-12-14 11:45:56
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for slideshow
+-- ----------------------------
+DROP TABLE IF EXISTS `slideshow`;
+CREATE TABLE `slideshow` (
+  `slide_id` int(11) NOT NULL COMMENT 'id',
+  `slide_title` varchar(50) CHARACTER SET utf8 NOT NULL COMMENT '轮播图标题',
+  `slide_img` varchar(200) CHARACTER SET utf8 NOT NULL COMMENT '图片路径',
+  `slide_text` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '轮播图文字描述',
+  `slide_img_name` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '图片名字',
+  PRIMARY KEY (`slide_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of slideshow
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for sy_admin
@@ -51,7 +68,7 @@ CREATE TABLE `sy_menu` (
   `parent_menu` int(11) NOT NULL COMMENT '一级菜单的parentmenu为-1，其他值则表示子菜单此时parentmenu的值就是菜单表的主键',
   `icon_class` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`menu_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sy_menu
@@ -75,6 +92,7 @@ INSERT INTO `sy_menu` VALUES ('16', '系统设置', '', null, '-1', 'fa fa-star'
 INSERT INTO `sy_menu` VALUES ('17', '新闻分类', '', null, '-1', 'fa fa-star');
 INSERT INTO `sy_menu` VALUES ('18', '添加分类', '/news_sort/add?menu_id=18', null, '17', 'fa fa-star');
 INSERT INTO `sy_menu` VALUES ('19', '分类列表', '/news_sort/index?menu_id=19', null, '17', 'fa fa-star');
+INSERT INTO `sy_menu` VALUES ('20', '轮播图管理', '', null, '-1', 'fa fa-photo');
 
 -- ----------------------------
 -- Table structure for sy_news

@@ -2,7 +2,7 @@
 {% block main %}
     <div class="operate">
         <div class="btn-group">
-            <a href="/news/add?menu_id=14" class="btn btn-info btn-flat">发布新闻</a>
+            <a href="#" class="btn btn-info btn-flat">添加轮播图</a>
         </div>
     </div>
     <div class="box-body table-responsive no-padding">
@@ -10,41 +10,32 @@
             <thead>
                 <tr>
                     <td>序号</td>
-                    <td>缩略图</td>
-                    <td>所属分类</td>
-                    <td>文章标题</td>
-                    <td>作者</td>
-                    <td>来源</td>
-                    <td>点击数</td>
-                    <td>创建时间</td>
-                    <td>最后更新时间</td>
+                    <td>标题</td>
+                    <td>图片</td>
+                    <td>轮播图描述</td>
                     <td>操作</td>
                 </tr>
             </thead>
             <tbody>
-            {% if news_list.data.length>0 %}
-                {% for list in news_list.data%}
-                    <tr>
-                        <td>{{loop.index}}</td> <!--当前循环数-->
-                        <td>{{list.thumb}}</td>
-                        <td>{{list.sort_name}}</td>
-                        <td>{{list.title}}</td>
-                        <td>{{list.author}}</td>
-                        <td>{{list.copyfrom}}</td>
-                        <td>{{list.hits}}</td>
-                        <td>{{list.news_create_time}}</td>
-                        <td>{{list.update_time}}</td>
-                        <td>
-                            <button type="button" class="btn btn-info btn-sm edit" data-id="{{list.article_id}}">查看编辑</button>
-                            <button type="button" class="btn btn-warning btn-sm delete" data-id="{{list.article_id}}">删除</button>
-                        </td>
-                    </tr>
-                {% endfor %}
-            {% else %}
+
+                {% if list.data.length>0 %}
+                    {% for list in slide_list.data%}
+                        <tr>
+                            <td>{{loop.index}}</td> <!--当前循环数-->
+                            <td>{{list.slide_img}}</td>
+                            <td>{{list.slide_title}}</td>
+                            <td>{{list.slide_text}}</td>
+                            <td>
+                                <button type="button" class="btn btn-info btn-sm edit" data-id="{{list.slide_id}}">查看编辑</button>
+                                <button type="button" class="btn btn-warning btn-sm delete" data-id="{{list.slide_id}}">删除</button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
                 <tr>
-                    <td colspan="10" align="center">暂无新闻纪录</td>
+                    <td colspan="5" align="center">暂无轮播图纪录</td>
                 </tr>
-            {% endif %}
+                {% endif %}
 
             </tbody>
         </table>

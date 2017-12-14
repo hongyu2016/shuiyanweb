@@ -1,5 +1,10 @@
 {% extends "./base.html" %}
 {% block main %}
+    <div class="operate">
+        <div class="btn-group">
+            <a href="/news_sort/add?menu_id=18" class="btn btn-info btn-flat">添加分类</a>
+        </div>
+    </div>
     <div class="box-body table-responsive no-padding">
         <table class="table table-hover table-bordered">
             <thead>
@@ -18,17 +23,24 @@
                     </td>
                 </tr>
             </thead>
-            {% for list in sortList%}
+            <tbody>
+            {% if sortList.length>0 %}
+                {% for list in sortList%}
+                    <tr>
+                        <td>{{loop.index}}</td> <!--当前循环数-->
+                        <td>{{list.sort_name}}</td>
+                        <td>{{list.create_time}}</td>
+                        <td>
+                            <button type="button" class="btn btn-info btn-sm edit" data-id="{{list.sort_id}}">编辑</button>
+                            <button type="button" class="btn btn-warning btn-sm delete" data-id="{{list.sort_id}}">删除</button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
                 <tr>
-                    <td>{{loop.index}}</td> <!--当前循环数-->
-                    <td>{{list.sort_name}}</td>
-                    <td>{{list.create_time}}</td>
-                    <td>
-                        <button type="button" class="btn btn-info btn-sm edit" data-id="{{list.sort_id}}">编辑</button>
-                        <button type="button" class="btn btn-warning btn-sm delete" data-id="{{list.sort_id}}">删除</button>
-                    </td>
+                    <td colspan="4" align="center">暂无分类记录</td>
                 </tr>
-            {% endfor %}
+            {% endif %}
             </tbody>
         </table>
     </div>

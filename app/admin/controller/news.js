@@ -59,6 +59,7 @@ module.exports = class extends Base {
         const ueditor = new ThinkUeditor(this.ctx);
         this.json(ueditor.init());
     }
+
     /*
     * 提交新增/编辑文章
     * */

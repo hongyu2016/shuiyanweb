@@ -1,0 +1,46 @@
+{% extends "./base.html" %}
+{% block main %}
+    <form action="" method="get" class="form-horizontal">
+        <div class="box-body">
+            <div class="form-group">
+                <label for="sort-name" class="col-md-1 col-sm-2 control-label">分类名称</label>
+                <div class="col-lg-4 col-md-6 col-sm-10">
+                    <input type="text" class="form-control" id="sort-name" placeholder="分类名称" value="{{editSort.sort_name}}">
+                </div>
+            </div>
+        </div>
+        <div class="box-footer">
+            <div class="col-md-offset-1 col-sm-offset-2">
+                {% if editSort %}
+                <button type="button" class="btn btn-default" onclick="javascript:window.history.back();">返回</button>
+                {% endif %}
+                <button type="submit" class="btn btn-success" id="push-btn" style="margin-left: 20px;">确定</button>
+            </div>
+        </div>
+    </form>
+    <script>
+        $(function () {
+            $('#push-btn').off('click').on('click',function (e) {
+                e.preventDefault();
+                var name=$('#sort-name').val();
+                if(!name || name==''){
+                    layer.msg('请输入分类名称');
+                    return false;
+                }
+                var loading=layer.load(2);
+                $.get('/news_sort/addsort',{'sort-name':name},function (data) {
+                    if(data.errno==0){
+                        layer.close(loading);
+                        layer.msg(data.errmsg);
+                        /*if(){
+                            return false;
+                        }
+                        $('#sort-name').val('');*/
+                    }
+
+                },'json')
+            });
+        })
+    </script>
+
+{% endblock%}
