@@ -1,3 +1,5 @@
 module.exports = [
-	['/','/admin']
+	['/','/admin'],
+	['index','/index/index'],
+	['timing','/index/timing']
 ];

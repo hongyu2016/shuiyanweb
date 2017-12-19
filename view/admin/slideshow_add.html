@@ -1,11 +1,30 @@
 {% extends "./base.html" %}
 {% block main %}
-    <form action="" method="get" class="form-horizontal">
+<link href="/static/js/pekeUpload/css/custom.css" rel="stylesheet">
+    <form action="" method="post" class="form-horizontal" id="form">
         <div class="box-body">
             <div class="form-group">
-                <label for="sort-name" class="col-md-1 col-sm-2 control-label">分类名称</label>
-                <div class="col-lg-4 col-md-6 col-sm-10">
-                    <input type="text" class="form-control" id="sort-name" placeholder="分类名称" value="{{editSort.sort_name}}">
+                <label for="slide-title" class="col-md-2 col-sm-2 control-label">图片标题</label>
+                <div class="col-lg-8 col-md-8 col-sm-10">
+                    <input type="text" class="form-control" id="slide-title" placeholder="图片标题" value="{{editSort.sort_name}}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="slide-descrition" class="col-md-2 col-sm-2 control-label">图片描述</label>
+                <div class="col-lg-8 col-md-8 col-sm-10">
+                    <textarea class="form-control" id="slide-descrition" rows="4" placeholder="图片描述"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="slide-url" class="col-md-2 col-sm-2 control-label">跳转链接地址</label>
+                <div class="col-lg-8 col-md-8 col-sm-10">
+                    <input type="text" class="form-control" id="slide-url" placeholder="跳转链接地址">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="slide-upload" class="col-md-2 col-sm-2 control-label">图片上传</label>
+                <div class="col-lg-8 col-md-8 col-sm-10">
+                    <input type="file" class="form-control" id="slide-upload" name="slide-upload">
                 </div>
             </div>
         </div>
@@ -18,27 +37,94 @@
             </div>
         </div>
     </form>
+    <script src="/static/js/pekeUpload/js/pekeUpload.js"></script>
     <script>
         $(function () {
+            //初始化图片上传
+            $("#slide-upload").pekeUpload(
+                {
+                    dragMode:false,//支持拖放
+                    dragText:'把图片拖放到这上传',
+                    bootstrap:true,//bootstrap主题
+                    btnText:'选择图片',
+                    delfiletext:'删除图片',
+                    //allowedExtensions:'jpg|gif|png',//格式
+                    maxSize:5000000,//单位kb 0则为不限制大小
+                    sizeError:'文件超出尺寸，请重新选择',
+                    showPreview:true,//支持预览 默认true
+                    showFilename:true,//显示文件名称
+                    showPercent:true,//显示百分比
+                    showErrorAlerts:true,//上传进度出错时
+                    errorOnResponse:'上传文件出错',
+                    onSubmit:false,//当选择文件或提交表单时，可以选择上传文件。
+                    url:'/slideshow/uploadImg',//显示上传地址
+                    data:{file_name:"_img"},//设置与文件相关联的附加数据
+                    limit:1,//默认是0 文件上传数量
+                    limitError:'您已经达到了您可以上传的文件的限制',
+                    onFileError:function (file,error) {  //上传出错时的回调
+                        
+                    },
+                    onFileSuccess:function(file,data){//成功时的回调
+                        if(data.success==1){
+                            var img_url=data.data.img_path;
+                            layer.msg('图片上传成功');
+                            $('#form').attr('data-url',img_url);//设置上传成功后的图片路径
+                        }
+                    }
+                }
+            );
+
             $('#push-btn').off('click').on('click',function (e) {
                 e.preventDefault();
-                var name=$('#sort-name').val();
-                if(!name || name==''){
-                    layer.msg('请输入分类名称');
-                    return false;
+                var editId=GetQueryString('slide-id');//是否是编辑
+                if(editId){
+                    editId=1
+                }else{
+                    editId=0
                 }
-                var loading=layer.load(2);
-                $.get('/news_sort/addsort',{'sort-name':name},function (data) {
-                    if(data.errno==0){
-                        layer.close(loading);
-                        layer.msg(data.errmsg);
-                        /*if(){
-                            return false;
-                        }
-                        $('#sort-name').val('');*/
-                    }
+                var title = $.trim($('#slide-title').val());
+                var descrition=$.trim($('#slide-descrition').val());
+                var jumpUrl=$.trim($('#slide-url').val());
+                var img_path=$('form').attr('data-url');
+                if(!title){
+                    layer.msg('请输入图片标题');
+                    return false
+                }
+                if(!jumpUrl){
+                    layer.msg('请输入图片链接地址');
+                    return false
+                }
+                if(!img_path){
+                    /*layer.msg('请上传图片');
+                    return false*/
+                }
+                var parmData={
+                    title:title,
+                    descrition:descrition,
+                    jumpUrl:jumpUrl,
+                    img_path:img_path,
+                    editId:editId
+                };
 
-                },'json')
+                $.ajax({
+                    url:'/slideshow/addslide',
+                    type:'get',
+                    data:parmData,
+                    dataType: "json",
+                    success:function (data) {
+                        if(data.errno==0){
+                            layer.msg(data.errmsg);
+                            setTimeout(function () {
+                                window.location.href='/slideshow/index';
+                            },2000)
+                        }else{
+                            layer.msg(data.errmsg);
+                        }
+                    },
+                    error:function (xhr, ajaxOptions, thrownError) {
+                        layer.msg('服务器错误');
+                    }
+                })
             });
         })
     </script>

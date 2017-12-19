@@ -4,38 +4,28 @@
         "..\\..\\..\\src\\admin\\controller\\index.js"
     ],
     "names": [
-        "_asyncToGenerator",
-        "fn",
-        "gen",
-        "apply",
-        "arguments",
-        "Promise",
-        "resolve",
-        "reject",
-        "step",
-        "key",
-        "arg",
-        "info",
-        "value",
-        "error",
-        "done",
-        "then",
-        "err",
         "Base",
         "require",
         "module",
         "exports",
         "indexAction",
-        "_this",
         "articleNum",
         "model",
         "count",
         "assign",
-        "display"
+        "display",
+        "timingAction",
+        "isCli",
+        "fail",
+        "geturl",
+        "ctx",
+        "get",
+        "console",
+        "log"
     ],
-    "mappings": "AAAA,SAASA,iBAAT,CAA2BC,EAA3B,EAA+B;AAC3B,WAAO,YAAY;AACf,YAAIC,MAAMD,GAAGE,KAAH,CAAS,IAAT,EAAeC,SAAf,CAAV,CAAoC,OAAO,IAAIC,OAAJ,CAAY,UAAUC,OAAV,EAAmBC,MAAnB,EAA2B;AAC9E,qBAASC,IAAT,CAAcC,GAAd,EAAmBC,GAAnB,EAAwB;AACpB,oBAAI;AACA,wBAAIC,OAAOT,IAAIO,GAAJ,EAASC,GAAT,CAAX,CAAyB,IAAIE,QAAQD,KAAKC,KAAjB;AAC5B,iBAFD,CAEE,OAAOC,KAAP,EAAc;AACZN,2BAAOM,KAAP,EAAc;AACjB,qBAAIF,KAAKG,IAAT,EAAe;AACZR,4BAAQM,KAAR;AACH,iBAFA,MAEM;AACH,2BAAOP,QAAQC,OAAR,CAAgBM,KAAhB,EAAuBG,IAAvB,CAA4B,UAAUH,KAAV,EAAiB;AAChDJ,6BAAK,MAAL,EAAaI,KAAb;AACH,qBAFM,EAEJ,UAAUI,GAAV,EAAe;AACdR,6BAAK,OAAL,EAAcQ,GAAd;AACH,qBAJM,CAAP;AAKH;AACJ,oBAAOR,KAAK,MAAL,CAAP;AACJ,SAhB0C,CAAP;AAiBvC,KAlBD;AAmBH;;AAED,MAAMS,OAAOC,QAAQ,WAAR,CAAb;;AAEAC,OAAOC,OAAP,GAAiB,cAAcH,IAAd,CAAmB;AAChCI,kBAAc;AACV,YAAIC,QAAQ,IAAZ;;AAEA,eAAOtB,kBAAkB,aAAa;AAClC,gBAAIuB,aAAa,MAAMD,MAAME,KAAN,CAAY,MAAZ,EAAoBC,KAApB,EAAvB,CADkC,CACkB;AACpD;AACAH,kBAAMI,MAAN,CAAa,YAAb,EAA2BH,UAA3B;AACA,mBAAOD,MAAMK,OAAN,EAAP;AACH,SALM,GAAP;AAMH;AAV+B,CAApC",
+    "mappings": ";;AAAA,MAAMA,OAAOC,QAAQ,WAAR,CAAb;;AAEAC,OAAOC,OAAP,GAAiB,cAAcH,IAAd,CAAmB;AAC1BI,eAAN,GAAoB;AAAA;;AAAA;AAChB,gBAAIC,aAAa,MAAM,MAAKC,KAAL,CAAW,MAAX,EAAmBC,KAAnB,EAAvB,CADgB,CACmC;AACnD;AACA,kBAAKC,MAAL,CAAY,YAAZ,EAAyBH,UAAzB;AACA,mBAAO,MAAKI,OAAL,EAAP;AAJgB;AAKnB;AACD;;;AAGAC,mBAAc;AACV;AACA,YAAG,CAAC,KAAKC,KAAT,EAAgB,OAAO,KAAKC,IAAL,CAAU,IAAV,EAAgB,MAAhB,CAAP;AAChB,YAAIC,SAAO,KAAKC,GAAL,CAASC,GAAT,CAAa,iCAAb,CAAX;AACAC,gBAAQC,GAAR,CAAYJ,MAAZ;AACH;AAf+B,CAApC",
     "file": "..\\..\\..\\src\\admin\\controller\\index.js",
     "sourcesContent": [
-        "function _asyncToGenerator(fn) {\n    return function () {\n        var gen = fn.apply(this, arguments);return new Promise(function (resolve, reject) {\n            function step(key, arg) {\n                try {\n                    var info = gen[key](arg);var value = info.value;\n                } catch (error) {\n                    reject(error);return;\n                }if (info.done) {\n                    resolve(value);\n                } else {\n                    return Promise.resolve(value).then(function (value) {\n                        step(\"next\", value);\n                    }, function (err) {\n                        step(\"throw\", err);\n                    });\n                }\n            }return step(\"next\");\n        });\n    };\n}\n\nconst Base = require('./base.js');\n\nmodule.exports = class extends Base {\n    indexAction() {\n        var _this = this;\n\n        return _asyncToGenerator(function* () {\n            let articleNum = yield _this.model('news').count(); //查询文章总数\n            //this.ctx.body=articleNum;\n            _this.assign('articleNum', articleNum);\n            return _this.display();\n        })();\n    }\n};"
+        "const Base = require('./base.js');\n\nmodule.exports = class extends Base {\n    async indexAction() {\n        let articleNum = await this.model('news').count(); //查询文章总数\n        //this.ctx.body=articleNum;\n        this.assign('articleNum',articleNum);\n        return this.display();\n    }\n    /*\n    * 定时任务\n    * */\n    timingAction(){\n        // 如果不是定时任务调用，则拒绝\n        if(!this.isCli) return this.fail(1000, 'deny');\n        let geturl=this.ctx.get('http://shuiyanweb.herokuapp.com');\n        console.log(geturl)\n    }\n};\n"
     ]
 }

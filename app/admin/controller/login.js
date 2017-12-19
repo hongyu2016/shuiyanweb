@@ -63,3 +63,4 @@ module.exports = class extends think.Controller {
         })();
     }
 };
+//# sourceMappingURL=login.js.map

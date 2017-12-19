@@ -18,11 +18,13 @@ module.exports = [{
   handle: 'trace',
   enable: !think.isCli,
   options: {
-    debug: false //关闭错误提示
+    debug: isDev //关闭错误提示
   }
 }, {
   handle: 'payload',
-  options: {}
+  options: {
+    uploadDir: path.join(think.ROOT_PATH, 'tmp') //设置临时上传文件路径，否则使用系统tmp路径，导致rename报错
+  }
 }, {
   handle: 'router',
   options: {
@@ -37,3 +39,4 @@ module.exports = [{
     denyModules: []
   }
 }, 'logic', 'controller'];
+//# sourceMappingURL=middleware.js.map

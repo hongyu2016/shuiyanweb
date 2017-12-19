@@ -2,6 +2,9 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 const Base = require('./base.js');
 const pagination = require('think-pagination');
+const fs = require('fs');
+const path = require('path');
+const rename = think.promisify(fs.rename, fs); // 通过 promisify 方法把 rename 方法包装成 Promise 接口
 
 module.exports = class extends Base {
     /*
@@ -11,7 +14,7 @@ module.exports = class extends Base {
         super(...args); //调用父级的 constructor 方法
         this.modelInstance = this.model('slideshow'); //增加一个方法
     }
-    /*文章列表*/
+    /*轮播图列表*/
     indexAction() {
         var _this = this;
 
@@ -37,7 +40,7 @@ module.exports = class extends Base {
         })();
     }
     /*
-    * 发布新闻显示页面
+    * 增加轮播图
     * */
     addAction() {
         var _this2 = this;
@@ -50,8 +53,98 @@ module.exports = class extends Base {
                 let newsData=await this.modelInstance.where({'article_id':newsId}).find();
                 this.assign('newsData',newsData);
             }*/
+
             return _this2.display();
+        })();
+    }
+    /*
+    * 单图异步上传
+    * */
+    uploadImgAction() {
+        var _this3 = this;
+
+        return _asyncToGenerator(function* () {
+            let file = _this3.ctx.file('slide-upload'); //获取文件
+            let date = new Date();
+            let newdate = date.getTime();
+
+            console.log(file.type);
+
+            if (file && file.type === 'image/png' || file.type === 'image/jpeg') {
+
+                let filepath = path.join(think.ROOT_PATH, 'www/static/upload/' + newdate + '.jpg');
+                think.mkdir(path.dirname(filepath));
+
+                yield rename(file.path, filepath);
+
+                _this3.json({
+                    success: 1,
+                    errmsg: '上传成功',
+                    data: {
+                        img_path: filepath
+                    }
+                });
+            } else {
+                _this3.json({ success: 0, errmsg: '上传失败' });
+            }
+
+            //this.json({success:1,errmsg:'上传成功'});
+        })();
+    }
+    /*
+    * 文字和图片路径提交 存储
+    * */
+    addslideAction() {
+        var _this4 = this;
+
+        return _asyncToGenerator(function* () {
+            if (_this4.isGet) {
+                let editId = _this4.get('editId');
+                let title = _this4.get('title');
+                let descrition = _this4.get('descrition');
+                let jumpUrl = _this4.get('jumpUrl');
+                let img_path = _this4.get('img_path');
+                if (!title || title == '') {
+                    _this4.fail(403, '轮播图标题不能为空');
+                    return false;
+                }
+                if (!jumpUrl || jumpUrl == '') {
+                    _this4.fail(403, '轮播图跳转链接不能为空');
+                    return false;
+                }
+                if (!img_path || img_path == '') {
+                    _this4.fail(403, '请先上传图片');
+                    return false;
+                }
+                let data = {
+                    slide_title: title,
+                    slide_img: img_path,
+                    slide_text: descrition,
+                    slide_jumpurl: jumpUrl
+                };
+
+                if (editId) {//编辑
+                    /*let artitleId=await this.modelInstance.where({'article_id':editId}).editNews(data);
+                    if(!artitleId){
+                        this.fail(403,'编辑文章失败');
+                    }
+                    else{
+                        this.success({data:artitleId},'编辑文章成功');
+                    }*/
+                } else {
+                    //新增
+                    let slideId = yield _this4.modelInstance.addSlide(data);
+                    if (!slideId) {
+                        _this4.fail(403, '添加轮播图失败');
+                    } else {
+                        _this4.success({ data: slideId }, '添加轮播图成功');
+                    }
+                }
+            } else {
+                _this4.fail(403, '请使用get方法');
+            }
         })();
     }
 
 };
+//# sourceMappingURL=slideshow.js.map

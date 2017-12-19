@@ -7,9 +7,9 @@
         "module",
         "exports"
     ],
-    "mappings": "AAAAA,OAAOC,OAAP,GAAiB,CAAC,CAAC,GAAD,EAAM,QAAN,CAAD,CAAjB",
+    "mappings": "AAAAA,OAAOC,OAAP,GAAiB,CAChB,CAAC,GAAD,EAAK,QAAL,CADgB,EAEhB,CAAC,OAAD,EAAS,cAAT,CAFgB,EAGhB,CAAC,QAAD,EAAU,eAAV,CAHgB,CAAjB",
     "file": "..\\..\\..\\src\\common\\config\\router.js",
     "sourcesContent": [
-        "module.exports = [['/', '/admin']];"
+        "module.exports = [\n\t['/','/admin'],\n\t['index','/index/index'],\n\t['timing','/index/timing']\n];\n"
     ]
 }
