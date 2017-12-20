@@ -143,12 +143,16 @@ module.exports = class extends Base {
                     //编辑
                     //首先先把本地已经上传的图片删掉 然后再更新数据库数据
                     let slide_img = yield _this4.modelInstance.where({ 'slide_id': editId }).field('slide_img').find();
-                    // 检测文件是否存在
-                    let filePath = think.ROOT_PATH + '/www' + slide_img.slide_img; //图片的路径
-                    if (fs.existsSync(filePath)) {
-                        //如果存在则删除图片
-                        fs.unlinkSync(filePath);
+                    if (img_path != slide_img.slide_img) {
+                        //如果提交过来的图片路径和数据库的不一致，则是修改了图片
+                        // 检测文件是否存在
+                        let filePath = think.ROOT_PATH + '/www' + slide_img.slide_img; //图片的路径
+                        if (fs.existsSync(filePath)) {
+                            //如果存在则删除图片
+                            fs.unlinkSync(filePath);
+                        }
                     }
+
                     //更新数据
                     let slideId = yield _this4.modelInstance.where({ 'slide_id': editId }).editSlide(data);
                     if (!slideId) {

@@ -31,7 +31,7 @@
                     <!--用来存放item-->
                     <div id="fileList" class="uploader-list">
                         {% if slideData.slide_img.length>0 %}
-                            <div class="file-item thumbnail">
+                            <div class="file-item thumbnail" up_img_url="{{slideData.slide_img}}">
                                 <img src="{{slideData.slide_img}}">
                             </div>
                         {% endif %}
