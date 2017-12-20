@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-12-14 17:06:00
+Date: 2017-12-20 17:02:06
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -101,7 +101,7 @@ CREATE TABLE `sy_news` (
 -- ----------------------------
 -- Records of sy_news
 -- ----------------------------
-INSERT INTO `sy_news` VALUES ('1', '2', '论水研张林的才华', '论水研张林的才华2', '', '<p>从前有座山。。。。。</p><p><br/></p>', '张林', '原创', null, null, '2017-11-21 17:17:35', '2017-11-23 10:07:42', null);
+INSERT INTO `sy_news` VALUES ('1', '1', '论水研张林的才华', '论水研张林的才华22014', '00000', '<p><img src=\"/static/upload/20171220/upload_65b235110a4cd4628105239059f13ce7.jpg\" title=\"upload_65b235110a4cd4628105239059f13ce7.jpg\" alt=\"出场缴费1.jpg\"/></p><p>从前有座山。。。。。</p><p><br/></p>', '张林', '原创', null, null, '2017-11-21 17:17:35', '2017-12-20 16:45:29', null);
 INSERT INTO `sy_news` VALUES ('2', '2', '论水研张林的才华', '', '', '<p>从前有座山。。。。。</p>', '', '', null, null, '2017-11-21 17:23:07', null, null);
 INSERT INTO `sy_news` VALUES ('3', '1', '通告1', '', '', '<p>通告1</p>', '', '', null, null, '2017-11-21 17:50:06', null, null);
 INSERT INTO `sy_news` VALUES ('4', '1', '通告2', '', '', '<p>通告2</p>', '', '', null, null, '2017-11-21 17:50:14', null, null);
@@ -110,12 +110,7 @@ INSERT INTO `sy_news` VALUES ('6', '1', '通告4', '', '', '<p>通告4</p>', '',
 INSERT INTO `sy_news` VALUES ('7', '1', '通告5', '', '', '<p>通告5</p>', '', '', null, null, '2017-11-21 17:50:32', null, null);
 INSERT INTO `sy_news` VALUES ('8', '1', '通告6', '', '', '<p>通告6</p>', '', '', null, null, '2017-11-21 17:50:40', null, null);
 INSERT INTO `sy_news` VALUES ('9', '2', '新闻1', '', '', '<p>新闻1</p>', '', '', null, null, '2017-11-21 17:50:49', null, null);
-INSERT INTO `sy_news` VALUES ('10', '2', '新闻2', '', '', '<p>新闻2</p>', '', '', null, null, '2017-11-21 17:50:57', null, null);
 INSERT INTO `sy_news` VALUES ('11', '2', '新闻3', '', '', '<p>新闻3</p>', '', '', null, null, '2017-11-21 17:51:03', null, null);
-INSERT INTO `sy_news` VALUES ('12', '2', '新闻4', '', '', '<p>新闻4</p>', '', '', null, null, '2017-11-21 17:51:09', null, null);
-INSERT INTO `sy_news` VALUES ('13', '2', '新闻5', '', '', '<p>新闻5</p>', '', '', null, null, '2017-11-21 17:51:15', null, null);
-INSERT INTO `sy_news` VALUES ('14', '2', '新闻6', '', '', '<p>新闻6</p>', '', '', null, null, '2017-11-21 17:51:20', null, null);
-INSERT INTO `sy_news` VALUES ('15', '1', '村长家开会', '', '', '<p>时间：2017-11-21</p><p>地点：村长家</p><p><img src=\"https://gss0.bdstatic.com/5bVWsj_p_tVS5dKfpU_Y_D3/res/r/image/2017-11-22/17d2f53da644baec2b4ae9c9cd34bb97.jpg\"/></p>', '', '', null, null, '2017-11-22 17:03:15', null, null);
 
 -- ----------------------------
 -- Table structure for sy_news_sort
@@ -183,14 +178,19 @@ CREATE TABLE `sy_role_auth` (
 -- ----------------------------
 DROP TABLE IF EXISTS `sy_slideshow`;
 CREATE TABLE `sy_slideshow` (
-  `slide_id` int(11) NOT NULL COMMENT 'id',
+  `slide_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
   `slide_title` varchar(50) CHARACTER SET utf8 NOT NULL COMMENT '轮播图标题',
   `slide_img` varchar(200) CHARACTER SET utf8 NOT NULL COMMENT '图片路径',
   `slide_text` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '轮播图文字描述',
-  `slide_img_name` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '图片名字',
+  `slide_jumpurl` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '图片名字',
+  `slide_createtime` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`slide_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of sy_slideshow
 -- ----------------------------
+INSERT INTO `sy_slideshow` VALUES ('3', 'ceshi测试3-修改2', '/static/upload/slideshow/20171220/upload_4a55a01b1f0cc923dc0c01644d70faa3.jpg', '测试内容300052', 'http://iyuge.cn', '2017-12-20 16:57:06');
+INSERT INTO `sy_slideshow` VALUES ('4', 'ceshi测试4', '/static/upload/slideshow/20171220/upload_c87b183ed80e88ece7db9bc93a7df983.jpg', '内容4', 'http://iyuge.cn', '2017-12-20 14:05:49');
+INSERT INTO `sy_slideshow` VALUES ('5', 'ceshi测试5', '/static/upload/slideshow/20171220/upload_4c266530f018dfc684894c7328fe1902.jpg', '测试内容5', 'http://iyuge.cn', '2017-12-20 14:06:26');
+INSERT INTO `sy_slideshow` VALUES ('6', '测试6', '/static/upload/slideshow/20171220/upload_9d09e445d5079ab97aa46c53292c2210.jpg', '测试内容6', 'http://iyuge.cn', '2017-12-20 14:07:00');
