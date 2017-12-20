@@ -43,13 +43,12 @@ module.exports = class extends Base {
         var _this2 = this;
 
         return _asyncToGenerator(function* () {
-            /*let sortList=await this.model('news_sort').select();
-            this.assign('sortList',sortList);
-            let newsId=this.get('slide-id');
-            if(newsId){//有文章id 则是编辑页面 从news表根据id查询数据
-                let newsData=await this.modelInstance.where({'article_id':newsId}).find();
-                this.assign('newsData',newsData);
-            }*/
+            let slideId = _this2.get('slide-id');
+            if (slideId) {
+                //有文章id 则是编辑页面 从news表根据id查询数据
+                let slideData = yield _this2.modelInstance.where({ 'slide_id': slideId }).find();
+                _this2.assign('slideData', slideData);
+            }
 
             return _this2.display();
         })();

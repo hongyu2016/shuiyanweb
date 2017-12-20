@@ -35,3 +35,34 @@
     width: 100px;
     border: 1px solid #eee;
 }
+/*图片上传*/
+.uploader-list{
+    width: 100%;
+}
+#uploader .thumbnail {
+    width: 210px;
+    height: 210px;
+}
+
+.file-item {
+    position: relative;
+    margin: 0 20px 20px 0;
+    padding: 4px;
+}
+
+.thumbnail, .img-thumbnail {
+    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.075);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.075);
+}
+
+.thumbnail {
+    display: block;
+    padding: 4px;
+    margin-bottom: 20px;
+    line-height: 1.428571429;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    -webkit-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+}
