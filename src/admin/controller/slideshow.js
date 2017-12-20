@@ -2,7 +2,7 @@ const Base = require('./base.js');
 const pagination = require('think-pagination');
 const fs = require('fs');
 const path = require('path');
-const rename = think.promisify(fs.rename, fs); // 通过 promisify 方法把 rename 方法包装成 Promise 接口
+const helper = require('think-helper');
 
 module.exports = class extends Base {
     /*
@@ -28,9 +28,9 @@ module.exports = class extends Base {
               total: 'count: __COUNT__ , pages: __PAGE__'
           }
       });
-      this.assign({'pagination':html,'slide_list':data});
+      this.assign({'pagination':html,'slide_list':data.data});
 
-      //this.ctx.body=data
+      //this.ctx.body=data.data
       return this.display();
   }
   /*
@@ -51,43 +51,65 @@ module.exports = class extends Base {
     * 单图异步上传
     * */
     async uploadImgAction(){
-        let file=this.ctx.file('slide-upload');//获取文件
-        let date=new Date();
-        let newdate=date.getTime();
-
-        console.log(file.type)
+        let file=this.ctx.file('file');//获取文件
 
         if(file && file.type === 'image/png' || file.type === 'image/jpeg') {
 
-            let filepath = path.join(think.ROOT_PATH, 'www/static/upload/'+newdate+'.jpg');
-            think.mkdir(path.dirname(filepath));
+            const filepath = file.path;
+            const nameArr = file.name.split('.');
+            const basename = path.basename(filepath) + '.' + nameArr[nameArr.length - 1];
+            const YYYYMMDD = helper.datetime(Date.now(), 'YYYYMMDD');
+            const staticPath = path.resolve(think.ROOT_PATH, 'www/static');
+            const uploadSlidePath=path.resolve(staticPath, 'upload');
+            const uploadPath = path.resolve(uploadSlidePath, 'slideshow');
+            const relativePath = path.resolve(uploadPath, YYYYMMDD);
 
-            await rename(file.path, filepath);
+            // 文件夹不存在则创建
+            if (!fs.existsSync(uploadSlidePath)) {
+                fs.mkdirSync(uploadSlidePath);
+            }
+            if (!fs.existsSync(uploadPath)) {
+                fs.mkdirSync(uploadPath);
+            }
 
+            if (!fs.existsSync(relativePath)) {
+                fs.mkdirSync(relativePath);
+            }
+
+            fs.renameSync(filepath, path.resolve(relativePath, `${basename}`));
             this.json({
-                success:1,
+                success:true,
                 errmsg:'上传成功',
                 data:{
-                    img_path:filepath
+                    img_path:`/static/upload/slideshow/${YYYYMMDD}/${basename}`,
+                    title: basename,
+                    original: file.name
                 }
             });
 
         }else{
-            this.json({success:0,errmsg:'上传失败'});
+            this.json({
+                success:true,
+                errmsg:'上传失败',
+                data:[]
+            });
         }
 
-        //this.json({success:1,errmsg:'上传成功'});
     }
     /*
     * 文字和图片路径提交 存储
     * */
     async addslideAction(){
-        if(this.isGet){
-            let editId=this.get('editId');
-            let title=this.get('title');
-            let descrition=this.get('descrition');
-            let jumpUrl=this.get('jumpUrl');
-            let img_path=this.get('img_path');
+        const isGet = this.ctx.isGet;
+        const param = this.ctx.param();
+
+        if(isGet){
+
+            let editId=param.editId;
+            let title=param.title;
+            let descrition=param.descrition;
+            let jumpUrl=param.jumpUrl;
+            let img_path=param.img_path;
             if(!title || title==''){
                 this.fail(403,'轮播图标题不能为空');
                 return false;
@@ -107,7 +129,8 @@ module.exports = class extends Base {
                 slide_jumpurl:jumpUrl
             };
 
-            if(editId){//编辑
+
+            if(editId!=0){//编辑
                 /*let artitleId=await this.modelInstance.where({'article_id':editId}).editNews(data);
                 if(!artitleId){
                     this.fail(403,'编辑文章失败');

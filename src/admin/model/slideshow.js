@@ -8,19 +8,18 @@ module.exports = class extends think.Model {
     indexList(pageIndex){
         return this
             .page(pageIndex,10)
-            .order('article_id ASC')
+            .order('slide_id ASC')
             .countSelect({
-                'field':'slide_id,slide_title,slide_img,slide_text'});
+                'field':'slide_id,slide_title,slide_img,slide_text,slide_jumpurl'});
     }
     addSlide(data){
         const date=think.datetime();
         return this.add({
-            slide_id:data.slide_id,
             slide_title:data.slide_title,
             slide_img:data.slide_img,
             slide_text:data.slide_text,
             slide_jumpurl:data.slide_jumpurl,
-            create_time:date
+            slide_createtime:date
         });
     }
 };

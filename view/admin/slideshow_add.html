@@ -1,132 +1,221 @@
 {% extends "./base.html" %}
 {% block main %}
-<link href="/static/js/pekeUpload/css/custom.css" rel="stylesheet">
-    <form action="" method="post" class="form-horizontal" id="form">
-        <div class="box-body">
-            <div class="form-group">
-                <label for="slide-title" class="col-md-2 col-sm-2 control-label">图片标题</label>
-                <div class="col-lg-8 col-md-8 col-sm-10">
-                    <input type="text" class="form-control" id="slide-title" placeholder="图片标题" value="{{editSort.sort_name}}">
-                </div>
+<link href="/static/js/web-uploader//dist/webuploader.css" rel="stylesheet">
+<form action="" method="post" class="form-horizontal" id="form">
+    <div class="box-body">
+        <div class="form-group">
+            <label for="slide-title" class="col-md-2 col-sm-2 control-label">图片标题</label>
+            <div class="col-lg-8 col-md-8 col-sm-10">
+                <input type="text" class="form-control" id="slide-title" placeholder="图片标题"
+                       value="{{editSort.sort_name}}">
             </div>
-            <div class="form-group">
-                <label for="slide-descrition" class="col-md-2 col-sm-2 control-label">图片描述</label>
-                <div class="col-lg-8 col-md-8 col-sm-10">
-                    <textarea class="form-control" id="slide-descrition" rows="4" placeholder="图片描述"></textarea>
-                </div>
+        </div>
+        <div class="form-group">
+            <label for="slide-descrition" class="col-md-2 col-sm-2 control-label">图片描述</label>
+            <div class="col-lg-8 col-md-8 col-sm-10">
+                <textarea class="form-control" id="slide-descrition" rows="4" placeholder="图片描述"></textarea>
             </div>
-            <div class="form-group">
-                <label for="slide-url" class="col-md-2 col-sm-2 control-label">跳转链接地址</label>
-                <div class="col-lg-8 col-md-8 col-sm-10">
-                    <input type="text" class="form-control" id="slide-url" placeholder="跳转链接地址">
-                </div>
+        </div>
+        <div class="form-group">
+            <label for="slide-url" class="col-md-2 col-sm-2 control-label">跳转链接地址</label>
+            <div class="col-lg-8 col-md-8 col-sm-10">
+                <input type="text" class="form-control" id="slide-url" placeholder="跳转链接地址">
             </div>
-            <div class="form-group">
-                <label for="slide-upload" class="col-md-2 col-sm-2 control-label">图片上传</label>
-                <div class="col-lg-8 col-md-8 col-sm-10">
-                    <input type="file" class="form-control" id="slide-upload" name="slide-upload">
+        </div>
+        <div class="form-group">
+            <label for="" class="col-md-2 col-sm-2 control-label">图片上传</label>
+            <div class="col-lg-8 col-md-8 col-sm-10">
+                <!--<input type="file" class="form-control" id="slide-upload" name="slide-upload">-->
+                <!--dom结构部分-->
+                <div id="uploader">
+                    <!--用来存放item-->
+                    <div id="fileList" class="uploader-list"></div>
+                    <div id="filePicker">选择图片</div>
                 </div>
             </div>
         </div>
-        <div class="box-footer">
-            <div class="col-md-offset-1 col-sm-offset-2">
-                {% if editSort %}
-                <button type="button" class="btn btn-default" onclick="javascript:window.history.back();">返回</button>
-                {% endif %}
-                <button type="submit" class="btn btn-success" id="push-btn" style="margin-left: 20px;">确定</button>
-            </div>
+    </div>
+    <div class="box-footer">
+        <div class="col-md-offset-1 col-sm-offset-2">
+            {% if editSort %}
+            <button type="button" class="btn btn-default" onclick="javascript:window.history.back();">返回</button>
+            {% endif %}
+            <button type="submit" class="btn btn-success" id="push-btn" style="margin-left: 20px;">确定</button>
         </div>
-    </form>
-    <script src="/static/js/pekeUpload/js/pekeUpload.js"></script>
-    <script>
-        $(function () {
-            //初始化图片上传
-            $("#slide-upload").pekeUpload(
-                {
-                    dragMode:false,//支持拖放
-                    dragText:'把图片拖放到这上传',
-                    bootstrap:true,//bootstrap主题
-                    btnText:'选择图片',
-                    delfiletext:'删除图片',
-                    //allowedExtensions:'jpg|gif|png',//格式
-                    maxSize:5000000,//单位kb 0则为不限制大小
-                    sizeError:'文件超出尺寸，请重新选择',
-                    showPreview:true,//支持预览 默认true
-                    showFilename:true,//显示文件名称
-                    showPercent:true,//显示百分比
-                    showErrorAlerts:true,//上传进度出错时
-                    errorOnResponse:'上传文件出错',
-                    onSubmit:false,//当选择文件或提交表单时，可以选择上传文件。
-                    url:'/slideshow/uploadImg',//显示上传地址
-                    data:{file_name:"_img"},//设置与文件相关联的附加数据
-                    limit:1,//默认是0 文件上传数量
-                    limitError:'您已经达到了您可以上传的文件的限制',
-                    onFileError:function (file,error) {  //上传出错时的回调
-                        
-                    },
-                    onFileSuccess:function(file,data){//成功时的回调
-                        if(data.success==1){
-                            var img_url=data.data.img_path;
-                            layer.msg('图片上传成功');
-                            $('#form').attr('data-url',img_url);//设置上传成功后的图片路径
-                        }
-                    }
-                }
-            );
+    </div>
+</form>
+<script src="/static/js/web-uploader/dist/webuploader.js"></script>
+<script>
+    $(function () {
+        /*
+         * 百度上传插件
+         * */
+        // 初始化Web Uploader
+        // 缩略图大小
+        // 优化retina, 在retina下这个值是2
+        var ratio = window.devicePixelRatio || 1,
+            thumbnailWidth = 210 * ratio,
+            thumbnailHeight = 210 * ratio;
+        var uploader = WebUploader.create({
+            // 选完文件后，是否自动上传。
+            auto: true,
+            // swf文件路径
+            swf: '/static/js/web-uploader/dist/Uploader.swf',
+            // 文件接收服务端。
+            server: '/slideshow/uploadImg',
+            // 选择文件的按钮。可选。
+            // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+            pick: '#filePicker',
+            // 只允许选择图片文件。
+            accept: {
+                title: 'Images',
+                extensions: 'gif,jpg,jpeg,bmp,png',
+                mimeTypes: 'image/*'
+            },
+            thumb:{
+                width: 210,
+                height: 210,
+            },
+            fileNumLimit:1,
+            fileSingleSizeLimit:3 * 1024 * 1024   // 5M
+        });
+        // 当有文件添加进来的时候
+        uploader.on('fileQueued', function (file) {
+            var $list=$('#fileList');
+            var $li = $(
+                    '<div id="' + file.id + '" class="file-item thumbnail">' +
+                        '<img style="display: block">' +
+                        '<div class="progress"><span></span></div>'+
+                        '<div class="info">' + file.name + '</div>' +
+                    '</div>'
+                ),
+                $img = $li.find('img');
 
-            $('#push-btn').off('click').on('click',function (e) {
-                e.preventDefault();
-                var editId=GetQueryString('slide-id');//是否是编辑
-                if(editId){
-                    editId=1
-                }else{
-                    editId=0
-                }
-                var title = $.trim($('#slide-title').val());
-                var descrition=$.trim($('#slide-descrition').val());
-                var jumpUrl=$.trim($('#slide-url').val());
-                var img_path=$('form').attr('data-url');
-                if(!title){
-                    layer.msg('请输入图片标题');
-                    return false
-                }
-                if(!jumpUrl){
-                    layer.msg('请输入图片链接地址');
-                    return false
-                }
-                if(!img_path){
-                    /*layer.msg('请上传图片');
-                    return false*/
-                }
-                var parmData={
-                    title:title,
-                    descrition:descrition,
-                    jumpUrl:jumpUrl,
-                    img_path:img_path,
-                    editId:editId
-                };
 
-                $.ajax({
-                    url:'/slideshow/addslide',
-                    type:'get',
-                    data:parmData,
-                    dataType: "json",
-                    success:function (data) {
-                        if(data.errno==0){
-                            layer.msg(data.errmsg);
-                            setTimeout(function () {
-                                window.location.href='/slideshow/index';
-                            },2000)
-                        }else{
-                            layer.msg(data.errmsg);
-                        }
-                    },
-                    error:function (xhr, ajaxOptions, thrownError) {
-                        layer.msg('服务器错误');
+            // $list为容器jQuery实例
+            $list.append($li);
+
+            // 创建缩略图
+            // 如果为非图片文件，可以不用调用此方法。
+            // thumbnailWidth x thumbnailHeight 为 100 x 100
+            uploader.makeThumb(file, function (error, src) {
+                if (error) {
+                    $img.replaceWith('<span>不能预览</span>');
+                    return;
+                }
+
+                $img.attr('src', src);
+            }, thumbnailWidth, thumbnailHeight);
+        });
+        // 文件上传过程中创建进度条实时显示。
+        uploader.on('uploadProgress', function (file, percentage) {
+            var $li = $('#' + file.id),
+                $percent = $li.find('.progress span');
+
+            // 避免重复创建
+            if (!$percent.length) {
+                $percent = $('<div class="progress"><span></span></div>')
+                    .appendTo($li)
+                    .find('span');
+            }
+
+            $percent.css('width', percentage * 100 + '%');
+        });
+
+        // 文件上传成功，给item添加成功class, 用样式标记上传成功。
+        uploader.on('uploadSuccess', function (file,response) {
+            $('#' + file.id).addClass('upload-state-done').attr('up_img_url',response.data.img_path);
+        });
+
+        // 文件上传失败，显示上传出错。
+        uploader.on('uploadError', function (file) {
+            var $li = $('#' + file.id),
+                $error = $li.find('div.error');
+
+            // 避免重复创建
+            if (!$error.length) {
+                $error = $('<div class="error"></div>').appendTo($li);
+            }
+
+            $error.text('上传失败');
+        });
+
+        // 完成上传完了，成功或者失败，先删除进度条。
+        uploader.on('uploadComplete', function (file) {
+            $('#' + file.id).find('.progress').remove();
+        });
+        uploader.onError = function( code ) {
+            if(code=='Q_EXCEED_NUM_LIMIT'){
+                layer.msg('只能上传一张图片')
+            }else if(code=='F_EXCEED_SIZE'){
+                layer.msg('请上传3M以内的图片')
+            }
+            else{
+                layer.msg(code)
+            }
+        };
+
+        /*
+        * 提交图片路径和文字
+        * */
+        $('#push-btn').off('click').on('click', function (e) {
+            e.preventDefault();
+            var editId = GetQueryString('slide-id');//是否是编辑
+            if (editId) {
+                editId = 1
+            } else {
+                editId = 0
+            }
+            var title = $.trim($('#slide-title').val());
+            var descrition = $.trim($('#slide-descrition').val());
+            var jumpUrl = $.trim($('#slide-url').val());
+            var img_path = $('#fileList').find('.file-item').attr('up_img_url');
+            var cn_reg =  /[^\u4e00-\u9fa5]/;
+            if (!title) {
+                layer.msg('请输入图片标题');
+                return false
+            }
+            if (!jumpUrl) {
+                layer.msg('请输入图片链接地址');
+                return false
+            }
+            if (!cn_reg.test(jumpUrl)) {
+                layer.msg('跳转地址不能输入中文');
+                return false
+            }
+            if (!img_path) {
+                layer.msg('请上传图片');
+                return false
+            }
+            var parmData = {
+                title: title,
+                descrition: descrition,
+                jumpUrl: jumpUrl,
+                img_path: img_path,
+                editId: editId
+            };
+
+            $.ajax({
+                url: '/slideshow/addslide',
+                type: 'get',
+                data: parmData,
+                dataType: "json",
+                success: function (data) {
+                    if (data.errno == 0) {
+                        layer.msg(data.errmsg);
+                        setTimeout(function () {
+                            window.location.href = '/slideshow/index';
+                        }, 2000)
+                    } else {
+                        layer.msg(data.errmsg);
                     }
-                })
-            });
-        })
-    </script>
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    layer.msg('服务器错误');
+                }
+            })
+        });
+    })
+</script>
 
 {% endblock%}

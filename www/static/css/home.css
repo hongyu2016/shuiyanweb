@@ -24,3 +24,13 @@
 .operate{
     padding: 5px 0;
 }
+.progress{
+    background-color: #f0ad4e;
+    display: block;
+    height: 5px;
+    margin-top: 5px;
+    border-radius: 3px;
+}
+.table-img{
+    width: 200px;
+}
