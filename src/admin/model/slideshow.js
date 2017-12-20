@@ -5,7 +5,7 @@ module.exports = class extends think.Model {
     get pk() {
         return 'slide_id';
     }
-    indexList(pageIndex){
+    slideList(pageIndex){
         return this
             .page(pageIndex,10)
             .order('slide_id ASC')

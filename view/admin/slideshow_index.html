@@ -50,10 +50,10 @@
             * */
             $('.edit').off('click').on('click',function (e) {
                 var id=$(this).attr('data-id');
-                window.location.href='/news/add?news-id='+id+'';
+                window.location.href='/slideshow/add?slide-id='+id+'';
             });
             /*
-            * 删除文章
+            * 删除轮播图
             * */
             $('.delete').off('click').on('click',function (e) {
                 var that=this;
@@ -62,11 +62,10 @@
                 }, function(){
                     var id=$(that).attr('data-id');
                     var loading=layer.load(2);
-                    $.get('/news/delete',{'news-id':Number(id)},function (data) {
+                    $.get('/slideshow/delete',{'slide-id':Number(id)},function (data) {
                         if(data.errno==0){
                             layer.close(loading);
                             layer.msg(data.errmsg);
-                            //$(that).closest('tr').remove();
                             window.location.reload();
                         }
                     },'json')

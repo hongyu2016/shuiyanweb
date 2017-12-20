@@ -1,9 +1,8 @@
-const Base = require('./base.js');
 const pagination = require('think-pagination');
 const fs = require('fs');
 const path = require('path');
 const helper = require('think-helper');
-
+const Base = require('./base.js');
 module.exports = class extends Base {
     /*
      * 构造函数 便于使用model文件
@@ -16,8 +15,8 @@ module.exports = class extends Base {
   async indexAction() {
       //分页查询列表
       let pageIndex=this.get('page');
-      const data = await this.modelInstance.indexList(pageIndex);   ////  两个表的字段重复了
-      const html = pagination(data, this.ctx, {
+      const data = await this.modelInstance.slideList(pageIndex);   ////  两个表的字段重复了
+      const page_data = pagination(data, this.ctx, {
           desc: false, //show description
           pageNum: 2,
           url: '', //page url, when not set, it will auto generated
@@ -28,9 +27,7 @@ module.exports = class extends Base {
               total: 'count: __COUNT__ , pages: __PAGE__'
           }
       });
-      this.assign({'pagination':html,'slide_list':data.data});
-
-      //this.ctx.body=data.data
+      this.assign({'pagination':page_data,'slide_list':data.data});
       return this.display();
   }
   /*
@@ -39,7 +36,7 @@ module.exports = class extends Base {
     async addAction(){
         /*let sortList=await this.model('news_sort').select();
         this.assign('sortList',sortList);
-        let newsId=this.get('news-id');
+        let newsId=this.get('slide-id');
         if(newsId){//有文章id 则是编辑页面 从news表根据id查询数据
             let newsData=await this.modelInstance.where({'article_id':newsId}).find();
             this.assign('newsData',newsData);
@@ -54,7 +51,6 @@ module.exports = class extends Base {
         let file=this.ctx.file('file');//获取文件
 
         if(file && file.type === 'image/png' || file.type === 'image/jpeg') {
-
             const filepath = file.path;
             const nameArr = file.name.split('.');
             const basename = path.basename(filepath) + '.' + nameArr[nameArr.length - 1];
@@ -151,6 +147,29 @@ module.exports = class extends Base {
 
         }else{
             this.fail(403,'请使用get方法');
+        }
+    }
+    /*
+    * 删除轮播图 @同时需要删除对应的已经上传的图片
+    * */
+    async deleteAction(){
+        if(this.isGet){
+            let slideId=this.ctx.param('slide-id');
+            let slide_img=await this.modelInstance.where({'slide_id':slideId}).field('slide_img').find();
+
+            // 检测文件是否存在
+            let filePath=think.ROOT_PATH+'/www'+slide_img.slide_img;  //图片的路径
+            if(fs.existsSync(filePath)) { //如果存在则删除图片
+                fs.unlinkSync(filePath);
+            }
+
+            let dataId=await this.modelInstance.where({'slide_id':slideId}).delete();
+            if(!dataId){
+                this.fail(403,'删除轮播图失败');
+            }
+            else{
+                this.success({data:dataId},'删除轮播图成功');
+            }
         }
     }
 

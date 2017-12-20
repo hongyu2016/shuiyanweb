@@ -14,7 +14,7 @@ module.exports = class extends Base {
   async indexAction() {
       //分页查询列表
       let pageIndex=this.get('page');
-      const data = await this.modelInstance.indexList(pageIndex);   ////  两个表的字段重复了
+      const data = await this.modelInstance.indexList(pageIndex);
       const html = pagination(data, this.ctx, {
           desc: false, //show description
           pageNum: 2,
@@ -27,7 +27,6 @@ module.exports = class extends Base {
           }
       });
       this.assign({'pagination':html,'news_list':data});
-
       return this.display();
   }
   /*

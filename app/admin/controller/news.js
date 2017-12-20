@@ -19,7 +19,7 @@ module.exports = class extends Base {
         return _asyncToGenerator(function* () {
             //分页查询列表
             let pageIndex = _this.get('page');
-            const data = yield _this.modelInstance.indexList(pageIndex); ////  两个表的字段重复了
+            const data = yield _this.modelInstance.indexList(pageIndex);
             const html = pagination(data, _this.ctx, {
                 desc: false, //show description
                 pageNum: 2,
@@ -32,7 +32,6 @@ module.exports = class extends Base {
                 }
             });
             _this.assign({ 'pagination': html, 'news_list': data });
-
             return _this.display();
         })();
     }
@@ -137,3 +136,4 @@ module.exports = class extends Base {
         })();
     }
 };
+//# sourceMappingURL=news.js.map
