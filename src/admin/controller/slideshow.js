@@ -125,13 +125,21 @@ module.exports = class extends Base {
 
 
             if(editId!=0){//编辑
-                /*let artitleId=await this.modelInstance.where({'article_id':editId}).editNews(data);
-                if(!artitleId){
+                //首先先把本地已经上传的图片删掉 然后再更新数据库数据
+                let slide_img=await this.modelInstance.where({'slide_id':editId}).field('slide_img').find();
+                // 检测文件是否存在
+                let filePath=think.ROOT_PATH+'/www'+slide_img.slide_img;  //图片的路径
+                if(fs.existsSync(filePath)) { //如果存在则删除图片
+                    fs.unlinkSync(filePath);
+                }
+                //更新数据
+                let slideId=await this.modelInstance.where({'slide_id':editId}).editSlide(data);
+                if(!slideId){
                     this.fail(403,'编辑文章失败');
                 }
                 else{
-                    this.success({data:artitleId},'编辑文章成功');
-                }*/
+                    this.success({data:slideId},'编辑文章成功');
+                }
             }else{//新增
                 let slideId=await this.modelInstance.addSlide(data);
                 if(!slideId){

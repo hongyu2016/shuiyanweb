@@ -22,4 +22,14 @@ module.exports = class extends think.Model {
             slide_createtime:date
         });
     }
+    editSlide(data){
+        const date=think.datetime();
+        return this.update({
+            slide_title:data.slide_title,
+            slide_img:data.slide_img,
+            slide_text:data.slide_text,
+            slide_jumpurl:data.slide_jumpurl,
+            slide_createtime:date
+        });
+    }
 };

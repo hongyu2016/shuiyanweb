@@ -181,9 +181,7 @@
         $('#push-btn').off('click').on('click', function (e) {
             e.preventDefault();
             var editId = GetQueryString('slide-id');//是否是编辑
-            if (editId) {
-                editId = 1
-            } else {
+            if (!editId) {
                 editId = 0
             }
             var title = $.trim($('#slide-title').val());

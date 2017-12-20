@@ -73,9 +73,7 @@
             var ue = UE.getEditor('editor');
             $('#push-btn').click(function (e) {
                 var editId=GetQueryString('news-id');//是否是编辑
-                if(editId){
-                    editId=1
-                }else{
+                if(!editId){
                     editId=0
                 }
                 e.preventDefault();
