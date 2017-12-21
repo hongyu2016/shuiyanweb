@@ -20,7 +20,7 @@ module.exports = [
         handle: 'trace',
         enable: !think.isCli,
         options: {
-            debug: false, //关闭错误提示
+            debug: isDev, //关闭错误提示
             error(err){
                 console.log(err);
             },
