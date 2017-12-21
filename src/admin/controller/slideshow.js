@@ -76,9 +76,8 @@ module.exports = class extends Base {
             let datuPath=`${think.ROOT_PATH}/www/static/upload/slideshow/${YYYYMMDD}/${basename}`;
             //处理缩略图
             Jimp.read(datuPath).then(function (lenna) {
-                lenna.resize(256, 256)            // resize
+                lenna.cover(256,256)     // resize
                     .quality(60)                 // set JPEG quality
-                    //.cover(256,256)
                     //.crop(0,0,256,256)
                     .autocrop()
                     .write(`${think.ROOT_PATH}/www/static/upload/slideshow/${YYYYMMDD}/${basename}_thumb.jpg`); // save
