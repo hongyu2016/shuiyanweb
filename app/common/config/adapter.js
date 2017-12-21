@@ -36,14 +36,6 @@ exports.model = {
   },
   mysql: {
     handle: mysql,
-    /*database: 'sql3209873',
-    prefix: 'sy_',
-    encoding: 'utf8',
-    host: 'sql3.freemysqlhosting.net',
-    port: '3306',
-    user: 'sql3209873',
-    password: 'xGiVNLHlMy',
-    dateStrings: true*/
     database: 'shuiyan',
     prefix: 'sy_',
     encoding: 'utf8',
@@ -51,7 +43,8 @@ exports.model = {
     port: '3306',
     user: 'root',
     password: '123456',
-    dateStrings: true
+    dateStrings: true,
+    insecureAuth: true
   }
 };
 
@@ -115,4 +108,3 @@ exports.logger = {
     filename: path.join(think.ROOT_PATH, 'logs/app.log')
   }
 };
-//# sourceMappingURL=adapter.js.map

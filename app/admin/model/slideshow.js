@@ -30,4 +30,3 @@ module.exports = class extends think.Model {
         });
     }
 };
-//# sourceMappingURL=slideshow.js.map

@@ -39,4 +39,3 @@ module.exports = [{
     denyModules: []
   }
 }, 'logic', 'controller'];
-//# sourceMappingURL=middleware.js.map

@@ -23,4 +23,3 @@ module.exports = class extends Base {
         console.log(geturl);
     }
 };
-//# sourceMappingURL=index.js.map
