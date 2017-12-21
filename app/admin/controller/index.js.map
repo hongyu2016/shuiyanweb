@@ -17,15 +17,15 @@
         "timingAction",
         "isCli",
         "fail",
+        "testAction",
+        "fsfdsd",
         "geturl",
         "ctx",
-        "get",
-        "console",
-        "log"
+        "get"
     ],
-    "mappings": ";;AAAA,MAAMA,OAAOC,QAAQ,WAAR,CAAb;;AAEAC,OAAOC,OAAP,GAAiB,cAAcH,IAAd,CAAmB;AAC1BI,eAAN,GAAoB;AAAA;;AAAA;AAChB,gBAAIC,aAAa,MAAM,MAAKC,KAAL,CAAW,MAAX,EAAmBC,KAAnB,EAAvB,CADgB,CACmC;AACnD;AACA,kBAAKC,MAAL,CAAY,YAAZ,EAAyBH,UAAzB;AACA,mBAAO,MAAKI,OAAL,EAAP;AAJgB;AAKnB;AACD;;;AAGAC,mBAAc;AACV;AACA,YAAG,CAAC,KAAKC,KAAT,EAAgB,OAAO,KAAKC,IAAL,CAAU,IAAV,EAAgB,MAAhB,CAAP;AAChB,YAAIC,SAAO,KAAKC,GAAL,CAASC,GAAT,CAAa,iCAAb,CAAX;AACAC,gBAAQC,GAAR,CAAYJ,MAAZ;AACH;AAf+B,CAApC",
+    "mappings": ";;AAAA,MAAMA,OAAOC,QAAQ,WAAR,CAAb;;AAEAC,OAAOC,OAAP,GAAiB,cAAcH,IAAd,CAAmB;AAC1BI,eAAN,GAAoB;AAAA;;AAAA;AAChB,gBAAIC,aAAa,MAAM,MAAKC,KAAL,CAAW,MAAX,EAAmBC,KAAnB,EAAvB,CADgB,CACmC;AACnD;AACA,kBAAKC,MAAL,CAAY,YAAZ,EAAyBH,UAAzB;AACA,mBAAO,MAAKI,OAAL,EAAP;AAJgB;AAKnB;AACD;;;;AAIAC,mBAAc;AACV;AACA,YAAG,CAAC,KAAKC,KAAT,EAAgB,OAAO,KAAKC,IAAL,CAAU,IAAV,EAAgB,MAAhB,CAAP;AAEnB;AACDC,iBAAY;AACRC;AACA,YAAIC,SAAO,KAAKC,GAAL,CAASC,GAAT,CAAa,iCAAb,CAAX;AACH;;AAnB+B,CAApC",
     "file": "..\\..\\..\\src\\admin\\controller\\index.js",
     "sourcesContent": [
-        "const Base = require('./base.js');\n\nmodule.exports = class extends Base {\n    async indexAction() {\n        let articleNum = await this.model('news').count(); //查询文章总数\n        //this.ctx.body=articleNum;\n        this.assign('articleNum',articleNum);\n        return this.display();\n    }\n    /*\n    * 定时任务\n    * */\n    timingAction(){\n        // 如果不是定时任务调用，则拒绝\n        if(!this.isCli) return this.fail(1000, 'deny');\n        let geturl=this.ctx.get('http://shuiyanweb.herokuapp.com');\n        console.log(geturl)\n    }\n};\n"
+        "const Base = require('./base.js');\n\nmodule.exports = class extends Base {\n    async indexAction() {\n        let articleNum = await this.model('news').count(); //查询文章总数\n        //this.ctx.body=articleNum;\n        this.assign('articleNum',articleNum);\n        return this.display();\n    }\n    /*\n    * 定时任务\n    * */\n\n    timingAction(){\n        // 如果不是定时任务调用，则拒绝\n        if(!this.isCli) return this.fail(1000, 'deny');\n\n    }\n    testAction(){\n        fsfdsd\n        let geturl=this.ctx.get('http://shuiyanweb.herokuapp.com');\n    }\n\n};\n"
     ]
 }

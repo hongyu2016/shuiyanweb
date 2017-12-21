@@ -59,8 +59,7 @@ module.exports = class extends think.Controller {
 
         return _asyncToGenerator(function* () {
             yield _this2.session(null);
-            _this2.redirect('/index/index'); //登录成功将用户信息写入session，返回到user首页。
+            _this2.redirect('/index'); //登录成功将用户信息写入session，返回到user首页。
         })();
     }
 };
-//# sourceMappingURL=login.js.map

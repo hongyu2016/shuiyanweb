@@ -10,7 +10,7 @@ module.exports = class extends think.Controller {
             let userinfo = yield _this.session('userinfo');
             if (think.isEmpty(userinfo)) {
                 if (_this.ctx.controller != 'login') {
-                    return _this.redirect('/admin/login/index');
+                    return _this.redirect('/admin/login');
                 }
             } else {
                 let menuList = yield _this.model('menu').order('menu_id ASC, menu_name DESC').select(); //从数据库取出菜单
