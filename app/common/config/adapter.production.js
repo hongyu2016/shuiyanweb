@@ -108,3 +108,4 @@ exports.logger = {
         filename: path.join(think.ROOT_PATH, 'logs/app.log')
     }
 };
+//# sourceMappingURL=adapter.production.js.map

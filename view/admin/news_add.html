@@ -107,13 +107,16 @@
                     copyfrom:copyfrom,
                     editId:editId
                 };
+                loading=layer.load(2);
                 $.post('/news/doadd',postData,function (data) {
                     if(data.errno==0){
+                        layer.close(loading);
                         layer.msg(data.errmsg);
                         setTimeout(function () {
                             window.location.href='/news/index';
                         },2000)
                     }else{
+                        layer.close(loading);
                         layer.msg(data.errmsg);
                     }
                 },'json');

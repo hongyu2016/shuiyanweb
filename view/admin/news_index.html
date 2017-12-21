@@ -68,7 +68,7 @@
                     btn: ['确定','取消']
                 }, function(){
                     var id=$(that).attr('data-id');
-                    var loading=layer.load(2);
+                    loading=layer.load(2);
                     $.get('/news/delete',{'news-id':Number(id)},function (data) {
                         if(data.errno==0){
                             layer.close(loading);

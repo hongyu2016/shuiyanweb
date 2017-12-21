@@ -117,6 +117,26 @@
 <script src="/static/js/layer/layer.js"></script>
 <script>
     $(function () {
+        // 设置jQuery Ajax全局的参数
+        var loading;
+        $.ajaxSetup({
+            type: "POST",
+            error: function(jqXHR, textStatus, errorThrown){
+                switch (jqXHR.status){
+                    case(500):
+                        layer.msg("服务器错误");
+                        break;
+                    case(408):
+                        layer.msg("请求超时");
+                        break;
+                    default:
+                        layer.msg("未知错误");
+                }
+            },
+            success: function(data){
+                //layer.msg("操作成功");
+            }
+        });
         //居中
         var wHeight=$(window).height();
         var fHeight=$('.login').outerHeight();
@@ -160,16 +180,18 @@
                 captcha();
                 return false;
             }
-
+            loading=layer.load(2);
             $.post('/admin/login/dologin',{username:userName,password:$.md5(passWord)},function (data) {
                 if(data.errno==0){
                     if($('.remenber-user').prop('checked')){//存储用户名进cookie
                         $.cookie('username', userName, { expires: 7 });
                     }
+                    layer.msg(loading);
 
                     window.location.href='/index/index';
                 }else{
                     layer.msg('账号密码错误');
+                    layer.msg(loading);
                 }
             },'json')
         });

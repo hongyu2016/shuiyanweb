@@ -1,6 +1,8 @@
 /**
  * Created by Administrator on 2017/11/22.
  */
+var loading;  //加载中
+
 function GetQueryString(name)
 {
     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
@@ -37,5 +39,26 @@ $(function () {
     });
     //时间正计时
     setInterval('showTime()',50)
-
+    // 设置jQuery Ajax全局的参数
+    $.ajaxSetup({
+        error: function(jqXHR, textStatus, errorThrown){
+            switch (jqXHR.status){
+                case(500):
+                    layer.msg("服务器错误");
+                    layer.close(loading);
+                    break;
+                case(408):
+                    layer.msg("请求超时");
+                    layer.close(loading);
+                    break;
+                default:
+                    layer.msg("未知错误");
+                    layer.close(loading);
+            }
+        },
+        success: function(data){
+            //layer.msg("操作成功");
+            layer.close(loading);
+        }
+    });
 });

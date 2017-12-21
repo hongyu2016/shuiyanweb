@@ -214,6 +214,7 @@
                 editId: editId
             };
 
+            loading=layer.load(2);
             $.ajax({
                 url: '/slideshow/addslide',
                 type: 'get',
@@ -221,11 +222,13 @@
                 dataType: "json",
                 success: function (data) {
                     if (data.errno == 0) {
+                        layer.msg(loading);
                         layer.msg(data.errmsg);
                         setTimeout(function () {
                             window.location.href = '/slideshow/index';
                         }, 2000)
                     } else {
+                        layer.msg(loading);
                         layer.msg(data.errmsg);
                     }
                 },
