@@ -68,8 +68,7 @@
     left: 4px;
     bottom: 4px;
     right: 4px;
-    height: 20px;
-    line-height: 20px;
+    padding: 3px;
     text-indent: 5px;
     background: rgba(0, 0, 0, 0.6);
     color: white;
@@ -84,12 +83,11 @@
     top: 4px;
     left: 4px;
     right: 4px;
+    padding: 3px;
     background: red;
     color: white;
     text-align: center;
-    height: 20px;
     font-size: 14px;
-    line-height: 23px;
 }
 .upload-title{
     color: #f39c12;

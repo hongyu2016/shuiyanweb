@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const helper = require('think-helper');
 const Base = require('./base.js');
+const Jimp = require("jimp");
 module.exports = class extends Base {
     /*
      * 构造函数 便于使用model文件
@@ -71,6 +72,20 @@ module.exports = class extends Base {
             }
 
             fs.renameSync(filepath, path.resolve(relativePath, `${basename}`));
+
+            let datuPath=`${think.ROOT_PATH}/www/static/upload/slideshow/${YYYYMMDD}/${basename}`;
+            //处理缩略图
+            Jimp.read(datuPath).then(function (lenna) {
+                lenna.resize(256, 256)            // resize
+                    .quality(60)                 // set JPEG quality
+                    //.cover(256,256)
+                    //.crop(0,0,256,256)
+                    .autocrop()
+                    .write(`${think.ROOT_PATH}/www/static/upload/slideshow/${YYYYMMDD}/${basename}_thumb.jpg`); // save
+            }).catch(function (err) {
+                console.error(err);
+            });
+
             this.json({
                 success:true,
                 errmsg:'上传成功',
