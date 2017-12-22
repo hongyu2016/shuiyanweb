@@ -38,7 +38,62 @@ $(function () {
         }
     });
     //时间正计时
-    setInterval('showTime()',50)
+    setInterval('showTime()',50);
+    //修改密码
+    $('.changepw').off('click').on('click',function (e) {
+
+        layer.open({
+            type: 1,
+            skin: 'layui-layer-rim', //加上边框
+            area: ['600px', '50%'], //宽高
+            btn:['确定','取消'],
+            shadeClose:true,
+            btnAlign: 'c',
+            content: $('#change-dom'),
+            success:function (index, layero) {
+                
+            },
+            yes:function (index, layero) {
+                var user=$('.welcome').attr('data-user');
+                var oldPsw=$('#old-password',layero).val();
+                var newPsw=$('#new-password',layero).val();
+                var confirmPsw=$('#confirm-password',layero).val();
+                if(!oldPsw){
+                    layer.msg('请输入原密码');
+                    return false;
+                }
+                if(!newPsw){
+                    layer.msg('请输入新密码');
+                    return false;
+                }
+                if(newPsw!=confirmPsw){
+                    layer.msg('两次输入的密码不相等');
+                    return false;
+                }
+                loading=layer.load(2);
+                $.post('/login/changepw',{
+                    user:user,
+                    old_psw:$.md5(oldPsw),
+                    new_psw:$.md5(newPsw),
+                    confirm_psw:$.md5(confirmPsw),
+                },function (data) {
+                    if(data.errno==0){
+                        layer.close(loading);
+                        layer.msg(data.errmsg);
+                        setTimeout(function () {
+                            window.location.href='/admin/login';
+                        },2000);
+
+                    }else {
+                        layer.close(loading);
+                        layer.msg(data.errmsg);
+                    }
+                },'json');
+                //layer.closeAll();
+            }
+        });
+
+    });
     // 设置jQuery Ajax全局的参数
     $.ajaxSetup({
         error: function(jqXHR, textStatus, errorThrown){

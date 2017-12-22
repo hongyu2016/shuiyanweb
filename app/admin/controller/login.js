@@ -10,9 +10,10 @@ module.exports = class extends think.Controller {
     indexAction() {
         return this.display();
     }
+
     /*
-    * 验证码
-    * */
+     * 验证码
+     * */
     captchaAction() {
         const options = {
             size: 4, // size of random string
@@ -32,8 +33,8 @@ module.exports = class extends think.Controller {
     }
 
     /*
-    * 登陆
-    * */
+     * 登陆
+     * */
     dologinAction() {
         var _this = this;
 
@@ -51,6 +52,7 @@ module.exports = class extends think.Controller {
             }
         })();
     }
+
     /**
      * 注销
      */
@@ -59,7 +61,48 @@ module.exports = class extends think.Controller {
 
         return _asyncToGenerator(function* () {
             yield _this2.session(null);
-            _this2.redirect('/index'); //登录成功将用户信息写入session，返回到user首页。
+            _this2.redirect('/index'); //注销成功清空session，返回到user首页。
+        })();
+    }
+    /*
+    * 修改密码
+    * */
+    changepwAction() {
+        var _this3 = this;
+
+        return _asyncToGenerator(function* () {
+            if (_this3.isPost) {
+                let user = _this3.post('user');
+                let oldpsw = _this3.post('old_psw');
+                let newpsw = _this3.post('new_psw');
+                let confirmpsw = _this3.post('confirm_psw');
+                if (!oldpsw) {
+                    _this3.fail(403, '请填写原密码');
+                    return false;
+                }
+                if (!newpsw) {
+                    _this3.fail(403, '请填写新密码');
+                    return false;
+                }
+                if (newpsw != confirmpsw) {
+                    _this3.fail(403, '两次密码不相等');
+                    return false;
+                }
+                let adminModel = _this3.model('admin');
+                let userInfo = yield adminModel.where({ admin_name: user }).find();
+                if (oldpsw != userInfo.admin_pass) {
+                    _this3.fail(403, '原密码不正确');
+                    return false;
+                }
+
+                let userChange = yield adminModel.where({ admin_name: user }).update({ admin_pass: confirmpsw });
+                yield _this3.session(null);
+
+                //this.redirect('/index');
+                _this3.success({ data: userChange }, '修改密码成功');
+            } else {
+                _this3.fail(403, '请使用post提交');
+            }
         })();
     }
 };

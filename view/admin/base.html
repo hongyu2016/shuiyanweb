@@ -36,6 +36,7 @@
     <script src="/static/js/layer/layer.js"></script>
     <script src="/static/plugins/iCheck/icheck.min.js"></script>
     <script src="/static/js/common.js"></script>
+    <script src="/static/js/jquery.md5.js"></script>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -60,8 +61,11 @@
             <!-- Navbar Right Menu -->
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
-                    <li class="welcome">
+                    <li class="welcome" data-user="{{userinfo.admin_name}}">
                         <span>欢迎您：{{userinfo.admin_name}}！</span>
+                    </li>
+                    <li>
+                        <a href="javascript:;" class="changepw">修改密码</a>
                     </li>
                     <li>
                         <a href="/admin/logout">注销登录</a>
@@ -115,6 +119,30 @@
         <strong>Copyright &copy; 2017 <a href="#">水研村</a>.</strong> 版权所有.
     </footer>
 
+</div>
+<div id="change-dom" style="display: none">
+    <div class="box-body">
+
+        <div class="form-group clearfix">
+            <label for="old-password" class="col-md-2 col-sm-2 control-label">原密码</label>
+            <div class="col-lg-10 col-md-10 col-sm-10">
+                <input type="password" class="form-control" id="old-password" placeholder="请输入原密码">
+            </div>
+        </div>
+        <div class="form-group clearfix">
+            <label for="new-password" class="col-md-2 col-sm-2 control-label">新密码</label>
+            <div class="col-lg-10 col-md-10 col-sm-10">
+                <input type="password" class="form-control" id="new-password" placeholder="请输入新密码">
+            </div>
+        </div>
+        <div class="form-group clearfix">
+            <label for="confirm-password" class="col-md-2 col-sm-2 control-label">确认密码</label>
+            <div class="col-lg-10 col-md-10 col-sm-10">
+                <input type="password" class="form-control" id="confirm-password" placeholder="请输入新密码">
+            </div>
+        </div>
+
+    </div>
 </div>
 <!-- ./wrapper -->
 
