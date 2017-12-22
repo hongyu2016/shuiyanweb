@@ -74,13 +74,13 @@ module.exports = class extends Base {
             fs.renameSync(filepath, path.resolve(relativePath, `${basename}`));
 
             let datuPath=`${think.ROOT_PATH}/www/static/upload/slideshow/${YYYYMMDD}/${basename}`;
+
             //处理缩略图
             Jimp.read(datuPath).then(function (lenna) {
-                lenna.cover(256,256)     // resize
-                    .quality(60)                 // set JPEG quality
-                    //.crop(0,0,256,256)
+                lenna.cover(320,160)     // resize
+                    .quality(60)         // set JPEG quality
                     .autocrop()
-                    .write(`${think.ROOT_PATH}/www/static/upload/slideshow/${YYYYMMDD}/${basename}_thumb.jpg`); // save
+                    .write(`${think.ROOT_PATH}/www/static/upload/slideshow/${YYYYMMDD}/${path.basename(filepath)}_thumb.${nameArr[1]}`); // save
             }).catch(function (err) {
                 console.error(err);
             });
@@ -90,6 +90,7 @@ module.exports = class extends Base {
                 errmsg:'上传成功',
                 data:{
                     img_path:`/static/upload/slideshow/${YYYYMMDD}/${basename}`,
+                    img_path_thumb:`/static/upload/slideshow/${YYYYMMDD}/${path.basename(filepath)}_thumb.${nameArr[1]}`,
                     title: basename,
                     original: file.name
                 }
@@ -118,6 +119,7 @@ module.exports = class extends Base {
             let descrition=param.descrition;
             let jumpUrl=param.jumpUrl;
             let img_path=param.img_path;
+            let img_path_thumb=param.img_path_thumb;
             if(!title || title==''){
                 this.fail(403,'轮播图标题不能为空');
                 return false;
@@ -134,7 +136,8 @@ module.exports = class extends Base {
                 slide_title:title,
                 slide_img:img_path,
                 slide_text:descrition,
-                slide_jumpurl:jumpUrl
+                slide_jumpurl:jumpUrl,
+                slide_thumb:img_path_thumb
             };
 
 
@@ -178,13 +181,21 @@ module.exports = class extends Base {
     async deleteAction(){
         if(this.isGet){
             let slideId=this.ctx.param('slide-id');
-            let slide_img=await this.modelInstance.where({'slide_id':slideId}).field('slide_img').find();
+            let slide_img=await this.modelInstance.where({'slide_id':slideId}).field('slide_img,slide_thumb').find();
 
-            // 检测文件是否存在
-            let filePath=think.ROOT_PATH+'/www'+slide_img.slide_img;  //图片的路径
-            if(fs.existsSync(filePath)) { //如果存在则删除图片
-                fs.unlinkSync(filePath);
+            //循环遍历对象
+            for (let i in slide_img) {
+                if (slide_img.hasOwnProperty(i) === true) {
+                    // 检测文件是否存在 删除大图和缩略图
+                    let filePath=think.ROOT_PATH+'/www'+slide_img[i];  //图片的路径
+                    if(fs.existsSync(filePath)) { //如果存在则删除图片
+                        fs.unlinkSync(filePath);
+                    }
+                }
             }
+
+
+
 
             let dataId=await this.modelInstance.where({'slide_id':slideId}).delete();
             if(!dataId){

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-12-20 17:02:06
+Date: 2017-12-22 11:20:46
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -96,7 +96,7 @@ CREATE TABLE `sy_news` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `thumb` varchar(200) DEFAULT NULL COMMENT '缩略图地址',
   PRIMARY KEY (`article_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sy_news
@@ -181,16 +181,14 @@ CREATE TABLE `sy_slideshow` (
   `slide_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
   `slide_title` varchar(50) CHARACTER SET utf8 NOT NULL COMMENT '轮播图标题',
   `slide_img` varchar(200) CHARACTER SET utf8 NOT NULL COMMENT '图片路径',
+  `slide_thumb` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '缩略图',
   `slide_text` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '轮播图文字描述',
   `slide_jumpurl` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '图片名字',
   `slide_createtime` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`slide_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of sy_slideshow
 -- ----------------------------
-INSERT INTO `sy_slideshow` VALUES ('3', 'ceshi测试3-修改2', '/static/upload/slideshow/20171220/upload_4a55a01b1f0cc923dc0c01644d70faa3.jpg', '测试内容300052', 'http://iyuge.cn', '2017-12-20 16:57:06');
-INSERT INTO `sy_slideshow` VALUES ('4', 'ceshi测试4', '/static/upload/slideshow/20171220/upload_c87b183ed80e88ece7db9bc93a7df983.jpg', '内容4', 'http://iyuge.cn', '2017-12-20 14:05:49');
-INSERT INTO `sy_slideshow` VALUES ('5', 'ceshi测试5', '/static/upload/slideshow/20171220/upload_4c266530f018dfc684894c7328fe1902.jpg', '测试内容5', 'http://iyuge.cn', '2017-12-20 14:06:26');
-INSERT INTO `sy_slideshow` VALUES ('6', '测试6', '/static/upload/slideshow/20171220/upload_9d09e445d5079ab97aa46c53292c2210.jpg', '测试内容6', 'http://iyuge.cn', '2017-12-20 14:07:00');
+INSERT INTO `sy_slideshow` VALUES ('9', 'ceshi测试32', '/static/upload/slideshow/20171222/upload_fc922504a541430a5b0a67db43abc0e2.jpg', '/static/upload/slideshow/20171222/upload_fc922504a541430a5b0a67db43abc0e2_thumb.jpg', '事实上', '#', '2017-12-22 11:08:14');

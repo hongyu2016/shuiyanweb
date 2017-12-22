@@ -137,7 +137,10 @@
 
         // 文件上传成功，给item添加成功class, 用样式标记上传成功。
         uploader.on('uploadSuccess', function (file,response) {
-            $('#' + file.id).addClass('upload-state-done').attr('up_img_url',response.data.img_path);
+            $('#' + file.id).addClass('upload-state-done').attr({
+                'up_img_url':response.data.img_path,
+                'up_img_url_thumb':response.data.img_path_thumb
+            });
         });
 
         // 文件上传失败，显示上传出错。
@@ -189,6 +192,7 @@
             var descrition = $.trim($('#slide-descrition').val());
             var jumpUrl = $.trim($('#slide-url').val());
             var img_path = $('#fileList').find('.file-item').attr('up_img_url');
+            var img_path_thumb = $('#fileList').find('.file-item').attr('up_img_url_thumb');
             var cn_reg =  /[^\u4e00-\u9fa5]/;
             if (!title) {
                 layer.msg('请输入图片标题');
@@ -211,6 +215,7 @@
                 descrition: descrition,
                 jumpUrl: jumpUrl,
                 img_path: img_path,
+                img_path_thumb:img_path_thumb,
                 editId: editId
             };
 

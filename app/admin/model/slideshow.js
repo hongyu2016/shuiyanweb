@@ -7,7 +7,7 @@ module.exports = class extends think.Model {
     }
     slideList(pageIndex) {
         return this.page(pageIndex, 10).order('slide_id ASC').countSelect({
-            'field': 'slide_id,slide_title,slide_img,slide_text,slide_jumpurl' });
+            'field': 'slide_id,slide_title,slide_thumb,slide_text,slide_jumpurl' });
     }
     addSlide(data) {
         const date = think.datetime();
@@ -16,6 +16,7 @@ module.exports = class extends think.Model {
             slide_img: data.slide_img,
             slide_text: data.slide_text,
             slide_jumpurl: data.slide_jumpurl,
+            slide_thumb: data.slide_thumb,
             slide_createtime: date
         });
     }
@@ -26,6 +27,7 @@ module.exports = class extends think.Model {
             slide_img: data.slide_img,
             slide_text: data.slide_text,
             slide_jumpurl: data.slide_jumpurl,
+            slide_thumb: data.slide_thumb,
             slide_createtime: date
         });
     }
