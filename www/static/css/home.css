@@ -42,6 +42,7 @@
 #uploader .thumbnail {
     width: 210px;
     height: 210px;
+    overflow: hidden;
 }
 .file-item {
     position: relative;

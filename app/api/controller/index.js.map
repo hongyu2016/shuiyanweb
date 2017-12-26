@@ -9,11 +9,22 @@
         "module",
         "exports",
         "indexAction",
-        "display"
+        "display",
+        "slideAction",
+        "slideList",
+        "model",
+        "order",
+        "limit",
+        "select",
+        "json",
+        "success",
+        "errmsg",
+        "data",
+        "datalist"
     ],
-    "mappings": "AAAA,MAAMA,OAAOC,QAAQ,WAAR,CAAb;;AAEAC,OAAOC,OAAP,GAAiB,cAAcH,IAAd,CAAmB;AAClCI,gBAAc;AACZ,WAAO,KAAKC,OAAL,EAAP;AACD;AAHiC,CAApC",
+    "mappings": ";;AAAA,MAAMA,OAAOC,QAAQ,WAAR,CAAb;;AAEAC,OAAOC,OAAP,GAAiB,cAAcH,IAAd,CAAmB;AAChCI,kBAAc;AACV,eAAO,KAAKC,OAAL,EAAP;AACH;AACKC,eAAN,GAAmB;AAAA;;AAAA;AACf,gBAAIC,YAAU,MAAM,MAAKC,KAAL,CAAW,WAAX,EACfC,KADe,CACT,cADS,EAEfC,KAFe,CAET,EAFS,EAELC,MAFK,EAApB;AAGA,kBAAKC,IAAL,CAAU;AACNC,yBAAQ,IADF;AAENC,wBAAO,MAFD;AAGNC,sBAAK;AACDC,8BAAST;AADR;AAHC,aAAV;AAJe;AAYlB;AAhB+B,CAApC",
     "file": "..\\..\\..\\src\\api\\controller\\index.js",
     "sourcesContent": [
-        "const Base = require('./base.js');\n\nmodule.exports = class extends Base {\n  indexAction() {\n    return this.display();\n  }\n};"
+        "const Base = require('./base.js');\n\nmodule.exports = class extends Base {\n    indexAction() {\n        return this.display();\n    }\n    async slideAction(){\n        let slideList=await this.model('slideshow')\n            .order('slide_id ASC')\n            .limit(10).select();\n        this.json({\n            success:true,\n            errmsg:'获取成功',\n            data:{\n                datalist:slideList\n            }\n        })\n\n    }\n};\n"
     ]
 }

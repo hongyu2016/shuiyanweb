@@ -125,15 +125,15 @@
                 switch (jqXHR.status){
                     case(500):
                         layer.msg("服务器错误");
-                        layer.closeAll();
+                        layer.close(loading);
                         break;
                     case(408):
                         layer.msg("请求超时");
-                        layer.closeAll();
+                        layer.close(loading);
                         break;
                     default:
                         layer.msg("未知错误");
-                        layer.closeAll();
+                        layer.close(loading);
                 }
             },
             success: function(data){
