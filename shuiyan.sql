@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-12-22 12:53:57
+Date: 2018-01-03 17:02:10
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -191,4 +191,5 @@ CREATE TABLE `sy_slideshow` (
 -- ----------------------------
 -- Records of sy_slideshow
 -- ----------------------------
-INSERT INTO `sy_slideshow` VALUES ('9', 'ceshi测试32', '/static/upload/slideshow/20171222/upload_fc922504a541430a5b0a67db43abc0e2.jpg', '/static/upload/slideshow/20171222/upload_fc922504a541430a5b0a67db43abc0e2_thumb.jpg', '事实上', '#', '2017-12-22 11:08:14');
+INSERT INTO `sy_slideshow` VALUES ('9', 'ceshi测试32', '/static/upload/slideshow/20171226/upload_5b56895c7b6aa9c32bb8368233ce8623.jpg', '/static/upload/slideshow/20171226/upload_5b56895c7b6aa9c32bb8368233ce8623_thumb.jpg', '事实上', '#', '2017-12-26 15:49:27');
+INSERT INTO `sy_slideshow` VALUES ('10', '201测试', '/static/upload/slideshow/20171226/upload_ca9e9baa0122166815375bda4ba434e6.jpg', '/static/upload/slideshow/20171226/upload_ca9e9baa0122166815375bda4ba434e6_thumb.jpg', '201测试', 'http://baidu.com', '2017-12-26 15:50:39');
