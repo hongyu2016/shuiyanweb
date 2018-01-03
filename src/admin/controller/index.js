@@ -17,10 +17,12 @@ module.exports = class extends Base {
         if(!this.isCli) return this.fail(1000, 'deny');
         let $ = await request_p({
             url:'https://shuiyanweb.herokuapp.com/',
-            transform: body => cheerio.load(body)
+            transform: body => cheerio.load(body,{
+	            ignoreWhitespace: true
+            })
         });
         let content = $('.login').html();
         console.log(content);
     }
-
+    
 };

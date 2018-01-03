@@ -27,7 +27,9 @@ module.exports = class extends Base {
             let $ = yield request_p({
                 url: 'https://shuiyanweb.herokuapp.com/',
                 transform: function (body) {
-                    return cheerio.load(body);
+                    return cheerio.load(body, {
+                        ignoreWhitespace: true
+                    });
                 }
             });
             let content = $('.login').html();
