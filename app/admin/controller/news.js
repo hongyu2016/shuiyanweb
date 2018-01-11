@@ -1,6 +1,7 @@
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
-const ThinkUeditor = require('think-ueditor');
+//const ThinkUeditor=require('think-ueditor');
+const ThinkUeditor = require('../common_function/ueditor/index'); //引入本地的文件 方便修改配置 **百度编辑器
 const pagination = require('think-pagination');
 const Base = require('./base.js');
 
@@ -55,7 +56,10 @@ module.exports = class extends Base {
     }
     uploadAction() {
         //百度编辑器
+
+        ThinkUeditor.imageUrlPrefix = 'http://baidu.com';
         const ueditor = new ThinkUeditor(this.ctx);
+        console.log(ueditor);
         this.json(ueditor.init());
     }
 

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2018-01-03 17:02:10
+Date: 2018-01-11 11:35:49
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -40,6 +40,23 @@ CREATE TABLE `sy_admin` (
 INSERT INTO `sy_admin` VALUES ('1', 'admin', 'e10adc3949ba59abbe56e057f20f883e', '971976839@qq.com', '0', '0', '1510279012', '0', '2');
 
 -- ----------------------------
+-- Table structure for sy_introduce
+-- ----------------------------
+DROP TABLE IF EXISTS `sy_introduce`;
+CREATE TABLE `sy_introduce` (
+  `introduce_id` int(11) NOT NULL AUTO_INCREMENT,
+  `introduce_simple` varchar(500) DEFAULT NULL COMMENT '水研简介',
+  `introduce_all` longtext COMMENT '介绍详情',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`introduce_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of sy_introduce
+-- ----------------------------
+INSERT INTO `sy_introduce` VALUES ('1', '水研村坐落在美丽的广西壮族自治区北海市合浦县山口镇东部，北部与玉林市的大路塘、屋子岭相邻；\r\n距离镇中心约六公里，全新水泥路直通村里，交通方便；\r\n水研村风景优美，环境舒适，东南部有大排水库，水质清澈；西南部有建于1976年的“天桥”，该桥是当时用于灌溉的水渠的一部分，奇特的地方在于该“天桥”建在两座山之间，高度约有50米，长度大约700米，底下是一条清澈的那交河，至今屹立不倒。', '<p>这是详情吧恩 是的</p><p><br/></p><p><img src=\"/static/upload/20180111/upload_44c7bc5198a5fa11a3911d6866dd9935.jpg\" title=\"upload_44c7bc5198a5fa11a3911d6866dd9935.jpg\" alt=\"11.11.jpg\" width=\"1214\" height=\"405\" style=\"width: 100%;\"/></p>', '2018-01-11 11:30:03');
+
+-- ----------------------------
 -- Table structure for sy_menu
 -- ----------------------------
 DROP TABLE IF EXISTS `sy_menu`;
@@ -51,7 +68,7 @@ CREATE TABLE `sy_menu` (
   `parent_menu` int(11) NOT NULL COMMENT '一级菜单的parentmenu为-1，其他值则表示子菜单此时parentmenu的值就是菜单表的主键',
   `icon_class` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`menu_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sy_menu
@@ -76,6 +93,7 @@ INSERT INTO `sy_menu` VALUES ('17', '新闻分类', '', null, '-1', 'fa fa-star'
 INSERT INTO `sy_menu` VALUES ('18', '添加分类', '/news_sort/add?menu_id=18', null, '17', 'fa fa-star');
 INSERT INTO `sy_menu` VALUES ('19', '分类列表', '/news_sort/index?menu_id=19', null, '17', 'fa fa-star');
 INSERT INTO `sy_menu` VALUES ('20', '轮播图管理', '/slideshow/index?menu_id=20', null, '-1', 'fa fa-photo');
+INSERT INTO `sy_menu` VALUES ('21', '水研介绍', '/introduce/add?menu_id=21', null, '-1', 'fa fa-photo');
 
 -- ----------------------------
 -- Table structure for sy_news

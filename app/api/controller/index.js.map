@@ -9,22 +9,25 @@
         "module",
         "exports",
         "indexAction",
-        "display",
-        "slideAction",
-        "slideList",
+        "indexData",
+        "intro",
         "model",
-        "order",
-        "limit",
-        "select",
+        "find",
+        "push",
         "json",
         "success",
         "errmsg",
         "data",
+        "slideAction",
+        "slideList",
+        "order",
+        "limit",
+        "select",
         "datalist"
     ],
-    "mappings": ";;AAAA,MAAMA,OAAOC,QAAQ,WAAR,CAAb;;AAEAC,OAAOC,OAAP,GAAiB,cAAcH,IAAd,CAAmB;AAChCI,kBAAc;AACV,eAAO,KAAKC,OAAL,EAAP;AACH;AACKC,eAAN,GAAmB;AAAA;;AAAA;AACf,gBAAIC,YAAU,MAAM,MAAKC,KAAL,CAAW,WAAX,EACfC,KADe,CACT,cADS,EAEfC,KAFe,CAET,EAFS,EAELC,MAFK,EAApB;AAGA,kBAAKC,IAAL,CAAU;AACNC,yBAAQ,IADF;AAENC,wBAAO,MAFD;AAGNC,sBAAK;AACDC,8BAAST;AADR;AAHC,aAAV;AAJe;AAYlB;AAhB+B,CAApC",
+    "mappings": ";;AAAA,MAAMA,OAAOC,QAAQ,WAAR,CAAb;;AAEAC,OAAOC,OAAP,GAAiB,cAAcH,IAAd,CAAmB;AAC7BI,eAAN,GAAoB;AAAA;;AAAA;AACnB,gBAAIC,YAAU,EAAd;AACG,gBAAIC,QAAM,MAAM,MAAKC,KAAL,CAAW,WAAX,EAAwBC,IAAxB,EAAhB,CAFgB,CAEgC;AACnDH,sBAAUI,IAAV,CAAeH,KAAf;AACA,kBAAKI,IAAL,CAAU;AACTC,yBAAQ,IADC;AAETC,wBAAO,MAFE;AAGTC,sBAAK;AACJR,+BAAUA;AADN;AAHI,aAAV;AAJmB;AAWhB;AACKS,eAAN,GAAmB;AAAA;;AAAA;AACf,gBAAIC,YAAU,MAAM,OAAKR,KAAL,CAAW,WAAX,EACfS,KADe,CACT,cADS,EAEfC,KAFe,CAET,EAFS,EAELC,MAFK,EAApB;AAGA,mBAAKR,IAAL,CAAU;AACNC,yBAAQ,IADF;AAENC,wBAAO,MAFD;AAGNC,sBAAK;AACDM,8BAASJ;AADR;AAHC,aAAV;AAJe;AAYlB;AAzB+B,CAApC",
     "file": "..\\..\\..\\src\\api\\controller\\index.js",
     "sourcesContent": [
-        "const Base = require('./base.js');\n\nmodule.exports = class extends Base {\n    indexAction() {\n        return this.display();\n    }\n    async slideAction(){\n        let slideList=await this.model('slideshow')\n            .order('slide_id ASC')\n            .limit(10).select();\n        this.json({\n            success:true,\n            errmsg:'获取成功',\n            data:{\n                datalist:slideList\n            }\n        })\n\n    }\n};\n"
+        "const Base = require('./base.js');\n\nmodule.exports = class extends Base {\n\tasync indexAction() {\n\t\tlet indexData=[];\n\t    let intro=await this.model('introduce').find(); //水研简介\n\t\tindexData.push(intro);\n\t\tthis.json({\n\t\t\tsuccess:true,\n\t\t\terrmsg:'获取成功',\n\t\t\tdata:{\n\t\t\t\tindexData:indexData\n\t\t\t}\n\t\t})\n    }\n    async slideAction(){\n        let slideList=await this.model('slideshow')\n            .order('slide_id ASC')\n            .limit(10).select();\n        this.json({\n            success:true,\n            errmsg:'获取成功',\n            data:{\n                datalist:slideList\n            }\n        })\n\n    }\n};\n"
     ]
 }

@@ -4,14 +4,27 @@ const Base = require('./base.js');
 
 module.exports = class extends Base {
     indexAction() {
-        return this.display();
-    }
-    slideAction() {
         var _this = this;
 
         return _asyncToGenerator(function* () {
-            let slideList = yield _this.model('slideshow').order('slide_id ASC').limit(10).select();
+            let indexData = [];
+            let intro = yield _this.model('introduce').find(); //水研简介
+            indexData.push(intro);
             _this.json({
+                success: true,
+                errmsg: '获取成功',
+                data: {
+                    indexData: indexData
+                }
+            });
+        })();
+    }
+    slideAction() {
+        var _this2 = this;
+
+        return _asyncToGenerator(function* () {
+            let slideList = yield _this2.model('slideshow').order('slide_id ASC').limit(10).select();
+            _this2.json({
                 success: true,
                 errmsg: '获取成功',
                 data: {
