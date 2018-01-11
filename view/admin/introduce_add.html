@@ -1,0 +1,77 @@
+{% extends "./base.html" %}
+{% block main %}
+    <script src="/static/js/ueditor/ueditor.config.js"></script>
+    <script src="/static/js/ueditor/ueditor.all.min.js"></script>
+    <script src="/static/js/ueditor/lang/zh-cn/zh-cn.js"></script>
+    <form action="/news/uploadimage" method="get" class="form-horizontal" name="upfile">
+        <div class="box-body">
+            <div class="form-group">
+                <label for="intro" class="col-md-1 col-sm-2 control-label">水研简介</label>
+                <div class="col-lg-4 col-md-6 col-sm-10">
+                    <textarea class="form-control" id="intro" rows="5" placeholder="水研简介">{{data.introduce_simple}}</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="editor" class="col-md-1 col-sm-2 control-label">水研详细介绍</label>
+                <div class="col-lg-10 col-md-10 col-sm-10">
+                    <script id="editor" type="text/plain" style="width:100%;min-height:300px;">
+                        {{data.introduce_all | safe}}
+                    </script>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer">
+            <div class="col-md-offset-1 col-sm-offset-2">
+
+                <button type="button" class="btn btn-default" onclick="javascript:window.history.back();">返回</button>
+
+                <button type="submit" class="btn btn-success" id="push-btn" style="margin-left: 20px;">确定</button>
+            </div>
+        </div>
+        <div id="edit-content" style="display: none;"></div>
+
+    </form>
+    <script>
+        $(function () {
+            /*
+            * 初始化百度编辑器
+            * */
+            var ue = UE.getEditor('editor',{
+	            toolbars: [
+		            ['fullscreen', 'source', 'undo', 'redo', 'bold','formatmatch','pasteplain','selectall','unlink','fontfamily','fontsize','paragraph','simpleupload','link','justifyleft', 'justifyright','justifycenter','justifyjustify','forecolor']
+	            ],
+	            initialFrameHeight:500
+            });
+            $('#push-btn').click(function (e) {
+                e.preventDefault();
+
+                var intro=$('#intro').val();
+
+                var content=UE.getEditor('editor').getContent();
+
+                if(!content||content==''){
+                    layer.msg('请填写文章内容');
+                    return false;
+                }
+
+                var postData={
+                    intro:intro,
+                    content:content
+                };
+                loading=layer.load(2);
+                $.post('/introduce/doadd',postData,function (data) {
+                    if(data.errno==0){
+                        layer.close(loading);
+                        layer.msg(data.errmsg);
+                    }else{
+                        layer.close(loading);
+                        layer.msg(data.errmsg);
+                    }
+                },'json');
+
+            });
+
+        })
+    </script>
+
+{% endblock%}
