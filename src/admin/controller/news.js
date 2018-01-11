@@ -45,13 +45,8 @@ module.exports = class extends Base {
     }
     uploadAction(){
         //百度编辑器
-
-	    ThinkUeditor.imageUrlPrefix='http://baidu.com';
         const ueditor = new ThinkUeditor(this.ctx);
-	    console.log(ueditor)
         this.json(ueditor.init());
-
-
     }
 
     /*
