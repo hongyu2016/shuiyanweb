@@ -1,5 +1,5 @@
-const ThinkUeditor=require('think-ueditor');
-//const ThinkUeditor=require('../common_function/ueditor/index');  //引入本地的文件 方便修改配置 **百度编辑器
+//const ThinkUeditor=require('think-ueditor');
+const ThinkUeditor=require('../common_function/ueditor/index');  //引入本地的文件 方便修改配置 **百度编辑器
 const pagination = require('think-pagination');
 const Base = require('./base.js');
 
