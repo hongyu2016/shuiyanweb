@@ -108,10 +108,10 @@ module.exports = class extends Base {
                     author: author,
                     content: content,
                     copyfrom: copyfrom,
-                    thumb: imgSrc[0] //取内容的第一张图片为缩略图
+                    thumb: imgSrc ? imgSrc[0] : '' //取内容的第一张图片为缩略图
                 };
 
-                if (editId) {
+                if (editId > 0) {
                     //编辑文章
                     let artitleId = yield _this3.modelInstance.where({ 'article_id': editId }).editNews(data);
                     if (!artitleId) {

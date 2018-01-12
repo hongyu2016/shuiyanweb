@@ -6,8 +6,8 @@ module.exports = class extends think.Model {
         return 'article_id';
     }
     indexList(pageIndex) {
-        return this.join('sy_news_sort ON sy_news.sort_id=sy_news_sort.sort_id').page(pageIndex, 10).order('article_id ASC').countSelect({
-            'field': 'article_id,sort_name,thumb,update_time,intro,author,copyfrom,hits,title,sy_news_sort.create_time as sort_create_time,sy_news.create_time as news_create_time ' });
+        return this.join('sy_news_sort ON sy_news.sort_id=sy_news_sort.sort_id').page(pageIndex, 10).order('news_create_time DESC').countSelect({
+            'field': 'article_id,sort_name,thumb,update_time,intro,author,copyfrom,hits,title,sy_news_sort.create_time as sort_create_time,sy_news.create_time as news_create_time' });
     }
     addArticle(data) {
         const date = think.datetime();

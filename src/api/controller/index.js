@@ -4,7 +4,8 @@ module.exports = class extends Base {
 	async indexAction() {
 		let indexData=[];
 	    let intro=await this.model('introduce').find(); //水研简介
-		indexData.push(intro);
+		let news=await this.model('news').limit(3).order('create_time DESC').select();//水研新闻
+		indexData={intro:intro,news:news};
 		this.json({
 			success:true,
 			errmsg:'获取成功',

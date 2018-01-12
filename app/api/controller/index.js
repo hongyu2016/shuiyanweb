@@ -9,7 +9,8 @@ module.exports = class extends Base {
         return _asyncToGenerator(function* () {
             let indexData = [];
             let intro = yield _this.model('introduce').find(); //水研简介
-            indexData.push(intro);
+            let news = yield _this.model('news').limit(3).order('create_time DESC').select(); //水研新闻
+            indexData = { intro: intro, news: news };
             _this.json({
                 success: true,
                 errmsg: '获取成功',
@@ -34,3 +35,4 @@ module.exports = class extends Base {
         })();
     }
 };
+//# sourceMappingURL=index.js.map

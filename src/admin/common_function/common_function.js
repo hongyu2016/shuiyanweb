@@ -43,20 +43,24 @@ class commonFun{
 		//匹配src属性
 		let srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;  //取出img 的src的正则
 		let arr = content.match(imgReg);  //得到图片数组
-
-		let imgSrcArr=[];  //最后组装 图片的src的地址数组
-		for (let i = 0; i < arr.length; i++) {
-			let src = arr[i].match(srcReg);
-			//获取图片地址
-			if(src[1]){
-				imgSrcArr.push(src[1])
+		if(arr){
+			let imgSrcArr=[];  //最后组装 图片的src的地址数组
+			for (let i = 0; i < arr.length; i++) {
+				let src = arr[i].match(srcReg);
+				//获取图片地址
+				if(src[1]){
+					imgSrcArr.push(src[1])
+				}
+				//当然你也可以替换src属性
+				/*if (src[0]) {
+				 let t = src[0].replace(/src/i, "href");
+				 }*/
 			}
-			//当然你也可以替换src属性
-			/*if (src[0]) {
-			 let t = src[0].replace(/src/i, "href");
-			 }*/
+			return imgSrcArr;
+		}else{
+			return '';
 		}
-		return imgSrcArr;
+
 	}
 }
 module.exports =commonFun;

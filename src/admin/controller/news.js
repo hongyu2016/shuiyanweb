@@ -88,10 +88,10 @@ module.exports = class extends Base {
                 author:author,
                 content:content,
                 copyfrom:copyfrom,
-	            thumb:imgSrc[0]  //取内容的第一张图片为缩略图
+	            thumb:imgSrc?imgSrc[0]:''  //取内容的第一张图片为缩略图
             };
 
-            if(editId){//编辑文章
+            if(editId>0){//编辑文章
                 let artitleId=await this.modelInstance.where({'article_id':editId}).editNews(data);
                 if(!artitleId){
                     this.fail(403,'编辑文章失败');
