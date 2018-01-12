@@ -1,0 +1,40 @@
+{
+    "version": 3,
+    "sources": [
+        "..\\..\\..\\src\\admin\\common_function\\common_function.js"
+    ],
+    "names": [
+        "commonFun",
+        "formatMenu",
+        "list",
+        "arr",
+        "map",
+        "item",
+        "index",
+        "parent_menu",
+        "o",
+        "find",
+        "x",
+        "menu_id",
+        "child_menu",
+        "push",
+        "Object",
+        "assign",
+        "getSrc",
+        "content",
+        "imgReg",
+        "srcReg",
+        "match",
+        "imgSrcArr",
+        "i",
+        "length",
+        "src",
+        "module",
+        "exports"
+    ],
+    "mappings": "AAAA,MAAMA,SAAN,CAAe;AACd;;;AAGAC,YAAWC,IAAX,EAAgB;AACf,MAAIC,MAAM,EAAV;AACAD,OAAKE,GAAL,CAAS,UAASC,IAAT,EAAeC,KAAf,EAAsB;AAC9B,OAAID,KAAKE,WAAL,IAAoB,CAAC,CAAzB,EAA4B;AAC3B,QAAIC,IAAIL,IAAIM,IAAJ,CAASC,KAAK;AACrB,YAAOA,EAAEC,OAAF,IAAaN,KAAKM,OAAzB;AACA,KAFO,CAAR;AAGA,QAAI,CAACH,CAAL,EAAQ;AACPA,SAAI;AACHI,kBAAY;AADT,MAAJ;AAGAT,SAAIU,IAAJ,CAASL,CAAT;AACA;AACDM,WAAOC,MAAP,CAAcP,CAAd,EAAiBH,IAAjB;AAEA,IAZD,MAYK;AACJ,QAAIG,IAAEL,IAAIM,IAAJ,CAASC,KAAG;AACjB,YAAOA,EAAEC,OAAF,IAAWN,KAAKE,WAAvB;AACA,KAFK,CAAN;AAGA,QAAG,CAACC,CAAJ,EAAM;AACLA,SAAE;AACDI,kBAAW,CAACP,IAAD,CADV;AAEDM,eAAQN,KAAKE;AAFZ,MAAF;AAIAJ,SAAIU,IAAJ,CAASL,CAAT;AACA,KAND,MAMK;AACJA,OAAEI,UAAF,CAAaC,IAAb,CAAkBR,IAAlB;AACA;AACD;AAED,GA5BD;AA6BA,SAAOF,GAAP;AACA;AACD;;;AAGAa,QAAOC,OAAP,EAAe;AACd,MAAIC,SAAS,oBAAb,CADc,CACqB;AACnC;AACA,MAAIC,SAAS,+BAAb,CAHc,CAGiC;AAC/C,MAAIhB,MAAMc,QAAQG,KAAR,CAAcF,MAAd,CAAV,CAJc,CAIoB;AAClC,MAAGf,GAAH,EAAO;AACN,OAAIkB,YAAU,EAAd,CADM,CACa;AACnB,QAAK,IAAIC,IAAI,CAAb,EAAgBA,IAAInB,IAAIoB,MAAxB,EAAgCD,GAAhC,EAAqC;AACpC,QAAIE,MAAMrB,IAAImB,CAAJ,EAAOF,KAAP,CAAaD,MAAb,CAAV;AACA;AACA,QAAGK,IAAI,CAAJ,CAAH,EAAU;AACTH,eAAUR,IAAV,CAAeW,IAAI,CAAJ,CAAf;AACA;AACD;AACA;;;AAGA;AACD,UAAOH,SAAP;AACA,GAdD,MAcK;AACJ,UAAO,EAAP;AACA;AAED;AA/Da;AAiEfI,OAAOC,OAAP,GAAgB1B,SAAhB",
+    "file": "..\\..\\..\\src\\admin\\common_function\\common_function.js",
+    "sourcesContent": [
+        "class commonFun{\n\t/*\n\t* 菜单处理\n\t* */\n\tformatMenu(list){\n\t\tlet arr = [];\n\t\tlist.map(function(item, index) {\n\t\t\tif (item.parent_menu == -1) {\n\t\t\t\tlet o = arr.find(x => {\n\t\t\t\t\treturn x.menu_id == item.menu_id\n\t\t\t\t});\n\t\t\t\tif (!o) {\n\t\t\t\t\to = {\n\t\t\t\t\t\tchild_menu: []\n\t\t\t\t\t}\n\t\t\t\t\tarr.push(o)\n\t\t\t\t}\n\t\t\t\tObject.assign(o, item)\n\n\t\t\t}else{\n\t\t\t\tlet o=arr.find(x=>{\n\t\t\t\t\treturn x.menu_id==item.parent_menu;\n\t\t\t\t});\n\t\t\t\tif(!o){\n\t\t\t\t\to={\n\t\t\t\t\t\tchild_menu:[item],\n\t\t\t\t\t\tmenu_id:item.parent_menu\n\t\t\t\t\t};\n\t\t\t\t\tarr.push(o)\n\t\t\t\t}else{\n\t\t\t\t\to.child_menu.push(item)\n\t\t\t\t}\n\t\t\t}\n\n\t\t});\n\t\treturn arr;\n\t}\n\t/*\n\t* 提取富文本提交内容中的src\n\t* */\n\tgetSrc(content){\n\t\tlet imgReg = /<img.*?(?:>|\\/>)/gi; //取出内容中的img正则\n\t\t//匹配src属性\n\t\tlet srcReg = /src=[\\'\\\"]?([^\\'\\\"]*)[\\'\\\"]?/i;  //取出img 的src的正则\n\t\tlet arr = content.match(imgReg);  //得到图片数组\n\t\tif(arr){\n\t\t\tlet imgSrcArr=[];  //最后组装 图片的src的地址数组\n\t\t\tfor (let i = 0; i < arr.length; i++) {\n\t\t\t\tlet src = arr[i].match(srcReg);\n\t\t\t\t//获取图片地址\n\t\t\t\tif(src[1]){\n\t\t\t\t\timgSrcArr.push(src[1])\n\t\t\t\t}\n\t\t\t\t//当然你也可以替换src属性\n\t\t\t\t/*if (src[0]) {\n\t\t\t\t let t = src[0].replace(/src/i, \"href\");\n\t\t\t\t }*/\n\t\t\t}\n\t\t\treturn imgSrcArr;\n\t\t}else{\n\t\t\treturn '';\n\t\t}\n\n\t}\n}\nmodule.exports =commonFun;\n"
+    ]
+}

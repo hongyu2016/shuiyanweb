@@ -38,4 +38,3 @@ module.exports = class extends think.Model {
         });
     }
 };
-//# sourceMappingURL=news.js.map

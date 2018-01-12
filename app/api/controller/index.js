@@ -35,4 +35,3 @@ module.exports = class extends Base {
         })();
     }
 };
-//# sourceMappingURL=index.js.map

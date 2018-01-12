@@ -6,7 +6,7 @@ module.exports = [{
     immediate: true,
     /*handle: () => {
       }*/
-    handle: 'timing'
+    handle: '/timing'
 }, {
     cron: '0 */1 * * *',
     //handle: '/admin',

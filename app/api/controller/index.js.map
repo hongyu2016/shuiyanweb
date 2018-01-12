@@ -1,0 +1,33 @@
+{
+    "version": 3,
+    "sources": [
+        "..\\..\\..\\src\\api\\controller\\index.js"
+    ],
+    "names": [
+        "Base",
+        "require",
+        "module",
+        "exports",
+        "indexAction",
+        "indexData",
+        "intro",
+        "model",
+        "find",
+        "news",
+        "limit",
+        "order",
+        "select",
+        "json",
+        "success",
+        "errmsg",
+        "data",
+        "slideAction",
+        "slideList",
+        "datalist"
+    ],
+    "mappings": ";;AAAA,MAAMA,OAAOC,QAAQ,WAAR,CAAb;;AAEAC,OAAOC,OAAP,GAAiB,cAAcH,IAAd,CAAmB;AAC7BI,eAAN,GAAoB;AAAA;;AAAA;AACnB,gBAAIC,YAAU,EAAd;AACG,gBAAIC,QAAM,MAAM,MAAKC,KAAL,CAAW,WAAX,EAAwBC,IAAxB,EAAhB,CAFgB,CAEgC;AACnD,gBAAIC,OAAK,MAAM,MAAKF,KAAL,CAAW,MAAX,EAAmBG,KAAnB,CAAyB,CAAzB,EAA4BC,KAA5B,CAAkC,kBAAlC,EAAsDC,MAAtD,EAAf,CAHmB,CAG2D;AAC9EP,wBAAU,EAACC,OAAMA,KAAP,EAAaG,MAAKA,IAAlB,EAAV;AACA,kBAAKI,IAAL,CAAU;AACTC,yBAAQ,IADC;AAETC,wBAAO,MAFE;AAGTC,sBAAK;AACJX,+BAAUA;AADN;AAHI,aAAV;AALmB;AAYhB;AACKY,eAAN,GAAmB;AAAA;;AAAA;AACf,gBAAIC,YAAU,MAAM,OAAKX,KAAL,CAAW,WAAX,EACfI,KADe,CACT,cADS,EAEfD,KAFe,CAET,EAFS,EAELE,MAFK,EAApB;AAGA,mBAAKC,IAAL,CAAU;AACNC,yBAAQ,IADF;AAENC,wBAAO,MAFD;AAGNC,sBAAK;AACDG,8BAASD;AADR;AAHC,aAAV;AAJe;AAYlB;AA1B+B,CAApC",
+    "file": "..\\..\\..\\src\\api\\controller\\index.js",
+    "sourcesContent": [
+        "const Base = require('./base.js');\n\nmodule.exports = class extends Base {\n\tasync indexAction() {\n\t\tlet indexData=[];\n\t    let intro=await this.model('introduce').find(); //水研简介\n\t\tlet news=await this.model('news').limit(3).order('create_time DESC').select();//水研新闻\n\t\tindexData={intro:intro,news:news};\n\t\tthis.json({\n\t\t\tsuccess:true,\n\t\t\terrmsg:'获取成功',\n\t\t\tdata:{\n\t\t\t\tindexData:indexData\n\t\t\t}\n\t\t})\n    }\n    async slideAction(){\n        let slideList=await this.model('slideshow')\n            .order('slide_id ASC')\n            .limit(10).select();\n        this.json({\n            success:true,\n            errmsg:'获取成功',\n            data:{\n                datalist:slideList\n            }\n        })\n\n    }\n};\n"
+    ]
+}

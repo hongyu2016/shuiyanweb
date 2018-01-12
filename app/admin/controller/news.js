@@ -150,4 +150,3 @@ module.exports = class extends Base {
         })();
     }
 };
-//# sourceMappingURL=news.js.map

@@ -1,0 +1,32 @@
+{
+    "version": 3,
+    "sources": [
+        "..\\..\\..\\src\\admin\\controller\\base.js"
+    ],
+    "names": [
+        "module",
+        "exports",
+        "think",
+        "Controller",
+        "__before",
+        "userinfo",
+        "session",
+        "isEmpty",
+        "ctx",
+        "controller",
+        "redirect",
+        "menuList",
+        "model",
+        "order",
+        "select",
+        "commonFunion",
+        "newMenu",
+        "formatMenu",
+        "assign"
+    ],
+    "mappings": "AAAA;;;;;;;;AAA8D;AAC9DA,OAAOC,OAAP,GAAiB,cAAcC,MAAMC,UAApB,CAA+B;AACtCC,YAAN,GAAiB;AAAA;;AAAA;AACf,gBAAIC,WAAS,MAAM,MAAKC,OAAL,CAAa,UAAb,CAAnB;AACA,gBAAGJ,MAAMK,OAAN,CAAcF,QAAd,CAAH,EAA2B;AACvB,oBAAG,MAAKG,GAAL,CAASC,UAAT,IAAuB,OAA1B,EAAkC;AAC9B,2BAAO,MAAKC,QAAL,CAAc,cAAd,CAAP;AACH;AACJ,aAJD,MAIM;AACF,oBAAIC,WAAS,MAAM,MAAKC,KAAL,CAAW,MAAX,EAAmBC,KAAnB,CAAyB,6BAAzB,EAAwDC,MAAxD,EAAnB,CADE,CACmF;AACxF,oBAAIC,eAAa,+BAAjB,CAFK,CAE6B;AAC/B,oBAAIC,UAAQD,aAAaE,UAAb,CAAwBN,QAAxB,CAAZ;AACA,sBAAKO,MAAL,CAAY;AACR,+BAAUF,OADF,EACW;AACnB,gCAAWX,QAFH,CAEW;AAFX,iBAAZ;AAIH;AAdc;AAelB;AAhB6C,CAAhD",
+    "file": "..\\..\\..\\src\\admin\\controller\\base.js",
+    "sourcesContent": [
+        "import commonFun from \"../common_function/common_function.js\";//自定义类 里面有自定义函数\nmodule.exports = class extends think.Controller {\n    async __before() {\n      let userinfo=await this.session('userinfo');\n      if(think.isEmpty(userinfo)){\n          if(this.ctx.controller != 'login'){\n              return this.redirect('/admin/login');\n          }\n      }else {\n          let menuList=await this.model('menu').order('menu_id ASC, menu_name DESC').select(); //从数据库取出菜单\n\t      let commonFunion=new commonFun(); //需要new一下才能用\n          let newMenu=commonFunion.formatMenu(menuList);\n          this.assign({\n              'newMenu':newMenu, //赋值菜单\n              'userinfo':userinfo//赋值用户登陆session\n          });\n      }\n  }\n};\n"
+    ]
+}
