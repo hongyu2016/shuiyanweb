@@ -18,6 +18,7 @@ module.exports = class extends think.Model {
             intro: data.intro,
             content: data.content,
             author: data.author,
+            thumb: data.thumb,
             copyfrom: data.copyfrom,
             create_time: date
         });
@@ -31,8 +32,10 @@ module.exports = class extends think.Model {
             intro: data.intro,
             content: data.content,
             author: data.author,
+            thumb: data.thumb,
             copyfrom: data.copyfrom,
             update_time: date
         });
     }
 };
+//# sourceMappingURL=news.js.map

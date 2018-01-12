@@ -26,7 +26,15 @@
                 {% for list in news_list.data%}
                     <tr>
                         <td>{{loop.index}}</td> <!--当前循环数-->
-                        <td>{{list.thumb}}</td>
+                        <td>
+                            {% if list.thumb %}
+                            <div class="table-img-box">
+                                <img class="table-img" src="{{list.thumb}}"/>
+                            </div>
+                            {% else %}
+                            <img class="table-img" src="/static/images/nopic.gif"/>
+                            {% endif %}
+                        </td>
                         <td>{{list.sort_name}}</td>
                         <td>{{list.title}}</td>
                         <td>{{list.author}}</td>

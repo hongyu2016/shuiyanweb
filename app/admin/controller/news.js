@@ -1,8 +1,15 @@
+var _common_function = require('../common_function/common_function.js');
+
+var _common_function2 = _interopRequireDefault(_common_function);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
 //const ThinkUeditor=require('think-ueditor');
 const ThinkUeditor = require('../common_function/ueditor/index'); //引入本地的文件 方便修改配置 **百度编辑器
 const pagination = require('think-pagination');
+//自定义类 里面有自定义函数
 const Base = require('./base.js');
 
 module.exports = class extends Base {
@@ -88,6 +95,11 @@ module.exports = class extends Base {
                     _this3.fail(403, '文章内容不能为空');
                     return false;
                 }
+                //取出内容中的img 标签 地址
+
+                let commonFunion = new _common_function2.default(); //需要new一下才能用
+                let imgSrc = commonFunion.getSrc(content);
+
                 let data = {
                     sort: sort,
                     title: title,
@@ -95,7 +107,8 @@ module.exports = class extends Base {
                     intro: intro,
                     author: author,
                     content: content,
-                    copyfrom: copyfrom
+                    copyfrom: copyfrom,
+                    thumb: imgSrc[0] //取内容的第一张图片为缩略图
                 };
 
                 if (editId) {
@@ -137,3 +150,4 @@ module.exports = class extends Base {
         })();
     }
 };
+//# sourceMappingURL=news.js.map

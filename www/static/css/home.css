@@ -31,9 +31,21 @@
     margin-top: 5px;
     border-radius: 3px;
 }
+.table-img-box{
+    width: 100px;
+    height: 60px;
+    overflow: hidden;
+    position: relative;
+}
 .table-img{
     width: 100px;
     border: 1px solid #eee;
+}
+.table-img-box .table-img{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
 }
 /*图片上传*/
 .uploader-list{
