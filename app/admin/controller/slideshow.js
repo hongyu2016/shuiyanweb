@@ -91,7 +91,7 @@ module.exports = class extends Base {
 
                 //处理缩略图
                 Jimp.read(datuPath).then(function (lenna) {
-                    lenna.cover(320, 160) // resize
+                    lenna.cover(320, 320) // resize
                     .quality(60) // set JPEG quality
                     .autocrop().write(`${think.ROOT_PATH}/www/static/upload/slideshow/${YYYYMMDD}/${path.basename(filepath)}_thumb.${nameArr[1]}`); // save
                 }).catch(function (err) {
