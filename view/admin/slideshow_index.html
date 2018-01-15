@@ -2,7 +2,7 @@
 {% block main %}
     <div class="operate">
         <div class="btn-group">
-            <a href="/slideshow/add" class="btn btn-info btn-flat">添加轮播图</a>
+            <a href="/slideshow/add" class="btn btn-info btn-flat">添加图片</a>
         </div>
     </div>
     <div class="box-body table-responsive no-padding">
@@ -11,6 +11,7 @@
                 <tr>
                     <td>序号</td>
                     <td>标题</td>
+                    <td>是否轮播图</td>
                     <td>图片</td>
                     <td>跳转链接</td>
                     <td>轮播图描述</td>
@@ -21,14 +22,28 @@
 
                 {% if slide_list.length>0 %}
                     {% for list in slide_list%}
-                        <tr>
+                        <tr data-slide="{{list.is_slide}}">
                             <td>{{loop.index}}</td> <!--当前循环数-->
                             <td>{{list.slide_title}}</td>
-                            <td><img src="{{list.slide_thumb}}" class="table-img"></td>
+                            <td>
+                                {% if list.is_slide=='1' %}
+                                <span class="text-red">是</span>
+                                {% else %}
+                                否
+                                {% endif%}
+                            </td>
+                            <td>
+                                {% if list.slide_thumb %}
+                                <img src="{{list.slide_thumb}}" class="table-img">
+                                {% else %}
+                                <img class="table-img" src="/static/images/nopic.gif"/>
+                                {% endif %}
+                            </td>
                             <td>{{list.slide_jumpurl}}</td>
                             <td>{{list.slide_text}}</td>
                             <td>
                                 <button type="button" class="btn btn-info btn-sm edit" data-id="{{list.slide_id}}">查看编辑</button>
+                                <button type="button" class="btn btn-info btn-sm set-slide" data-id="{{list.slide_id}}">{{'取消轮播图' if list.is_slide=='1' else '设置轮播图'}}</button>
                                 <button type="button" class="btn btn-warning btn-sm delete" data-id="{{list.slide_id}}">删除</button>
                             </td>
                         </tr>
@@ -77,6 +92,48 @@
                 });
 
             });
+            /*
+            * 更改轮播状态
+            * */
+            $('.set-slide').off('click').on('click',function (e) {
+	            var that=this;
+	            var title='';
+	            var isSlide;
+	            var isLide=$(this).closest('tr').attr('data-slide');
+	            var count=$(this).closest('table').find('.text-red');
+	            if(isLide=='1'){
+		            title='您将要取消轮播图设置';
+		            isSlide='0';
+                }else {
+		            title='您将要设置该图为轮播图';
+		            isSlide='1';
+		            if(count.length>=5){
+			            layer.msg('轮播图最多只能设置5个，请先取消其他已设置的轮播图');
+			            return false;
+		            }
+                }
+	            layer.confirm(title, {
+		            btn: ['确定','取消']
+	            }, function(){
+		            var id=$(that).attr('data-id');
+		            loading=layer.load(2);
+		            $.get('/slideshow/setslide',{'slide-id':Number(id),'is_slide':isSlide},function (data) {
+			            if(data.errno==0){
+				            layer.close(loading);
+				            layer.msg(data.errmsg);
+				            setTimeout(function () {
+					            window.location.reload();
+				            },1500)
+
+			            }else {
+				            layer.close(loading);
+				            layer.msg(data.errmsg);
+			            }
+		            },'json')
+	            }, function(){
+
+	            });
+            })
         })
     </script>
 

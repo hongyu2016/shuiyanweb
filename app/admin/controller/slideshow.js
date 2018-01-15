@@ -14,7 +14,7 @@ module.exports = class extends Base {
         super(...args); //调用父级的 constructor 方法
         this.modelInstance = this.model('slideshow'); //增加一个方法
     }
-    /*轮播图列表*/
+    /*图片列表*/
     indexAction() {
         var _this = this;
 
@@ -38,7 +38,7 @@ module.exports = class extends Base {
         })();
     }
     /*
-    * 增加轮播图
+    * 增加图片
     * */
     addAction() {
         var _this2 = this;
@@ -128,13 +128,13 @@ module.exports = class extends Base {
             const param = _this4.ctx.param();
 
             if (isGet) {
-
                 let editId = param.editId;
                 let title = param.title;
                 let descrition = param.descrition;
                 let jumpUrl = param.jumpUrl;
                 let img_path = param.img_path;
                 let img_path_thumb = param.img_path_thumb;
+                let is_slide = param.isslide;
                 if (!title || title == '') {
                     _this4.fail(403, '轮播图标题不能为空');
                     return false;
@@ -152,7 +152,8 @@ module.exports = class extends Base {
                     slide_img: img_path,
                     slide_text: descrition,
                     slide_jumpurl: jumpUrl,
-                    slide_thumb: img_path_thumb
+                    slide_thumb: img_path_thumb,
+                    is_slide: is_slide
                 };
 
                 if (editId != 0) {
@@ -171,6 +172,12 @@ module.exports = class extends Base {
 
                     //更新数据
                     let slideId = yield _this4.modelInstance.where({ 'slide_id': editId }).editSlide(data);
+                    let isSlide = yield _this4.modelInstance.where({ 'is_slide': '1' }).field('is_slide').count(); //设置为轮播图的数量 最多只能设置5
+                    if (isSlide >= 5) {
+                        _this4.fail(403, '轮播图最多只能设置5个，请先取消其他已设置的轮播图');
+                        return false;
+                    }
+
                     if (!slideId) {
                         _this4.fail(403, '编辑文章失败');
                     } else {
@@ -179,6 +186,11 @@ module.exports = class extends Base {
                 } else {
                     //新增
                     let slideId = yield _this4.modelInstance.addSlide(data);
+                    let isSlide = yield _this4.modelInstance.where({ 'is_slide': '1' }).field('is_slide').count(); //设置为轮播图的数量 最多只能设置5
+                    if (isSlide >= 5) {
+                        _this4.fail(403, '轮播图最多只能设置5个，请先取消其他已设置的轮播图');
+                        return false;
+                    }
                     if (!slideId) {
                         _this4.fail(403, '添加轮播图失败');
                     } else {
@@ -191,7 +203,7 @@ module.exports = class extends Base {
         })();
     }
     /*
-    * 删除轮播图 @同时需要删除对应的已经上传的图片
+    * 删除图片记录 @同时需要删除对应的已经上传的图片
     * */
     deleteAction() {
         var _this5 = this;
@@ -222,5 +234,30 @@ module.exports = class extends Base {
             }
         })();
     }
+    /*
+    * 设置为轮播图
+    * */
+    setslideAction() {
+        var _this6 = this;
+
+        return _asyncToGenerator(function* () {
+            let id = _this6.get('slide-id');
+            let is_slide = _this6.get('is_slide');
+            if (is_slide == '1') {
+                let isSlide = yield _this6.modelInstance.where({ 'is_slide': '1' }).field('is_slide').count(); //设置为轮播图的数量 最多只能设置5
+                if (isSlide >= 5) {
+                    _this6.fail(403, '轮播图最多只能设置5个，请先取消其他已设置的轮播图');
+                    return false;
+                }
+            }
+            let thisRecord = yield _this6.modelInstance.where({ 'slide_id': id }).update({ 'is_slide': is_slide });
+            if (!thisRecord) {
+                _this6.fail(403, '更改轮播图状态失败');
+            } else {
+                _this6.success({ data: thisRecord }, '更改轮播图状态成功');
+            }
+        })();
+    }
 
 };
+//# sourceMappingURL=slideshow.js.map

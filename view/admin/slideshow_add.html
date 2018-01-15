@@ -23,6 +23,16 @@
             </div>
         </div>
         <div class="form-group">
+            <label for="slide-url" class="col-md-2 col-sm-2 control-label">设置为首页轮播图</label>
+            <div class="col-lg-8 col-md-8 col-sm-10">
+                <label style="font-weight: 100;padding-top: 7px;">
+                    <input type="checkbox" class="flat-red isslide">
+                    （首页轮播图最多允许为5张）
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group">
             <label for="" class="col-md-2 col-sm-2 control-label">图片上传</label>
             <div class="col-lg-8 col-md-8 col-sm-10">
                 <!--<input type="file" class="form-control" id="slide-upload" name="slide-upload">-->
@@ -60,6 +70,11 @@
 <script src="/static/js/web-uploader/dist/webuploader.js"></script>
 <script>
     $(function () {
+    	//radio checkbox
+	    $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
+		    checkboxClass: 'icheckbox_flat-blue',
+		    radioClass   : 'iradio_flat-blue'
+	    });
         /*
          * 百度上传插件
          * */
@@ -193,6 +208,11 @@
             var jumpUrl = $.trim($('#slide-url').val());
             var img_path = $('#fileList').find('.file-item').attr('up_img_url');
             var img_path_thumb = $('#fileList').find('.file-item').attr('up_img_url_thumb');
+            var isslide='0';
+            if($('.isslide').prop('checked')){
+	            isslide='1';  //1为设置为轮播图
+            }
+
             var cn_reg =  /[^\u4e00-\u9fa5]/;
             if (!title) {
                 layer.msg('请输入图片标题');
@@ -216,7 +236,8 @@
                 jumpUrl: jumpUrl,
                 img_path: img_path,
                 img_path_thumb:img_path_thumb,
-                editId: editId
+                editId: editId,
+	            isslide:isslide
             };
 
             loading=layer.load(2);
