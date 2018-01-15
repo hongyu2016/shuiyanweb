@@ -260,4 +260,3 @@ module.exports = class extends Base {
     }
 
 };
-//# sourceMappingURL=slideshow.js.map
