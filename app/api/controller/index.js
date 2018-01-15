@@ -12,13 +12,21 @@ module.exports = class extends Base {
 			let news = yield _this.model('news').limit(3).order('create_time DESC').select(); //水研新闻
 
 			indexData = { intro: intro, news: news };
-			_this.json({
-				success: true,
-				errmsg: '获取成功',
-				data: {
-					indexData: indexData
-				}
-			});
+			if (intro && news) {
+				_this.json({
+					success: true,
+					errmsg: '获取成功',
+					data: {
+						indexData: indexData
+					}
+				});
+			} else {
+				_this.json({
+					success: true,
+					errmsg: '获取失败',
+					data: []
+				});
+			}
 		})();
 	}
 	/*
@@ -29,11 +37,36 @@ module.exports = class extends Base {
 
 		return _asyncToGenerator(function* () {
 			let slideList = yield _this2.model('slideshow').where({ 'is_slide': '1' }).order('slide_id ASC').limit(10).select();
-			_this2.json({
+			if (slideList) {
+				_this2.json({
+					success: true,
+					errmsg: '获取成功',
+					data: {
+						datalist: slideList
+					}
+				});
+			} else {
+				_this2.json({
+					success: true,
+					errmsg: '获取失败',
+					data: []
+				});
+			}
+		})();
+	}
+	/*
+ * 公告
+ * */
+	noticeAction() {
+		var _this3 = this;
+
+		return _asyncToGenerator(function* () {
+			let notice = yield _this3.model('news').join('sy_news_sort ON sy_news_sort.sort_id=sy_news.sort_id').limit(20).order('sy_news.create_time DESC').select();
+			_this3.json({
 				success: true,
 				errmsg: '获取成功',
 				data: {
-					datalist: slideList
+					datalist: notice
 				}
 			});
 		})();
@@ -42,17 +75,25 @@ module.exports = class extends Base {
  * 图库
  * */
 	piclistAction() {
-		var _this3 = this;
+		var _this4 = this;
 
 		return _asyncToGenerator(function* () {
-			let slideList = yield _this3.model('slideshow').where({ 'is_slide': '0' }).order('slide_id ASC').limit(12).select();
-			_this3.json({
-				success: true,
-				errmsg: '获取成功',
-				data: {
-					datalist: slideList
-				}
-			});
+			let slideList = yield _this4.model('slideshow').where({ 'is_slide': '0' }).order('slide_id ASC').limit(12).select();
+			if (slideList) {
+				_this4.json({
+					success: true,
+					errmsg: '获取成功',
+					data: {
+						datalist: slideList
+					}
+				});
+			} else {
+				_this4.json({
+					success: true,
+					errmsg: '获取失败',
+					data: []
+				});
+			}
 		})();
 	}
 };

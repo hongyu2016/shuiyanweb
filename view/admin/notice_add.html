@@ -1,0 +1,83 @@
+{% extends "./base.html" %}
+{% block main %}
+    <script src="/static/js/ueditor/ueditor.config.js"></script>
+    <script src="/static/js/ueditor/ueditor.all.min.js"></script>
+    <script src="/static/js/ueditor/lang/zh-cn/zh-cn.js"></script>
+    <form action="/news/uploadimage" method="get" class="form-horizontal" name="upfile">
+        <div class="box-body">
+            <div class="form-group">
+                <label for="title" class="col-md-1 col-sm-2 control-label"><i class="star">*</i>公告标题</label>
+                <div class="col-lg-4 col-md-6 col-sm-10">
+                    <input type="text" class="form-control" id="title" placeholder="公告标题" value="{{data.notice_title}}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="author" class="col-md-1 col-sm-2 control-label">发布人</label>
+                <div class="col-lg-4 col-md-6 col-sm-10">
+                    <input type="text" class="form-control" id="author" placeholder="发布人" value="{{data.notice_author}}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="content" class="col-md-1 col-sm-2 control-label">公告内容</label>
+                <div class="col-lg-4 col-md-6 col-sm-10">
+                    <textarea class="form-control" id="content" rows="5" placeholder="公告内容">{{data.notice_content}}</textarea>
+                </div>
+            </div>
+
+        </div>
+        <div class="box-footer">
+            <div class="col-md-offset-1 col-sm-offset-2">
+                {% if newsData %}
+                <button type="button" class="btn btn-default" onclick="javascript:window.history.back();">返回</button>
+                {% endif %}
+                <button type="submit" class="btn btn-success" id="push-btn" style="margin-left: 20px;">确定</button>
+            </div>
+        </div>
+        <div id="edit-content" style="display: none;"></div>
+
+    </form>
+    <script>
+        $(function () {
+            $('#push-btn').click(function (e) {
+                var editId=GetQueryString('notice-id');//是否是编辑
+                if(!editId){
+                    editId=0
+                }
+                e.preventDefault();
+                var title=$.trim($('#title').val());
+                var author=$.trim($('#author').val());
+	            var content=$.trim($('#content').val());
+                if(!title){
+                	layer.msg('请输入标题');
+	                return false;
+                }
+	            if(!content){
+		            layer.msg('请输入内容');
+		            return false;
+	            }
+                var postData={
+	                title:title,
+	                content:content,
+	                author:author,
+	                edit:editId
+                };
+                loading=layer.load(2);
+                $.post('/notice/doadd',postData,function (data) {
+                    if(data.success==true){
+                        layer.close(loading);
+                        layer.msg(data.errmsg);
+                        setTimeout(function () {
+                            window.location.href='/notice/index?menu_id=10';
+                        },2000)
+                    }else{
+                        layer.close(loading);
+                        layer.msg(data.errmsg);
+                    }
+                },'json');
+
+            });
+
+        })
+    </script>
+
+{% endblock%}

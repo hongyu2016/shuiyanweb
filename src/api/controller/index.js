@@ -7,13 +7,22 @@ module.exports = class extends Base {
 		let news=await this.model('news').limit(3).order('create_time DESC').select();//水研新闻
 
 		indexData={intro:intro,news:news};
-		this.json({
-			success:true,
-			errmsg:'获取成功',
-			data:{
-				indexData:indexData
-			}
-		})
+		if(intro&&news){
+			this.json({
+				success:true,
+				errmsg:'获取成功',
+				data:{
+					indexData:indexData
+				}
+			})
+		}else {
+			this.json({
+				success:true,
+				errmsg:'获取失败',
+				data:[]
+			})
+		}
+
     }
     /*
     * 轮播图
@@ -23,14 +32,35 @@ module.exports = class extends Base {
             .where({'is_slide':'1'})
             .order('slide_id ASC')
             .limit(10).select();
-        this.json({
-            success:true,
-            errmsg:'获取成功',
-            data:{
-                datalist:slideList
-            }
-        })
+        if(slideList){
+	        this.json({
+		        success:true,
+		        errmsg:'获取成功',
+		        data:{
+			        datalist:slideList
+		        }
+	        })
+        }else{
+	        this.json({
+		        success:true,
+		        errmsg:'获取失败',
+		        data:[]
+	        })
+        }
 
+    }
+    /*
+    * 公告
+    * */
+    async noticeAction(){
+	    let notice=await this.model('news').join('sy_news_sort ON sy_news_sort.sort_id=sy_news.sort_id').limit(20).order('sy_news.create_time DESC').select()
+	    this.json({
+		    success:true,
+		    errmsg:'获取成功',
+		    data:{
+			    datalist:notice
+		    }
+	    })
     }
     /*
     * 图库
@@ -40,12 +70,21 @@ module.exports = class extends Base {
 	    .where({'is_slide':'0'})
 	    .order('slide_id ASC')
 	    .limit(12).select();
-	    this.json({
-		    success:true,
-		    errmsg:'获取成功',
-		    data:{
-			    datalist:slideList
-		    }
-	    })
+	    if(slideList){
+		    this.json({
+			    success:true,
+			    errmsg:'获取成功',
+			    data:{
+				    datalist:slideList
+			    }
+		    })
+	    }else{
+		    this.json({
+			    success:true,
+			    errmsg:'获取失败',
+			    data:[]
+		    })
+	    }
+
     }
 };
