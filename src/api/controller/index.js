@@ -53,13 +53,11 @@ module.exports = class extends Base {
     * 公告
     * */
     async noticeAction(){
-	    let notice=await this.model('news').join('sy_news_sort ON sy_news_sort.sort_id=sy_news.sort_id').limit(20).order('sy_news.create_time DESC').select()
+	    let notice=await this.model('notice').limit(20).order('create_time DESC').select();
 	    this.json({
 		    success:true,
 		    errmsg:'获取成功',
-		    data:{
-			    datalist:notice
-		    }
+		    data:notice
 	    })
     }
     /*

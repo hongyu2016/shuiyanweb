@@ -61,13 +61,11 @@ module.exports = class extends Base {
 		var _this3 = this;
 
 		return _asyncToGenerator(function* () {
-			let notice = yield _this3.model('news').join('sy_news_sort ON sy_news_sort.sort_id=sy_news.sort_id').limit(20).order('sy_news.create_time DESC').select();
+			let notice = yield _this3.model('notice').limit(20).order('create_time DESC').select();
 			_this3.json({
 				success: true,
 				errmsg: '获取成功',
-				data: {
-					datalist: notice
-				}
+				data: notice
 			});
 		})();
 	}
