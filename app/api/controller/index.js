@@ -1,7 +1,6 @@
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
 const Base = require('./base.js');
-
 module.exports = class extends Base {
 	indexAction() {
 		var _this = this;
@@ -10,6 +9,10 @@ module.exports = class extends Base {
 			let indexData = [];
 			let intro = yield _this.model('introduce').find(); //水研简介
 			let news = yield _this.model('news').limit(3).order('create_time DESC').select(); //水研新闻
+
+			news.forEach(function (c, i, a) {
+				a[i].create_time = think.datetime(a[i].create_time, 'YYYY-MM-DD'); //返回年月日
+			});
 
 			indexData = { intro: intro, news: news };
 			if (intro && news) {
@@ -95,3 +98,4 @@ module.exports = class extends Base {
 		})();
 	}
 };
+//# sourceMappingURL=index.js.map

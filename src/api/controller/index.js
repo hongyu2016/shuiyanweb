@@ -1,10 +1,13 @@
 const Base = require('./base.js');
-
 module.exports = class extends Base {
 	async indexAction() {
 		let indexData=[];
 	    let intro=await this.model('introduce').find(); //水研简介
 		let news=await this.model('news').limit(3).order('create_time DESC').select();//水研新闻
+
+		news.forEach((c,i,a)=>{
+			a[i].create_time=think.datetime(a[i].create_time, 'YYYY-MM-DD'); //返回年月日
+		});
 
 		indexData={intro:intro,news:news};
 		if(intro&&news){
