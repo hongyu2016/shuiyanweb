@@ -5,7 +5,7 @@ module.exports = class extends Base {
 	    let intro=await this.model('introduce').find(); //水研简介
 		let news=await this.model('news').limit(3).order('create_time DESC').select();//水研新闻
 
-		news.forEach((c,i,a)=>{
+		news.forEach((c,i,a)=>{//c为当前值 i为索引 a为原数组
 			a[i].create_time=think.datetime(a[i].create_time, 'YYYY-MM-DD'); //返回年月日
 		});
 

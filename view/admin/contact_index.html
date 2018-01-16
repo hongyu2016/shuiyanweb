@@ -1,0 +1,77 @@
+{% extends "./base.html" %}
+{% block main %}
+
+    <div class="box-body table-responsive no-padding">
+        <table class="table table-hover table-bordered">
+            <thead>
+                <tr>
+                    <td>序号</td>
+                    <td>联系邮箱</td>
+                    <td>联系姓名</td>
+                    <td>反馈内容</td>
+                    <td>提交时间</td>
+                    <td>操作</td>
+                </tr>
+            </thead>
+            <tbody>
+            {% if data.length>0 %}
+                {% for list in data%}
+                    <tr>
+                        <td>{{loop.index}}</td> <!--当前循环数-->
+                        <td>{{list.contact_email}}</td>
+                        <td>{{list.contact_name}}</td>
+                        <td>
+                            <div class="contact-content">
+                                {{list.contact_content}}
+                            </div>
+
+                        </td>
+                        <td>{{list.create_time}}</td>
+                        <td>
+                            <button type="button" class="btn btn-info btn-sm edit" data-id="{{list.notice_id}}">查看</button>
+
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="10" align="center">暂无公告信息</td>
+                </tr>
+            {% endif %}
+
+            </tbody>
+        </table>
+        {{ pagination | safe}}
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">反馈内容详情</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="contact_neirong"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function () {
+            /*
+            * 编辑文章
+            * */
+            $('.edit').off('click').on('click',function (e) {
+            	var neirong=$(this).closest('tr').find('.contact-content').text();
+            	$('#contact_neirong').text(neirong);
+	            $('#myModal').modal()
+            });
+
+        })
+    </script>
+
+{% endblock%}

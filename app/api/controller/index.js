@@ -11,6 +11,7 @@ module.exports = class extends Base {
 			let news = yield _this.model('news').limit(3).order('create_time DESC').select(); //水研新闻
 
 			news.forEach(function (c, i, a) {
+				//c为当前值 i为索引 a为原数组
 				a[i].create_time = think.datetime(a[i].create_time, 'YYYY-MM-DD'); //返回年月日
 			});
 
@@ -98,4 +99,3 @@ module.exports = class extends Base {
 		})();
 	}
 };
-//# sourceMappingURL=index.js.map

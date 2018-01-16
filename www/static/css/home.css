@@ -109,3 +109,41 @@
 .text-red{
  color: red;
 }
+.contact-content{
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+}
+@media (max-width: 576px){
+    .contact-content{
+        max-width: 100px;
+    }
+}
+@media screen and (min-width: 960px) and (max-width: 1199px) {
+    .contact-content{
+        max-width: 300px;
+    }
+}
+@media screen and (min-width: 1200px) and (max-width: 1499px) {
+    .contact-content{
+        max-width: 350px;
+    }
+}
+@media screen and (min-width: 1500px) and (max-width: 1799px) {
+    .contact-content{
+        max-width: 400px;
+    }
+}
+@media screen and (min-width: 1800px) and (max-width: 1920px) {
+    .contact-content{
+        max-width: 500px;
+    }
+}
+@media screen and (min-width:1921px){
+    .contact-content{
+        max-width: 500px;
+    }
+}
+

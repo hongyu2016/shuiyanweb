@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2018-01-15 17:34:40
+Date: 2018-01-16 16:30:55
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -38,6 +38,30 @@ CREATE TABLE `sy_admin` (
 -- Records of sy_admin
 -- ----------------------------
 INSERT INTO `sy_admin` VALUES ('1', 'admin', 'e10adc3949ba59abbe56e057f20f883e', '971976839@qq.com', '0', '0', '1510279012', '0', '2');
+
+-- ----------------------------
+-- Table structure for sy_contact
+-- ----------------------------
+DROP TABLE IF EXISTS `sy_contact`;
+CREATE TABLE `sy_contact` (
+  `contact_id` int(11) NOT NULL AUTO_INCREMENT,
+  `contact_email` varchar(25) DEFAULT NULL COMMENT '邮箱',
+  `contact_name` varchar(25) DEFAULT NULL COMMENT '姓名',
+  `contact_content` varchar(255) DEFAULT NULL COMMENT '反馈内容',
+  `create_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`contact_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of sy_contact
+-- ----------------------------
+INSERT INTO `sy_contact` VALUES ('1', '971976839@qq.com', '事实上', '合法规范合格', '2018-01-16 14:23:13');
+INSERT INTO `sy_contact` VALUES ('10', '971976839@qq.com', 'lhy', '多福多寿订单', '2018-01-16 14:34:09');
+INSERT INTO `sy_contact` VALUES ('11', '971976839@qq.com', '试试', '辅导费', '2018-01-16 14:37:09');
+INSERT INTO `sy_contact` VALUES ('12', '971976839@qq.com', '啊啊', '舒服舒服', '2018-01-16 14:38:17');
+INSERT INTO `sy_contact` VALUES ('13', '971976839@qq.com', '是的吧', '是否发放对方答复', '2018-01-16 14:41:45');
+INSERT INTO `sy_contact` VALUES ('14', '971976839@qq.com', '这是一条测试吧', '我要反馈一些内容，希望你们能及时处理', '2018-01-16 15:14:02');
+INSERT INTO `sy_contact` VALUES ('15', '971976839@qq.com', 'lhy', '发送到丰富的', '2018-01-16 15:22:27');
 
 -- ----------------------------
 -- Table structure for sy_introduce
@@ -68,7 +92,7 @@ CREATE TABLE `sy_menu` (
   `parent_menu` int(11) NOT NULL COMMENT '一级菜单的parentmenu为-1，其他值则表示子菜单此时parentmenu的值就是菜单表的主键',
   `icon_class` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`menu_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sy_menu
@@ -82,16 +106,14 @@ INSERT INTO `sy_menu` VALUES ('6', '一级菜单管理', '', null, '9', 'fa fa-f
 INSERT INTO `sy_menu` VALUES ('7', '管理员管理', '', null, '-1', 'fa fa-gift');
 INSERT INTO `sy_menu` VALUES ('8', '角色管理', '', null, '-1', 'fa fa-glass');
 INSERT INTO `sy_menu` VALUES ('9', '菜单管理', '', null, '-1', 'fa fa-sort');
-INSERT INTO `sy_menu` VALUES ('10', '通知公告', '/notice/index?menu_id=10', null, '-1', 'fa fa-map');
-INSERT INTO `sy_menu` VALUES ('11', '水研新闻', '', null, '-1', 'fa fa-photo');
-INSERT INTO `sy_menu` VALUES ('14', '发布新闻', '/news/add?menu_id=14', null, '11', 'fa fa-tags');
-INSERT INTO `sy_menu` VALUES ('15', '新闻列表', '/news/index?menu_id=15', null, '11', 'fa fa-taxi');
+INSERT INTO `sy_menu` VALUES ('10', '通知公告', '/notice/index?menu_id=10', null, '22', 'fa fa-map');
+INSERT INTO `sy_menu` VALUES ('15', '水研新闻', '/news/index?menu_id=15', null, '22', 'fa fa-taxi');
 INSERT INTO `sy_menu` VALUES ('16', '系统设置', '', null, '-1', 'fa fa-star');
-INSERT INTO `sy_menu` VALUES ('17', '新闻分类', '', null, '-1', 'fa fa-star');
-INSERT INTO `sy_menu` VALUES ('18', '添加分类', '/news_sort/add?menu_id=18', null, '17', 'fa fa-star');
-INSERT INTO `sy_menu` VALUES ('19', '分类列表', '/news_sort/index?menu_id=19', null, '17', 'fa fa-star');
-INSERT INTO `sy_menu` VALUES ('20', '图库管理', '/slideshow/index?menu_id=20', null, '-1', 'fa fa-photo');
-INSERT INTO `sy_menu` VALUES ('21', '水研介绍', '/introduce/add?menu_id=21', null, '-1', 'fa fa-photo');
+INSERT INTO `sy_menu` VALUES ('19', '新闻分类', '/news_sort/index?menu_id=19', null, '22', 'fa fa-star');
+INSERT INTO `sy_menu` VALUES ('20', '图库管理', '/slideshow/index?menu_id=20', null, '22', 'fa fa-photo');
+INSERT INTO `sy_menu` VALUES ('21', '水研介绍', '/introduce/add?menu_id=21', null, '22', 'fa fa-photo');
+INSERT INTO `sy_menu` VALUES ('22', '内容管理', '', null, '-1', 'fa fa-star');
+INSERT INTO `sy_menu` VALUES ('23', '联系我们', '/contact/index?menu_id=23', null, '22', 'fa fa-taxi');
 
 -- ----------------------------
 -- Table structure for sy_news
@@ -164,7 +186,7 @@ CREATE TABLE `sy_notice` (
   `notice_author` varchar(50) DEFAULT NULL COMMENT '发布人',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`notice_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sy_notice
