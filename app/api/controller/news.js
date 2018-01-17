@@ -6,28 +6,57 @@ module.exports = class extends Base {
 	indexAction() {
 		return _asyncToGenerator(function* () {})();
 	}
-	detailAction() {
+	newslistAction() {
 		var _this = this;
 
 		return _asyncToGenerator(function* () {
-			let id = _this.get('news_id');
-			if (!id) {
+			if (_this.isGet) {
+				let pageIndex = _this.get('page');
+				const data = yield _this.model('news').list(pageIndex); ////  两个表的字段重复了
+				if (data) {
+					_this.json({
+						success: true,
+						errmsg: '获取文章列表成功',
+						data: data
+					});
+				} else {
+					_this.json({
+						success: true,
+						errmsg: '获取文章列表失败',
+						data: []
+					});
+				}
+			} else {
 				_this.json({
+					success: true,
+					errmsg: '请使用get方法',
+					data: []
+				});
+			}
+		})();
+	}
+	detailAction() {
+		var _this2 = this;
+
+		return _asyncToGenerator(function* () {
+			let id = _this2.get('news_id');
+			if (!id) {
+				_this2.json({
 					success: true,
 					errmsg: '文章id不能为空',
 					data: []
 				});
 				return false;
 			}
-			let detail = yield _this.model('news').where({ article_id: id }).find();
+			let detail = yield _this2.model('news').where({ article_id: id }).find();
 			if (detail) {
-				_this.json({
+				_this2.json({
 					success: true,
 					errmsg: '获取文章成功',
 					data: detail
 				});
 			} else {
-				_this.json({
+				_this2.json({
 					success: true,
 					errmsg: '获取文章失败',
 					data: []
@@ -36,3 +65,4 @@ module.exports = class extends Base {
 		})();
 	}
 };
+//# sourceMappingURL=news.js.map
