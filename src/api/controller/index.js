@@ -88,4 +88,23 @@ module.exports = class extends Base {
 	    }
 
     }
+    /*
+    * 友情链接
+    * */
+    async friendlinkAction(){
+    	let data=await this.model('friendlink').select();
+    	if(data){
+		    this.json({
+			    success:true,
+			    errmsg:'获取成功',
+			    data:data
+		    })
+	    }else{
+		    this.json({
+			    success:true,
+			    errmsg:'获取失败',
+			    data:[]
+		    })
+	    }
+    }
 };

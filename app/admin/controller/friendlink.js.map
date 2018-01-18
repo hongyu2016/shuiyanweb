@@ -1,0 +1,46 @@
+{
+    "version": 3,
+    "sources": [
+        "..\\..\\..\\src\\admin\\controller\\friendlink.js"
+    ],
+    "names": [
+        "Base",
+        "require",
+        "module",
+        "exports",
+        "constructor",
+        "args",
+        "modelInstance",
+        "model",
+        "indexAction",
+        "data",
+        "select",
+        "assign",
+        "display",
+        "addAction",
+        "id",
+        "get",
+        "where",
+        "find",
+        "addfriendlinkAction",
+        "isGet",
+        "reg",
+        "friendlink_name",
+        "friendlink_url",
+        "editId",
+        "json",
+        "success",
+        "errmsg",
+        "test",
+        "friendid",
+        "update",
+        "add",
+        "think",
+        "datetime"
+    ],
+    "mappings": ";;AAAA;;;AAGA,MAAMA,OAAKC,QAAQ,QAAR,CAAX;AACAC,OAAOC,OAAP,GAAiB,cAAcH,IAAd,CAAmB;AAChC;;;AAGAI,aAAY,GAAGC,IAAf,EAAqB;AACjB,QAAM,GAAGA,IAAT,EADiB,CACF;AACf,OAAKC,aAAL,GAAqB,KAAKC,KAAL,CAAW,YAAX,CAArB,CAFiB,CAE8B;AAClD;AACD;;;AAGMC,YAAN,GAAoB;AAAA;;AAAA;AAChB;AACA,OAAIC,OAAK,MAAM,MAAKH,aAAL,CAAmBI,MAAnB,EAAf;AACA,SAAKC,MAAL,CAAY,MAAZ,EAAmBF,IAAnB;AACA,UAAO,MAAKG,OAAL,EAAP;AAJgB;AAKnB;AACKC,UAAN,GAAiB;AAAA;;AAAA;AAChB,OAAIC,KAAG,OAAKC,GAAL,CAAS,eAAT,CAAP;AACA,OAAGD,EAAH,EAAM;AACL,QAAIL,OAAK,MAAM,OAAKH,aAAL,CAAmBU,KAAnB,CAAyB,EAAC,iBAAgBF,EAAjB,EAAzB,EAA+CG,IAA/C,EAAf;AACA,WAAKN,MAAL,CAAY,MAAZ,EAAmBF,IAAnB;AACA;;AAED,UAAO,OAAKG,OAAL,EAAP;AAPgB;AAQhB;AACKM,oBAAN,GAA2B;AAAA;;AAAA;AAC1B,OAAG,OAAKC,KAAR,EAAc;AACb,QAAIC,MAAI,0FAAR;AACA,QAAIC,kBAAgB,OAAKN,GAAL,CAAS,iBAAT,CAApB;AACA,QAAIO,iBAAe,OAAKP,GAAL,CAAS,gBAAT,CAAnB;AACA,QAAIQ,SAAO,OAAKR,GAAL,CAAS,QAAT,CAAX;AACA,QAAG,CAACM,eAAD,IAAkB,CAACC,cAAtB,EAAqC;AACpC,YAAKE,IAAL,CAAU;AACTC,eAAQ,IADC;AAETC,cAAO,YAFE;AAGTjB,YAAK;AAHI,MAAV;AAKA,YAAO,KAAP;AACA;AACD,QAAG,CAACW,IAAIO,IAAJ,CAASL,cAAT,CAAJ,EAA6B;AAC5B,YAAKE,IAAL,CAAU;AACTC,eAAQ,IADC;AAETC,cAAO,YAFE;AAGTjB,YAAK;AAHI,MAAV;AAKA,YAAO,KAAP;AACA;AACD,QAAGc,UAAQ,GAAR,IAAeA,UAAQ,CAA1B,EAA4B;AAC3B;AACA,SAAIK,WAAS,MAAM,OAAKrB,KAAL,CAAW,YAAX,EAClBS,KADkB,CACZ,EAAC,iBAAgBO,MAAjB,EADY,EAElBM,MAFkB,CAEX;AACP,yBAAkBR,eADX;AAEP,wBAAiBC;AAFV,MAFW,CAAnB;AAMA,SAAGM,QAAH,EAAY;AACX,aAAKJ,IAAL,CAAU;AACTC,gBAAQ,IADC;AAETC,eAAO,MAFE;AAGTjB,aAAKmB;AAHI,OAAV;AAKA,MAND,MAMK;AACJ,aAAKJ,IAAL,CAAU;AACTC,gBAAQ,IADC;AAETC,eAAO,MAFE;AAGTjB,aAAK;AAHI,OAAV;AAKA;AACD,KArBD,MAqBK;AACJ,SAAImB,WAAS,MAAM,OAAKrB,KAAL,CAAW,YAAX,EAClBuB,GADkB,CACd;AACJ,yBAAkBT,eADd;AAEJ,wBAAiBC,cAFb;AAGJ,qBAAcS,MAAMC,QAAN;AAHV,MADc,CAAnB;AAMA,SAAGJ,QAAH,EAAY;AACX,aAAKJ,IAAL,CAAU;AACTC,gBAAQ,IADC;AAETC,eAAO,MAFE;AAGTjB,aAAKmB;AAHI,OAAV;AAKA,MAND,MAMK;AACJ,aAAKJ,IAAL,CAAU;AACTC,gBAAQ,IADC;AAETC,eAAO,MAFE;AAGTjB,aAAK;AAHI,OAAV;AAKA;AACD;AAED;AAjEyB;AAmE1B;;AA7F+B,CAApC",
+    "file": "..\\..\\..\\src\\admin\\controller\\friendlink.js",
+    "sourcesContent": [
+        "/**\n * Created by Administrator on 2017/11/17.\n */\nconst Base=require('./base');\nmodule.exports = class extends Base {\n    /*\n    * 构造函数 便于使用model文件\n    * */\n    constructor(...args) {\n        super(...args);//调用父级的 constructor 方法\n        this.modelInstance = this.model('friendlink'); //增加一个方法\n    }\n    /*\n    * 栏目列表\n    * */\n    async indexAction() {\n        //显示页面\n        let data=await this.modelInstance.select();\n        this.assign('data',data);\n        return this.display();\n    }\n    async addAction(){\n    \tlet id=this.get('friendlink-id');\n    \tif(id){\n\t\t    let data=await this.modelInstance.where({'friendlink_id':id}).find();\n\t\t    this.assign('data',data);\n\t    }\n\n\t    return this.display();\n    }\n    async addfriendlinkAction(){\n    \tif(this.isGet){\n\t\t    let reg=/^([hH][tT]{2}[pP]:\\/\\/|[hH][tT]{2}[pP][sS]:\\/\\/)(([A-Za-z0-9-~]+)\\.)+([A-Za-z0-9-~\\/])+$/;\n\t\t    let friendlink_name=this.get('friendlink_name');\n\t\t    let friendlink_url=this.get('friendlink_url');\n\t\t    let editId=this.get('editId');\n\t\t    if(!friendlink_name||!friendlink_url){\n\t\t\t    this.json({\n\t\t\t\t    success:true,\n\t\t\t\t    errmsg:'请输入链接名称和地址',\n\t\t\t\t    data:[]\n\t\t\t    });\n\t\t\t    return false;\n\t\t    }\n\t\t    if(!reg.test(friendlink_url)){\n\t\t\t    this.json({\n\t\t\t\t    success:true,\n\t\t\t\t    errmsg:'请输入合法的链接地址',\n\t\t\t\t    data:[]\n\t\t\t    });\n\t\t\t    return false;\n\t\t    }\n\t\t    if(editId!='0' || editId!=0){\n\t\t    \t//编辑\n\t\t\t    let friendid=await this.model('friendlink')\n\t\t\t    .where({'friendlink_id':editId})\n\t\t\t    .update({\n\t\t\t    \t'friendlink_name':friendlink_name,\n\t\t\t\t    'friendlink_url':friendlink_url\n\t\t\t    });\n\t\t\t    if(friendid){\n\t\t\t\t    this.json({\n\t\t\t\t\t    success:true,\n\t\t\t\t\t    errmsg:'编辑成功',\n\t\t\t\t\t    data:friendid\n\t\t\t\t    });\n\t\t\t    }else{\n\t\t\t\t    this.json({\n\t\t\t\t\t    success:true,\n\t\t\t\t\t    errmsg:'编辑失败',\n\t\t\t\t\t    data:[]\n\t\t\t\t    });\n\t\t\t    }\n\t\t    }else{\n\t\t\t    let friendid=await this.model('friendlink')\n\t\t\t    .add({\n\t\t\t\t    'friendlink_name':friendlink_name,\n\t\t\t\t    'friendlink_url':friendlink_url,\n\t\t\t\t    'create_time':think.datetime()\n\t\t\t    });\n\t\t\t    if(friendid){\n\t\t\t\t    this.json({\n\t\t\t\t\t    success:true,\n\t\t\t\t\t    errmsg:'添加成功',\n\t\t\t\t\t    data:friendid\n\t\t\t\t    });\n\t\t\t    }else{\n\t\t\t\t    this.json({\n\t\t\t\t\t    success:true,\n\t\t\t\t\t    errmsg:'添加失败',\n\t\t\t\t\t    data:[]\n\t\t\t\t    });\n\t\t\t    }\n\t\t    }\n\n\t    }\n\n    }\n\n};\n"
+    ]
+}

@@ -38,14 +38,26 @@ module.exports = class extends Base {
         if(this.isGet){
             //get请求
             let sortName=this.get('sort-name');
+	        let editId=this.get('editId');
             let userInfo=await this.session('userinfo');
             let userName=userInfo.admin_name;
-            let insertId=await this.modelInstance.addSort(sortName,userName);
-            if(insertId){
-                this.success({data:insertId},'添加成功');
+            if(editId!='0' || editId!=0){
+            	//编辑
+	            let insertId=await this.modelInstance.editSort(editId,sortName,userName);
+	            if(insertId){
+		            this.success({data:insertId},'修改成功');
+	            }else {
+		            this.success('修改失败');
+	            }
             }else {
-                this.success('添加失败');
+	            let insertId=await this.modelInstance.addSort(sortName,userName);
+	            if(insertId){
+		            this.success({data:insertId},'添加成功');
+	            }else {
+		            this.success('添加失败');
+	            }
             }
+
         }
     }
     /*

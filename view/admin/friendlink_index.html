@@ -2,7 +2,7 @@
 {% block main %}
     <div class="operate">
         <div class="btn-group">
-            <a href="/news_sort/add?menu_id=19" class="btn btn-info btn-flat">添加分类</a>
+            <a href="/friendlink/add?menu_id=24" class="btn btn-info btn-flat">添加友情链接</a>
         </div>
     </div>
     <div class="box-body table-responsive no-padding">
@@ -13,7 +13,10 @@
                         序号
                     </td>
                     <td>
-                        分类名称
+                        链接名称
+                    </td>
+                    <td>
+                        链接地址
                     </td>
                     <td>
                         创建时间
@@ -24,21 +27,22 @@
                 </tr>
             </thead>
             <tbody>
-            {% if sortList.length>0 %}
-                {% for list in sortList%}
+            {% if data.length>0 %}
+                {% for list in data%}
                     <tr>
                         <td>{{loop.index}}</td> <!--当前循环数-->
-                        <td>{{list.sort_name}}</td>
+                        <td>{{list.friendlink_name}}</td>
+                        <td>{{list.friendlink_url}}</td>
                         <td>{{list.create_time}}</td>
                         <td>
-                            <button type="button" class="btn btn-info btn-sm edit" data-id="{{list.sort_id}}">编辑</button>
-                            <button type="button" class="btn btn-warning btn-sm delete" data-id="{{list.sort_id}}">删除</button>
+                            <button type="button" class="btn btn-info btn-sm edit" data-id="{{list.friendlink_id}}">编辑</button>
+                            <button type="button" class="btn btn-warning btn-sm delete" data-id="{{list.friendlink_id}}">删除</button>
                         </td>
                     </tr>
                 {% endfor %}
             {% else %}
                 <tr>
-                    <td colspan="4" align="center">暂无分类记录</td>
+                    <td colspan="4" align="center">暂无友情链接记录</td>
                 </tr>
             {% endif %}
             </tbody>
@@ -51,7 +55,7 @@
             * */
             $('.edit').off('click').on('click',function (e) {
                 var id=$(this).attr('data-id');
-                window.location.href='/news_sort/add?sort-id='+id+'';
+                window.location.href='/friendlink/add?menu_id=24&friendlink-id='+id+'';
             });
             /*
             * 删除栏目

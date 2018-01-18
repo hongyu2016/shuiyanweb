@@ -98,4 +98,27 @@ module.exports = class extends Base {
 			}
 		})();
 	}
+	/*
+ * 友情链接
+ * */
+	friendlinkAction() {
+		var _this5 = this;
+
+		return _asyncToGenerator(function* () {
+			let data = yield _this5.model('friendlink').select();
+			if (data) {
+				_this5.json({
+					success: true,
+					errmsg: '获取成功',
+					data: data
+				});
+			} else {
+				_this5.json({
+					success: true,
+					errmsg: '获取失败',
+					data: []
+				});
+			}
+		})();
+	}
 };

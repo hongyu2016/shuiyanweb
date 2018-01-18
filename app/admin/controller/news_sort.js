@@ -51,13 +51,24 @@ module.exports = class extends Base {
             if (_this3.isGet) {
                 //get请求
                 let sortName = _this3.get('sort-name');
+                let editId = _this3.get('editId');
                 let userInfo = yield _this3.session('userinfo');
                 let userName = userInfo.admin_name;
-                let insertId = yield _this3.modelInstance.addSort(sortName, userName);
-                if (insertId) {
-                    _this3.success({ data: insertId }, '添加成功');
+                if (editId != '0' || editId != 0) {
+                    //编辑
+                    let insertId = yield _this3.modelInstance.editSort(editId, sortName, userName);
+                    if (insertId) {
+                        _this3.success({ data: insertId }, '修改成功');
+                    } else {
+                        _this3.success('修改失败');
+                    }
                 } else {
-                    _this3.success('添加失败');
+                    let insertId = yield _this3.modelInstance.addSort(sortName, userName);
+                    if (insertId) {
+                        _this3.success({ data: insertId }, '添加成功');
+                    } else {
+                        _this3.success('添加失败');
+                    }
                 }
             }
         })();

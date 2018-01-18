@@ -22,16 +22,23 @@
         $(function () {
             $('#push-btn').off('click').on('click',function (e) {
                 e.preventDefault();
-                var name=$('#sort-name').val();
+                var name=$.trim($('#sort-name').val());
+	            var editId=GetQueryString('sort-id');//是否是编辑
+	            if(!editId){
+		            editId=0
+	            }
                 if(!name || name==''){
                     layer.msg('请输入分类名称');
                     return false;
                 }
                 loading=layer.load(2);
-                $.get('/news_sort/addsort',{'sort-name':name},function (data) {
+                $.get('/news_sort/addfriendlink',{'sort-name':name,'editId':editId},function (data) {
                     if(data.errno==0){
                         layer.close(loading);
                         layer.msg(data.errmsg);
+	                    setTimeout(function () {
+		                    window.location.href='/news_sort/index?menu_id=19';
+	                    },2000)
                     }else{
                         layer.close(loading);
                         layer.msg(data.errmsg);

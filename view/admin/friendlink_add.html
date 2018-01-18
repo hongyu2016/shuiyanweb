@@ -1,0 +1,61 @@
+{% extends "./base.html" %}
+{% block main %}
+    <form action="" method="get" class="form-horizontal">
+        <div class="box-body">
+            <div class="form-group">
+                <label for="link-name" class="col-md-2 col-sm-2 control-label">友情链接名称</label>
+                <div class="col-lg-4 col-md-6 col-sm-10">
+                    <input type="text" class="form-control" id="link-name" placeholder="友情链接名称" value="{{data.friendlink_name}}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="link-url" class="col-md-2 col-sm-2 control-label">友情链接地址</label>
+                <div class="col-lg-4 col-md-6 col-sm-10">
+                    <input type="text" class="form-control" id="link-url" placeholder="友情链接地址" value="{{data.friendlink_url}}">
+                </div>
+            </div>
+        </div>
+        <div class="box-footer">
+            <div class="col-md-offset-1 col-sm-offset-2">
+                <button type="submit" class="btn btn-success" id="push-btn" style="margin-left: 20px;">确定</button>
+            </div>
+        </div>
+    </form>
+    <script>
+        $(function () {
+            $('#push-btn').off('click').on('click',function (e) {
+                e.preventDefault();
+                var name=$('#link-name').val();
+                var url=$('#link-url').val();
+                var reg=/^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/;
+	            var editId=GetQueryString('friendlink-id');//是否是编辑
+	            if(!editId){
+		            editId=0
+	            }
+                if(!name || !url){
+                    layer.msg('请输入友情链接名称和地址');
+                    return false;
+                }
+                if(!reg.test(url)){
+	                layer.msg('请输入合法的链接地址');
+	                return false;
+                }
+                loading=layer.load(2);
+                $.get('/friendlink/addfriendlink',{'friendlink_name':name,'friendlink_url':url,'editId':editId},function (data) {
+                    if(data.success==true){
+                        layer.close(loading);
+                        layer.msg(data.errmsg);
+	                    setTimeout(function () {
+		                    window.location.href='/friendlink/index?menu_id=24';
+	                    },2000)
+                    }else{
+                        layer.close(loading);
+                        layer.msg(data.errmsg);
+                    }
+
+                },'json')
+            });
+        })
+    </script>
+
+{% endblock%}
