@@ -27,6 +27,8 @@
     "think-ueditor": "^1.0.0",
     "think-view": "^1.0.0",
     "think-view-nunjucks": "^1.0.1",
+    "think-websocket": "^1.0.6",
+    "think-websocket-socket.io": "^1.0.9",
     "thinkjs": "^3.0.0"
   },
   "devDependencies": {

@@ -7,9 +7,9 @@
         "module",
         "exports"
     ],
-    "mappings": "AAAAA,OAAOC,OAAP,GAAiB,CAChB,CAAC,GAAD,EAAK,QAAL,CADgB,EAEhB,CAAC,OAAD,EAAS,cAAT,CAFgB,EAGb,CAAC,cAAD,EAAgB,oBAAhB,CAHa,EAG2B;AAC3C,CAAC,eAAD,EAAiB,qBAAjB,CAJgB,EAIwB;AACxC,CAAC,SAAD,EAAW,eAAX,CALgB,CAAjB",
+    "mappings": "AAAAA,OAAOC,OAAP,GAAiB,CAChB,CAAC,GAAD,EAAK,QAAL,CADgB,EAEhB,CAAC,OAAD,EAAS,cAAT,CAFgB,EAGb,CAAC,cAAD,EAAgB,oBAAhB,CAHa,EAG2B;AAC3C,CAAC,eAAD,EAAiB,qBAAjB,CAJgB,EAIwB;AACxC,CAAC,SAAD,EAAW,eAAX,CALgB,EAKc;AAC9B,CAAC,aAAD,EAAe,qBAAf,CANgB,CAAjB",
     "file": "..\\..\\..\\src\\common\\config\\router.js",
     "sourcesContent": [
-        "module.exports = [\n\t['/','/admin'],\n\t['index','/index/index'],\n    ['/admin/login','/admin/login/index'],  //登录\n\t['/admin/logout','/admin/login/logout'],//退出登录\n\t['/timing','/index/timing'],  //定时任务\n];\n"
+        "module.exports = [\n\t['/','/admin'],\n\t['index','/index/index'],\n    ['/admin/login','/admin/login/index'],  //登录\n\t['/admin/logout','/admin/login/logout'],//退出登录\n\t['/timing','/index/timing'],  //定时任务\n\t['/connection','/api/websocket/open']\n];\n"
     ]
 }

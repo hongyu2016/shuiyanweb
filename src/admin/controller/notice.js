@@ -7,7 +7,6 @@ module.exports = class extends Base {
 	async indexAction(){
 		let pageIndex=this.get('page');
 		const data = await this.model('notice').list(pageIndex);
-		console.log(data.data)
 		const page_data = pagination(data, this.ctx, {
 			desc: false, //show description
 			pageNum: 2,

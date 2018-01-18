@@ -12,7 +12,6 @@ module.exports = class extends Base {
 		return _asyncToGenerator(function* () {
 			let pageIndex = _this.get('page');
 			const data = yield _this.model('notice').list(pageIndex);
-			console.log(data.data);
 			const page_data = pagination(data, _this.ctx, {
 				desc: false, //show description
 				pageNum: 2,
@@ -118,3 +117,4 @@ module.exports = class extends Base {
 		})();
 	}
 };
+//# sourceMappingURL=notice.js.map
