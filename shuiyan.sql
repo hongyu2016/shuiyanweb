@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2018-01-16 16:30:55
+Date: 2018-01-18 10:53:14
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -64,6 +64,24 @@ INSERT INTO `sy_contact` VALUES ('14', '971976839@qq.com', '这是一条测试�
 INSERT INTO `sy_contact` VALUES ('15', '971976839@qq.com', 'lhy', '发送到丰富的', '2018-01-16 15:22:27');
 
 -- ----------------------------
+-- Table structure for sy_friendlink
+-- ----------------------------
+DROP TABLE IF EXISTS `sy_friendlink`;
+CREATE TABLE `sy_friendlink` (
+  `friendlink_id` int(11) NOT NULL AUTO_INCREMENT,
+  `friendlink_name` varchar(25) DEFAULT '' COMMENT '链接名称',
+  `friendlink_url` varchar(55) DEFAULT '' COMMENT '链接地址',
+  `create_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`friendlink_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of sy_friendlink
+-- ----------------------------
+INSERT INTO `sy_friendlink` VALUES ('1', '百度搜索', 'http://baidu.com', '2018-01-18 10:33:40');
+INSERT INTO `sy_friendlink` VALUES ('2', '淘宝', 'http://taobao.com', '2018-01-18 10:39:46');
+
+-- ----------------------------
 -- Table structure for sy_introduce
 -- ----------------------------
 DROP TABLE IF EXISTS `sy_introduce`;
@@ -89,10 +107,10 @@ CREATE TABLE `sy_menu` (
   `menu_name` varchar(50) NOT NULL DEFAULT '' COMMENT '菜单名称',
   `menu_url` varchar(255) NOT NULL DEFAULT '' COMMENT '菜单控制器地址',
   `sort` int(11) DEFAULT NULL COMMENT '排序',
-  `parent_menu` int(11) NOT NULL COMMENT '一级菜单的parentmenu为-1，其他值则表示子菜单此时parentmenu的值就是菜单表的主键',
+  `parent_menu` int(11) NOT NULL DEFAULT '-1' COMMENT '一级菜单的parentmenu为-1，其他值则表示子菜单此时parentmenu的值就是菜单表的主键',
   `icon_class` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`menu_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sy_menu
@@ -114,6 +132,7 @@ INSERT INTO `sy_menu` VALUES ('20', '图库管理', '/slideshow/index?menu_id=20
 INSERT INTO `sy_menu` VALUES ('21', '水研介绍', '/introduce/add?menu_id=21', null, '22', 'fa fa-photo');
 INSERT INTO `sy_menu` VALUES ('22', '内容管理', '', null, '-1', 'fa fa-star');
 INSERT INTO `sy_menu` VALUES ('23', '联系我们', '/contact/index?menu_id=23', null, '22', 'fa fa-taxi');
+INSERT INTO `sy_menu` VALUES ('24', '友情链接', '/friendlink/index?menu_id=24', null, '22', 'fa fa-taxi');
 
 -- ----------------------------
 -- Table structure for sy_news
@@ -161,13 +180,13 @@ CREATE TABLE `sy_news_sort` (
   `create_user` varchar(20) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`sort_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sy_news_sort
 -- ----------------------------
 INSERT INTO `sy_news_sort` VALUES ('1', '通知公告', 'admin', '2017-11-20 11:34:50');
-INSERT INTO `sy_news_sort` VALUES ('2', '今日新闻', 'admin', '2017-11-20 11:34:33');
+INSERT INTO `sy_news_sort` VALUES ('2', '今日新闻2', 'admin', '2017-11-20 11:34:33');
 INSERT INTO `sy_news_sort` VALUES ('3', '水研快报', 'admin', '2017-11-20 11:43:50');
 INSERT INTO `sy_news_sort` VALUES ('4', '测试分类', 'admin', '2017-11-20 14:28:22');
 INSERT INTO `sy_news_sort` VALUES ('5', '测试分类2', 'admin', '2017-11-20 14:29:13');

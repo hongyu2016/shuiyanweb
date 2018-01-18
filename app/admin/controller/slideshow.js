@@ -89,14 +89,16 @@ module.exports = class extends Base {
 
                 let datuPath = `${think.ROOT_PATH}/www/static/upload/slideshow/${YYYYMMDD}/${basename}`;
 
-                //处理缩略图
-                Jimp.read(datuPath).then(function (lenna) {
-                    lenna.cover(320, 320) // resize
-                    .quality(60) // set JPEG quality
-                    .autocrop().write(`${think.ROOT_PATH}/www/static/upload/slideshow/${YYYYMMDD}/${path.basename(filepath)}_thumb.${nameArr[1]}`); // save
-                }).catch(function (err) {
-                    console.error(err);
-                });
+                if (datuPath) {
+                    //处理缩略图
+                    Jimp.read(datuPath).then(function (lenna) {
+                        lenna.cover(320, 320) // resize
+                        .quality(60) // set JPEG quality
+                        .autocrop().write(`${think.ROOT_PATH}/www/static/upload/slideshow/${YYYYMMDD}/${path.basename(filepath)}_thumb.${nameArr[1]}`); // save
+                    }).catch(function (err) {
+                        console.error(err);
+                    });
+                }
 
                 _this3.json({
                     success: true,
@@ -214,13 +216,15 @@ module.exports = class extends Base {
                 let slide_img = yield _this5.modelInstance.where({ 'slide_id': slideId }).field('slide_img,slide_thumb').find();
 
                 //循环遍历对象
-                for (let i in slide_img) {
-                    if (slide_img.hasOwnProperty(i) === true) {
-                        // 检测文件是否存在 删除大图和缩略图
-                        let filePath = think.ROOT_PATH + '/www' + slide_img[i]; //图片的路径
-                        if (fs.existsSync(filePath)) {
-                            //如果存在则删除图片
-                            fs.unlinkSync(filePath);
+                if (slide_img) {
+                    for (let i in slide_img) {
+                        if (slide_img.hasOwnProperty(i) === true) {
+                            // 检测文件是否存在 删除大图和缩略图
+                            let filePath = think.ROOT_PATH + '/www' + slide_img[i]; //图片的路径
+                            if (fs.existsSync(filePath)) {
+                                //如果存在则删除图片
+                                fs.unlinkSync(filePath);
+                            }
                         }
                     }
                 }

@@ -1,12 +1,11 @@
 {% extends "./base.html" %}
 {% block main %}
-    <script src="/static/js/ueditor/ueditor.config.js"></script>
-    <script src="/static/js/ueditor/ueditor.all.min.js"></script>
-    <script src="/static/js/ueditor/lang/zh-cn/zh-cn.js"></script>
+    <link href="/static/js/web-uploader//dist/webuploader.css" rel="stylesheet">
+
     <form action="/news/uploadimage" method="get" class="form-horizontal" name="upfile">
         <div class="box-body">
             <div class="form-group">
-                <label for="sort" class="col-md-1 col-sm-2 control-label"><i class="star">*</i>文章分类</label>
+                <label for="sort" class="col-md-2 col-sm-2 control-label"><i class="star">*</i>文章分类</label>
                 <div class="col-lg-4 col-md-6 col-sm-10">
                     <select class="form-control" id="sort">
                         {% for list in sortList %}
@@ -16,37 +15,62 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="title" class="col-md-1 col-sm-2 control-label"><i class="star">*</i>文章标题</label>
+                <label for="title" class="col-md-2 col-sm-2 control-label"><i class="star">*</i>文章标题</label>
                 <div class="col-lg-4 col-md-6 col-sm-10">
                     <input type="text" class="form-control" id="title" placeholder="文章标题" value="{{newsData.title}}">
                 </div>
             </div>
             <div class="form-group">
-                <label for="sub-title" class="col-md-1 col-sm-2 control-label">副标题</label>
+                <label for="sub-title" class="col-md-2 col-sm-2 control-label">副标题</label>
                 <div class="col-lg-4 col-md-6 col-sm-10">
                     <input type="text" class="form-control" id="sub-title" placeholder="副标题" value="{{newsData.sub_title}}">
                 </div>
             </div>
             <div class="form-group">
-                <label for="intro" class="col-md-1 col-sm-2 control-label">简介</label>
+                <label for="intro" class="col-md-2 col-sm-2 control-label">简介</label>
                 <div class="col-lg-4 col-md-6 col-sm-10">
                     <textarea class="form-control" id="intro" rows="5" placeholder="文章简介">{{newsData.intro}}</textarea>
                 </div>
             </div>
             <div class="form-group">
-                <label for="author" class="col-md-1 col-sm-2 control-label">作者</label>
+                <label for="author" class="col-md-2 col-sm-2 control-label">作者</label>
                 <div class="col-lg-4 col-md-6 col-sm-10">
                     <input type="text" class="form-control" id="author" placeholder="作者" value="{{newsData.author}}">
                 </div>
             </div>
             <div class="form-group">
-                <label for="copyfrom" class="col-md-1 col-sm-2 control-label">文章来源</label>
+                <label for="copyfrom" class="col-md-2 col-sm-2 control-label">文章来源</label>
                 <div class="col-lg-4 col-md-6 col-sm-10">
                     <input type="text" class="form-control" id="copyfrom" placeholder="文章来源" value="{{newsData.copyfrom}}">
                 </div>
             </div>
             <div class="form-group">
-                <label for="editor" class="col-md-1 col-sm-2 control-label">文章内容</label>
+                <label for="uploader" class="col-md-2 col-sm-2 control-label">文章缩略图</label>
+                <div class="col-lg-8 col-md-6 col-sm-10">
+                    <!--<input type="file" class="form-control" id="slide-upload" name="slide-upload">-->
+                    <!--dom结构部分-->
+                    <div id="uploader">
+                        <div class="upload-title">选择图片自动上传，无需等待</div>
+                        <!--用来存放item-->
+                        <div id="fileList" class="uploader-list">
+                            {% if newsData.thumb.length>0 %}
+                            <div class="file-item thumbnail" up_img_url="{{newsData.thumb}}">
+                                <img src="{{newsData.thumb}}">
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% if newsData.thumb.length>0 %}
+                        <div id="re-select" class="btn btn-warning">重新上传</div>
+                        <div id="filePicker" style="visibility: hidden">选择图片</div>
+                        {% else %}
+                        <div id="filePicker">选择图片</div>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="editor" class="col-md-2 col-sm-2 control-label">文章内容</label>
                 <div class="col-lg-10 col-md-10 col-sm-10">
                     <script id="editor" type="text/plain" style="width:100%;min-height:300px;">
                         {{newsData.content | safe}}
@@ -55,7 +79,7 @@
             </div>
         </div>
         <div class="box-footer">
-            <div class="col-md-offset-1 col-sm-offset-2">
+            <div class="col-md-offset-2 col-sm-offset-2">
                 {% if newsData %}
                 <button type="button" class="btn btn-default" onclick="javascript:window.history.back();">返回</button>
                 {% endif %}
@@ -65,6 +89,10 @@
         <div id="edit-content" style="display: none;"></div>
 
     </form>
+    <script src="/static/js/ueditor/ueditor.config.js"></script>
+    <script src="/static/js/ueditor/ueditor.all.min.js"></script>
+    <script src="/static/js/ueditor/lang/zh-cn/zh-cn.js"></script>
+    <script src="/static/js/web-uploader/dist/webuploader.js"></script>
     <script>
         $(function () {
             /*
@@ -84,6 +112,8 @@
                 var author=$('#author').val();
                 var copyfrom=$('#copyfrom').val();
                 var content=UE.getEditor('editor').getContent();
+	            //var img_path = $('#fileList').find('.file-item').attr('up_img_url');
+	            var img_path_thumb = $('#fileList').find('.file-item').attr('up_img_url_thumb');
                 if(!sort||sort==''){
                     layer.msg('请先建立文章分类');
                     return false;
@@ -105,7 +135,9 @@
                     author:author,
                     content:content,
                     copyfrom:copyfrom,
-                    editId:editId
+                    editId:editId,
+	                //img_path: img_path?img_path:'',
+	                img_path_thumb:img_path_thumb?img_path_thumb:''  //只需要存缩略图
                 };
                 loading=layer.load(2);
                 $.post('/news/doadd',postData,function (data) {
@@ -122,16 +154,126 @@
                 },'json');
 
             });
-            //编辑时 设置所属栏目选中
-            /*var news_sortId ='{{newsData.sort_id}}';
 
-            $('#edit-content').html('{{newsData.content}}');//把数据库的内容先写入隐藏div
-            if(news_sortId){
-                $('#sort').find('option[data-id = '+news_sortId+']').attr("selected","selected");
-                ue.ready(function() {
-                    ue.execCommand( 'inserthtml', $('#edit-content').text()); //取出div的内容 进行html转义插入
-                });
-            }*/
+            /*
+             * 编辑时，重新上传图片，移除dom 显示filePicker按钮 按照新增时的流程上传图片
+             * */
+	        $('#re-select').off('click').on('click',function (e) {
+		        $(this).hide();
+		        $('#fileList').find('.file-item').remove();
+		        $('#filePicker').css('visibility','visible');
+	        });
+            /*
+             * 百度上传插件
+             * */
+	        // 初始化Web Uploader
+	        // 缩略图大小
+	        // 优化retina, 在retina下这个值是2
+	        var ratio = window.devicePixelRatio || 1,
+		        thumbnailWidth = 210 * ratio,
+		        thumbnailHeight = 210 * ratio;
+	        var uploader = WebUploader.create({
+		        // 选完文件后，是否自动上传。
+		        auto: true,
+		        // swf文件路径
+		        swf: '/static/js/web-uploader/dist/Uploader.swf',
+		        // 文件接收服务端。
+		        server: '/news/uploadImg',
+		        // 选择文件的按钮。可选。
+		        // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+		        pick: '#filePicker',
+		        // 只允许选择图片文件。
+		        accept: {
+			        title: 'Images',
+			        extensions: 'gif,jpg,jpeg,bmp,png',
+			        mimeTypes: 'image/*'
+		        },
+		        thumb:{
+			        width: 210,
+			        height: 210,
+		        },
+		        fileNumLimit:1,
+		        fileSingleSizeLimit:3 * 1024 * 1024   // 5M
+	        });
+	        // 当有文件添加进来的时候
+	        uploader.on('fileQueued', function (file) {
+		        var $list=$('#fileList');
+		        var $li = $(
+				        '<div id="' + file.id + '" class="file-item thumbnail">' +
+				        '<img style="display: block">' +
+				        '<div class="progress"><span></span></div>'+
+				        '<div class="info">' + file.name + '</div>' +
+				        '</div>'
+			        ),
+			        $img = $li.find('img');
+
+
+		        // $list为容器jQuery实例
+		        $list.append($li);
+
+		        // 创建缩略图
+		        // 如果为非图片文件，可以不用调用此方法。
+		        // thumbnailWidth x thumbnailHeight 为 100 x 100
+		        uploader.makeThumb(file, function (error, src) {
+			        if (error) {
+				        $img.replaceWith('<span>不能预览</span>');
+				        return;
+			        }
+
+			        $img.attr('src', src);
+		        }, thumbnailWidth, thumbnailHeight);
+	        });
+	        // 文件上传过程中创建进度条实时显示。
+	        uploader.on('uploadProgress', function (file, percentage) {
+		        var $li = $('#' + file.id),
+			        $percent = $li.find('.progress span');
+
+		        // 避免重复创建
+		        if (!$percent.length) {
+			        $percent = $('<div class="progress"><span></span></div>')
+			        .appendTo($li)
+			        .find('span');
+		        }
+
+		        $percent.css('width', percentage * 100 + '%');
+	        });
+
+	        // 文件上传成功，给item添加成功class, 用样式标记上传成功。
+	        uploader.on('uploadSuccess', function (file,response) {
+		        $('#' + file.id).addClass('upload-state-done').attr({
+			        'up_img_url':response.data.img_path,
+			        'up_img_url_thumb':response.data.img_path_thumb
+		        });
+	        });
+
+	        // 文件上传失败，显示上传出错。
+	        uploader.on('uploadError', function (file) {
+		        var $li = $('#' + file.id),
+			        $error = $li.find('div.error');
+
+		        // 避免重复创建
+		        if (!$error.length) {
+			        $error = $('<div class="error"></div>').appendTo($li);
+		        }
+
+		        $error.text('上传失败');
+	        });
+
+	        // 完成上传完了，成功或者失败，先删除进度条。
+	        uploader.on('uploadComplete', function (file) {
+		        $('#' + file.id).find('.progress').remove();
+	        });
+	        uploader.onError = function( code ) {
+		        if(code=='Q_EXCEED_NUM_LIMIT'){
+			        layer.msg('只能上传一张图片')
+		        }else if(code=='F_EXCEED_SIZE'){
+			        layer.msg('请上传3M以内的图片')
+		        }
+		        else{
+			        layer.msg(code)
+		        }
+	        };
+
         })
     </script>
 
