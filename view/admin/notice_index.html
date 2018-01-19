@@ -42,8 +42,15 @@
         </table>
         {{ pagination | safe}}
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js" integrity="sha256-WPeFPWD3PZQUDrpFnDM1N2KadNVwCfNS4cCZ78b76T8=" crossorigin="anonymous"></script>
     <script>
         $(function () {
+        	//socket连接 删除列表时 通知后台 刷新数据给前端
+        	var hostUrl=window.location.host;
+	        var socket = io(hostUrl);
+	        socket.on('noticeList', function(data) {
+		        console.log('数据变化:', data);
+	        });
             /*
             * 编辑文章
             * */
@@ -66,6 +73,7 @@
                             layer.close(loading);
                             layer.msg(data.errmsg);
                             //$(that).closest('tr').remove();
+	                        socket.emit('getNotice', '更改通知数据');
 	                        setTimeout(function () {
 		                        window.location.reload();
 	                        },2000)
