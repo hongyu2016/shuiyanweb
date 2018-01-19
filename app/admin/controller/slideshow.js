@@ -137,12 +137,17 @@ module.exports = class extends Base {
                 let img_path = param.img_path;
                 let img_path_thumb = param.img_path_thumb;
                 let is_slide = param.isslide;
+                var reg = /^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/;
                 if (!title || title == '') {
                     _this4.fail(403, '轮播图标题不能为空');
                     return false;
                 }
                 if (!jumpUrl || jumpUrl == '') {
                     _this4.fail(403, '轮播图跳转链接不能为空');
+                    return false;
+                }
+                if (!reg.test(jumpUrl)) {
+                    _this4.fail(403, '请输入正确的轮播图跳转链接');
                     return false;
                 }
                 if (!img_path || img_path == '') {

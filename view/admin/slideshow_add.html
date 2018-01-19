@@ -19,7 +19,7 @@
         <div class="form-group">
             <label for="slide-url" class="col-md-2 col-sm-2 control-label">跳转链接地址</label>
             <div class="col-lg-8 col-md-8 col-sm-10">
-                <input type="text" class="form-control" id="slide-url" placeholder="跳转链接地址" value="{{slideData.slide_jumpurl}}">
+                <input type="text" class="form-control" id="slide-url" placeholder="跳转链接地址" value="{{slideData.slide_jumpurl if slide_jumpurl else '#'}}">
             </div>
         </div>
         <div class="form-group">
@@ -208,12 +208,12 @@
             var jumpUrl = $.trim($('#slide-url').val());
             var img_path = $('#fileList').find('.file-item').attr('up_img_url');
             var img_path_thumb = $('#fileList').find('.file-item').attr('up_img_url_thumb');
+	        var reg=/^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/;
             var isslide='0';
             if($('.isslide').prop('checked')){
 	            isslide='1';  //1为设置为轮播图
             }
 
-            var cn_reg =  /[^\u4e00-\u9fa5]/;
             if (!title) {
                 layer.msg('请输入图片标题');
                 return false
@@ -222,9 +222,10 @@
                 layer.msg('请输入图片链接地址');
                 return false
             }
-            if (!cn_reg.test(jumpUrl)) {
-                layer.msg('跳转地址不能输入中文');
-                return false
+
+            if(!reg.test(jumpUrl)&&jumpUrl!='#'){
+	            layer.msg('请输入合法的图片链接地址');
+	            return false
             }
             if (!img_path) {
                 layer.msg('请上传图片');
