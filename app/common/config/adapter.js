@@ -130,4 +130,3 @@ exports.websocket = {
         }]
     }
 };
-//# sourceMappingURL=adapter.js.map

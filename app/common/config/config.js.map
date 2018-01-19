@@ -1,0 +1,21 @@
+{
+    "version": 3,
+    "sources": [
+        "..\\..\\..\\src\\common\\config\\config.js"
+    ],
+    "names": [
+        "module",
+        "exports",
+        "workers",
+        "port",
+        "process",
+        "env",
+        "PORT",
+        "stickyCluster"
+    ],
+    "mappings": "AAAA;AACAA,OAAOC,OAAP,GAAiB;AACbC,aAAS,CADI;AAEbC,UAAKC,QAAQC,GAAR,CAAYC,IAAZ,IAAoB,IAFZ;AAGhBC,mBAAe;AAHC,CAAjB",
+    "file": "..\\..\\..\\src\\common\\config\\config.js",
+    "sourcesContent": [
+        "// default config\nmodule.exports = {\n    workers: 1,\n    port:process.env.PORT || 5000,\n\tstickyCluster: true\n};\n"
+    ]
+}

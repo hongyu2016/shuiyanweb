@@ -1,0 +1,23 @@
+{
+    "version": 3,
+    "sources": [
+        "..\\..\\..\\src\\common\\config\\extend.js"
+    ],
+    "names": [
+        "view",
+        "require",
+        "model",
+        "cache",
+        "session",
+        "websocket",
+        "module",
+        "exports",
+        "think",
+        "app"
+    ],
+    "mappings": "AAAA,MAAMA,OAAOC,QAAQ,YAAR,CAAb;AACA,MAAMC,QAAQD,QAAQ,aAAR,CAAd;AACA,MAAME,QAAQF,QAAQ,aAAR,CAAd;AACA,MAAMG,UAAUH,QAAQ,eAAR,CAAhB;AACA,MAAMI,YAAYJ,QAAQ,iBAAR,CAAlB;;AAEAK,OAAOC,OAAP,GAAiB,CAChBP,IADgB,EACV;AACNE,MAAMM,MAAMC,GAAZ,CAFgB,EAGhBN,KAHgB,EAIhBC,OAJgB,EAKhBC,UAAUG,MAAMC,GAAhB,CALgB,CAAjB",
+    "file": "..\\..\\..\\src\\common\\config\\extend.js",
+    "sourcesContent": [
+        "const view = require('think-view');\nconst model = require('think-model');\nconst cache = require('think-cache');\nconst session = require('think-session');\nconst websocket = require('think-websocket');\n\nmodule.exports = [\n\tview, // make application support view\n\tmodel(think.app),\n\tcache,\n\tsession,\n\twebsocket(think.app)\n];\n"
+    ]
+}

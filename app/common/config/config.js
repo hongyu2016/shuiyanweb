@@ -4,4 +4,3 @@ module.exports = {
     port: process.env.PORT || 5000,
     stickyCluster: true
 };
-//# sourceMappingURL=config.js.map

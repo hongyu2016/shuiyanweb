@@ -25,4 +25,3 @@ module.exports = class extends think.Controller {
         this.header("Access-Control-Allow-Credentials", "true");
     }*/
 };
-//# sourceMappingURL=base.js.map
