@@ -81,7 +81,7 @@ module.exports = class extends Base {
 		            lenna.cover(320,320)     // resize
 		            .quality(60)         // set JPEG quality
 		            .autocrop()
-		            .write(`${think.ROOT_PATH}/www/static/upload/slideshow/${YYYYMMDD}/${path.basename(filepath)}_thumb.${nameArr[1]}`); // save
+		            .write(`${think.ROOT_PATH}/www/static/upload/slideshow/${YYYYMMDD}/${path.basename(filepath)}_thumb.${nameArr[nameArr.length - 1]}`); // save
 	            }).catch(function (err) {
 		            console.error(err);
 	            });
@@ -92,7 +92,7 @@ module.exports = class extends Base {
                 errmsg:'上传成功',
                 data:{
                     img_path:`/static/upload/slideshow/${YYYYMMDD}/${basename}`,
-                    img_path_thumb:`/static/upload/slideshow/${YYYYMMDD}/${path.basename(filepath)}_thumb.${nameArr[1]}`,
+                    img_path_thumb:`/static/upload/slideshow/${YYYYMMDD}/${path.basename(filepath)}_thumb.${nameArr[nameArr.length - 1]}`,
                     title: basename,
                     original: file.name
                 }

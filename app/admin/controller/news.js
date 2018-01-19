@@ -104,7 +104,7 @@ module.exports = class extends Base {
                     Jimp.read(datuPath).then(function (lenna) {
                         lenna.cover(320, 320) // resize
                         .quality(60) // set JPEG quality
-                        .autocrop().write(`${think.ROOT_PATH}/www/static/upload/news/${YYYYMMDD}/${path.basename(filepath)}.${nameArr[1]}`); // 另存为图片文件，在这里 文件名和上传文件名一致，覆盖原图 只存缩略图，不需要原图
+                        .autocrop().write(`${think.ROOT_PATH}/www/static/upload/news/${YYYYMMDD}/${path.basename(filepath)}.${nameArr[nameArr.length - 1]}`); // 另存为图片文件，在这里 文件名和上传文件名一致，覆盖原图 只存缩略图，不需要原图
                     }).catch(function (err) {
                         console.error(err);
                     });
@@ -115,7 +115,7 @@ module.exports = class extends Base {
                     errmsg: '上传成功',
                     data: {
                         img_path: `/static/upload/news/${YYYYMMDD}/${basename}`,
-                        img_path_thumb: `/static/upload/news/${YYYYMMDD}/${path.basename(filepath)}.${nameArr[1]}`,
+                        img_path_thumb: `/static/upload/news/${YYYYMMDD}/${path.basename(filepath)}.${nameArr[nameArr.length - 1]}`,
                         title: basename,
                         original: file.name
                     }
