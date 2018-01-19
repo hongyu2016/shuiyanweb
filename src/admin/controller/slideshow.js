@@ -131,7 +131,7 @@ module.exports = class extends Base {
                 this.fail(403,'轮播图跳转链接不能为空');
                 return false;
             }
-            if(!reg.test(jumpUrl)){
+            if(!reg.test(jumpUrl) &&jumpUrl!='#'){
 	            this.fail(403,'请输入正确的轮播图跳转链接');
 	            return false;
             }
