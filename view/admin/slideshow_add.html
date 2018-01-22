@@ -138,7 +138,7 @@
         // 文件上传过程中创建进度条实时显示。
         uploader.on('uploadProgress', function (file, percentage) {
             var $li = $('#' + file.id),
-                $percent = $li.find('.progress span');
+                $percent = $li.find('.progress');
 
             // 避免重复创建
             if (!$percent.length) {
@@ -208,6 +208,7 @@
             var jumpUrl = $.trim($('#slide-url').val());
             var img_path = $('#fileList').find('.file-item').attr('up_img_url');
             var img_path_thumb = $('#fileList').find('.file-item').attr('up_img_url_thumb');
+            var isUploadImg=$('#fileList').find('.progress');//图片是否在上传中
 	        var reg=/^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/;
             var isslide='0';
             if($('.isslide').prop('checked')){
@@ -225,6 +226,10 @@
 
             if(!reg.test(jumpUrl)&&jumpUrl!='#'){
 	            layer.msg('请输入合法的图片链接地址');
+	            return false
+            }
+            if(isUploadImg.length>=1){
+	            layer.msg('图片上传中，请稍后');
 	            return false
             }
             if (!img_path) {

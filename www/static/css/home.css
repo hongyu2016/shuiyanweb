@@ -25,11 +25,19 @@
     padding: 5px 0;
 }
 .progress{
-    background-color: #f0ad4e;
     display: block;
     height: 5px;
     margin-top: 5px;
     border-radius: 3px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0 4px;
+}
+.progress>span{
+    display: block;
+    background-color: red;
+    height: 100%;
 }
 .table-img-box{
     width: 100px;

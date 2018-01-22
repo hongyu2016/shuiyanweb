@@ -114,6 +114,7 @@
                 var content=UE.getEditor('editor').getContent();
 	            //var img_path = $('#fileList').find('.file-item').attr('up_img_url');
 	            var img_path_thumb = $('#fileList').find('.file-item').attr('up_img_url_thumb');
+	            var isUploadImg=$('#fileList').find('.progress');//图片是否在上传中
                 if(!sort||sort==''){
                     layer.msg('请先建立文章分类');
                     return false;
@@ -126,6 +127,10 @@
                     layer.msg('请填写文章内容');
                     return false;
                 }
+	            if(isUploadImg.length>=1){
+		            layer.msg('图片上传中，请稍后');
+		            return false
+	            }
 
                 var postData={
                     sort:sort,
@@ -226,7 +231,7 @@
 	        // 文件上传过程中创建进度条实时显示。
 	        uploader.on('uploadProgress', function (file, percentage) {
 		        var $li = $('#' + file.id),
-			        $percent = $li.find('.progress span');
+			        $percent = $li.find('.progress');
 
 		        // 避免重复创建
 		        if (!$percent.length) {
