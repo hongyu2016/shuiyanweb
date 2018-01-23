@@ -139,7 +139,7 @@ module.exports = class extends Base {
                 const nameArr = file.name.split('.');
 
                 const YYYYMMDD = helper.datetime(Date.now(), 'YYYYMMDD');
-                const basename = 'slide_' + YYYYMMDD + '_' + path.basename(localFile) + '.' + nameArr[nameArr.length - 1];
+                const basename = 'slide_' + YYYYMMDD + '_' + file.name + '.' + nameArr[nameArr.length - 1];
 
                 // key=basename;  //存储在七牛的新名称
 
