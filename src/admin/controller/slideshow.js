@@ -4,6 +4,8 @@ const path = require('path');
 const helper = require('think-helper');
 const Base = require('./base.js');
 const Jimp = require("jimp");
+const qiniu=require('qiniu');
+
 module.exports = class extends Base {
     /*
      * 构造函数 便于使用model文件
@@ -107,6 +109,49 @@ module.exports = class extends Base {
         }
 
     }
+    /*
+    * 上传图片到七牛服务器
+    * */
+    async uploadQiniuAction(){
+	    //this.ctx.respond = false;
+	    let that=this;
+
+	    let file=this.ctx.file('file');//获取文件
+	    if(file && file.type === 'image/png' || file.type === 'image/jpeg'){
+		    let localFile = file.path;
+		    const nameArr = file.name.split('.');
+
+		    const YYYYMMDD = helper.datetime(Date.now(), 'YYYYMMDD');
+		    const basename = 'slide_'+YYYYMMDD+'_'+path.basename(localFile) + '.' + nameArr[nameArr.length - 1];
+
+		    // key=basename;  //存储在七牛的新名称
+
+
+		    // 文件上传
+
+		    let result=await uploadFile(localFile,basename);
+
+		    this.json({
+			    success:true,
+			    errmsg:'上传成功',
+			    data:result.data
+		    });
+
+	    }else {
+		    this.json({
+		     success:true,
+		     errmsg:'上传失败',
+		     data:[]
+		     });
+	    }
+	    /*return that.json({
+		    success:true,
+		    errmsg:'',
+		    data:'jsjsj'
+	    });*/
+
+    }
+
     /*
     * 文字和图片路径提交 存储
     * */
@@ -246,4 +291,66 @@ module.exports = class extends Base {
 	    }
     }
 
+};
+
+/*
+* 上传到七牛
+* */
+export const uploadFile=function (localFile,key) {
+	const accessKey = 'If1SWAP60HYq8YUtCWSvgNiL-dvIh_sjVgS3-YPc';
+	const secretKey = 'CBcrPNhdn17uTo5fKT3lx-bBgqRI5TFeDs-dizET';
+	const mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
+	let options = {
+		scope: 'iyuge',  //空间名称
+	};
+	let putPolicy = new qiniu.rs.PutPolicy(options);
+	let uploadToken=putPolicy.uploadToken(mac); //创建一个token
+
+	let config = new qiniu.conf.Config();
+	// 空间对应的机房
+	config.zone = qiniu.zone.Zone_z0; //华东
+	// 是否使用https域名
+	//config.useHttpsDomain = true;
+	// 上传是否使用cdn加速
+	//config.useCdnDomain = true;
+
+	const formUploader = new qiniu.form_up.FormUploader(config);
+	const putExtra = new qiniu.form_up.PutExtra();
+
+	let returnInfo={};
+	return new Promise((resolve)=>{
+		formUploader.putFile(uploadToken, key, localFile, putExtra, function(respErr,respBody, respInfo){
+			if (respErr) {
+				resolve(
+					returnInfo={
+						msg:'error',
+						data:[]
+					}
+
+				);
+				throw respErr;
+			}
+			if (respInfo.statusCode == 200) {
+				resolve(
+					returnInfo={
+						msg:'success',
+						data:respBody
+					}
+				);
+
+			} else {
+				console.log(respInfo.statusCode);
+				console.log(respBody);
+				resolve(
+					returnInfo={
+						msg:'error',
+						data:respBody
+					}
+				)
+			}
+
+		});
+
+
+	})
 };

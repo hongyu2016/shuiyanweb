@@ -90,7 +90,7 @@
             // swf文件路径
             swf: '/static/js/web-uploader/dist/Uploader.swf',
             // 文件接收服务端。
-            server: '/slideshow/uploadImg',
+            server: '/slideshow/uploadQiniu',
             // 选择文件的按钮。可选。
             // 内部根据当前运行是创建，可能是input元素，也可能是flash.
             pick: '#filePicker',
@@ -153,8 +153,9 @@
         // 文件上传成功，给item添加成功class, 用样式标记上传成功。
         uploader.on('uploadSuccess', function (file,response) {
             $('#' + file.id).addClass('upload-state-done').attr({
-                'up_img_url':response.data.img_path,
-                'up_img_url_thumb':response.data.img_path_thumb
+                //'up_img_url':response.data.img_path,
+                //'up_img_url_thumb':response.data.img_path_thumb
+                'up_img_url':response.data.key
             });
         });
 

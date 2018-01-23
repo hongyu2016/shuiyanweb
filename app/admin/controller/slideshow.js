@@ -1,3 +1,5 @@
+exports.__esModule = true;
+
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
 const pagination = require('think-pagination');
@@ -6,6 +8,8 @@ const path = require('path');
 const helper = require('think-helper');
 const Base = require('./base.js');
 const Jimp = require("jimp");
+const qiniu = require('qiniu');
+
 module.exports = class extends Base {
     /*
      * 构造函数 便于使用model文件
@@ -120,14 +124,59 @@ module.exports = class extends Base {
         })();
     }
     /*
-    * 文字和图片路径提交 存储
+    * 上传图片到七牛服务器
     * */
-    addslideAction() {
+    uploadQiniuAction() {
         var _this4 = this;
 
         return _asyncToGenerator(function* () {
-            const isGet = _this4.ctx.isGet;
-            const param = _this4.ctx.param();
+            //this.ctx.respond = false;
+            let that = _this4;
+
+            let file = _this4.ctx.file('file'); //获取文件
+            if (file && file.type === 'image/png' || file.type === 'image/jpeg') {
+                let localFile = file.path;
+                const nameArr = file.name.split('.');
+
+                const YYYYMMDD = helper.datetime(Date.now(), 'YYYYMMDD');
+                const basename = 'slide_' + YYYYMMDD + '_' + path.basename(localFile) + '.' + nameArr[nameArr.length - 1];
+
+                // key=basename;  //存储在七牛的新名称
+
+
+                // 文件上传
+
+                let result = yield uploadFile(localFile, basename);
+
+                _this4.json({
+                    success: true,
+                    errmsg: '上传成功',
+                    data: result.data
+                });
+            } else {
+                _this4.json({
+                    success: true,
+                    errmsg: '上传失败',
+                    data: []
+                });
+            }
+            /*return that.json({
+             success:true,
+             errmsg:'',
+             data:'jsjsj'
+            });*/
+        })();
+    }
+
+    /*
+    * 文字和图片路径提交 存储
+    * */
+    addslideAction() {
+        var _this5 = this;
+
+        return _asyncToGenerator(function* () {
+            const isGet = _this5.ctx.isGet;
+            const param = _this5.ctx.param();
 
             if (isGet) {
                 let editId = param.editId;
@@ -139,19 +188,19 @@ module.exports = class extends Base {
                 let is_slide = param.isslide;
                 var reg = /^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/;
                 if (!title || title == '') {
-                    _this4.fail(403, '轮播图标题不能为空');
+                    _this5.fail(403, '轮播图标题不能为空');
                     return false;
                 }
                 if (!jumpUrl || jumpUrl == '') {
-                    _this4.fail(403, '轮播图跳转链接不能为空');
+                    _this5.fail(403, '轮播图跳转链接不能为空');
                     return false;
                 }
                 if (!reg.test(jumpUrl) && jumpUrl != '#') {
-                    _this4.fail(403, '请输入正确的轮播图跳转链接');
+                    _this5.fail(403, '请输入正确的轮播图跳转链接');
                     return false;
                 }
                 if (!img_path || img_path == '') {
-                    _this4.fail(403, '请先上传图片');
+                    _this5.fail(403, '请先上传图片');
                     return false;
                 }
                 let data = {
@@ -166,7 +215,7 @@ module.exports = class extends Base {
                 if (editId != 0) {
                     //编辑
                     //首先先把本地已经上传的图片删掉 然后再更新数据库数据
-                    let slide_img = yield _this4.modelInstance.where({ 'slide_id': editId }).field('slide_img').find();
+                    let slide_img = yield _this5.modelInstance.where({ 'slide_id': editId }).field('slide_img').find();
                     if (img_path != slide_img.slide_img) {
                         //如果提交过来的图片路径和数据库的不一致，则是修改了图片
                         // 检测文件是否存在
@@ -178,34 +227,34 @@ module.exports = class extends Base {
                     }
 
                     //更新数据
-                    let slideId = yield _this4.modelInstance.where({ 'slide_id': editId }).editSlide(data);
-                    let isSlide = yield _this4.modelInstance.where({ 'is_slide': '1' }).field('is_slide').count(); //设置为轮播图的数量 最多只能设置5
+                    let slideId = yield _this5.modelInstance.where({ 'slide_id': editId }).editSlide(data);
+                    let isSlide = yield _this5.modelInstance.where({ 'is_slide': '1' }).field('is_slide').count(); //设置为轮播图的数量 最多只能设置5
                     if (isSlide >= 5) {
-                        _this4.fail(403, '轮播图最多只能设置5个，请先取消其他已设置的轮播图');
+                        _this5.fail(403, '轮播图最多只能设置5个，请先取消其他已设置的轮播图');
                         return false;
                     }
 
                     if (!slideId) {
-                        _this4.fail(403, '编辑文章失败');
+                        _this5.fail(403, '编辑文章失败');
                     } else {
-                        _this4.success({ data: slideId }, '编辑文章成功');
+                        _this5.success({ data: slideId }, '编辑文章成功');
                     }
                 } else {
                     //新增
-                    let slideId = yield _this4.modelInstance.addSlide(data);
-                    let isSlide = yield _this4.modelInstance.where({ 'is_slide': '1' }).field('is_slide').count(); //设置为轮播图的数量 最多只能设置5
+                    let slideId = yield _this5.modelInstance.addSlide(data);
+                    let isSlide = yield _this5.modelInstance.where({ 'is_slide': '1' }).field('is_slide').count(); //设置为轮播图的数量 最多只能设置5
                     if (isSlide >= 5) {
-                        _this4.fail(403, '轮播图最多只能设置5个，请先取消其他已设置的轮播图');
+                        _this5.fail(403, '轮播图最多只能设置5个，请先取消其他已设置的轮播图');
                         return false;
                     }
                     if (!slideId) {
-                        _this4.fail(403, '添加轮播图失败');
+                        _this5.fail(403, '添加轮播图失败');
                     } else {
-                        _this4.success({ data: slideId }, '添加轮播图成功');
+                        _this5.success({ data: slideId }, '添加轮播图成功');
                     }
                 }
             } else {
-                _this4.fail(403, '请使用get方法');
+                _this5.fail(403, '请使用get方法');
             }
         })();
     }
@@ -213,12 +262,12 @@ module.exports = class extends Base {
     * 删除图片记录 @同时需要删除对应的已经上传的图片
     * */
     deleteAction() {
-        var _this5 = this;
+        var _this6 = this;
 
         return _asyncToGenerator(function* () {
-            if (_this5.isGet) {
-                let slideId = _this5.ctx.param('slide-id');
-                let slide_img = yield _this5.modelInstance.where({ 'slide_id': slideId }).field('slide_img,slide_thumb').find();
+            if (_this6.isGet) {
+                let slideId = _this6.ctx.param('slide-id');
+                let slide_img = yield _this6.modelInstance.where({ 'slide_id': slideId }).field('slide_img,slide_thumb').find();
 
                 //循环遍历对象
                 if (slide_img) {
@@ -234,11 +283,11 @@ module.exports = class extends Base {
                     }
                 }
 
-                let dataId = yield _this5.modelInstance.where({ 'slide_id': slideId }).delete();
+                let dataId = yield _this6.modelInstance.where({ 'slide_id': slideId }).delete();
                 if (!dataId) {
-                    _this5.fail(403, '删除轮播图失败');
+                    _this6.fail(403, '删除轮播图失败');
                 } else {
-                    _this5.success({ data: dataId }, '删除轮播图成功');
+                    _this6.success({ data: dataId }, '删除轮播图成功');
                 }
             }
         })();
@@ -247,25 +296,77 @@ module.exports = class extends Base {
     * 设置为轮播图
     * */
     setslideAction() {
-        var _this6 = this;
+        var _this7 = this;
 
         return _asyncToGenerator(function* () {
-            let id = _this6.get('slide-id');
-            let is_slide = _this6.get('is_slide');
+            let id = _this7.get('slide-id');
+            let is_slide = _this7.get('is_slide');
             if (is_slide == '1') {
-                let isSlide = yield _this6.modelInstance.where({ 'is_slide': '1' }).field('is_slide').count(); //设置为轮播图的数量 最多只能设置5
+                let isSlide = yield _this7.modelInstance.where({ 'is_slide': '1' }).field('is_slide').count(); //设置为轮播图的数量 最多只能设置5
                 if (isSlide >= 5) {
-                    _this6.fail(403, '轮播图最多只能设置5个，请先取消其他已设置的轮播图');
+                    _this7.fail(403, '轮播图最多只能设置5个，请先取消其他已设置的轮播图');
                     return false;
                 }
             }
-            let thisRecord = yield _this6.modelInstance.where({ 'slide_id': id }).update({ 'is_slide': is_slide });
+            let thisRecord = yield _this7.modelInstance.where({ 'slide_id': id }).update({ 'is_slide': is_slide });
             if (!thisRecord) {
-                _this6.fail(403, '更改轮播图状态失败');
+                _this7.fail(403, '更改轮播图状态失败');
             } else {
-                _this6.success({ data: thisRecord }, '更改轮播图状态成功');
+                _this7.success({ data: thisRecord }, '更改轮播图状态成功');
             }
         })();
     }
 
 };
+
+/*
+* 上传到七牛
+* */
+const uploadFile = exports.uploadFile = function (localFile, key) {
+    const accessKey = 'If1SWAP60HYq8YUtCWSvgNiL-dvIh_sjVgS3-YPc';
+    const secretKey = 'CBcrPNhdn17uTo5fKT3lx-bBgqRI5TFeDs-dizET';
+    const mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
+    let options = {
+        scope: 'iyuge' //空间名称
+    };
+    let putPolicy = new qiniu.rs.PutPolicy(options);
+    let uploadToken = putPolicy.uploadToken(mac); //创建一个token
+
+    let config = new qiniu.conf.Config();
+    // 空间对应的机房
+    config.zone = qiniu.zone.Zone_z0; //华东
+    // 是否使用https域名
+    //config.useHttpsDomain = true;
+    // 上传是否使用cdn加速
+    //config.useCdnDomain = true;
+
+    const formUploader = new qiniu.form_up.FormUploader(config);
+    const putExtra = new qiniu.form_up.PutExtra();
+
+    let returnInfo = {};
+    return new Promise(resolve => {
+        formUploader.putFile(uploadToken, key, localFile, putExtra, function (respErr, respBody, respInfo) {
+            if (respErr) {
+                resolve(returnInfo = {
+                    msg: 'error',
+                    data: []
+                });
+                throw respErr;
+            }
+            if (respInfo.statusCode == 200) {
+                resolve(returnInfo = {
+                    msg: 'success',
+                    data: respBody
+                });
+            } else {
+                console.log(respInfo.statusCode);
+                console.log(respBody);
+                resolve(returnInfo = {
+                    msg: 'error',
+                    data: respBody
+                });
+            }
+        });
+    });
+};
+//# sourceMappingURL=slideshow.js.map
