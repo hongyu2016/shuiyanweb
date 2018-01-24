@@ -43,7 +43,7 @@
                     <div id="fileList" class="uploader-list">
                         {% if slideData.slide_img.length>0 %}
                             <div class="file-item thumbnail" up_img_url="{{slideData.slide_img}}">
-                                <img src="{{slideData.slide_img}}">
+                                <img src="{{qiniuImgHost}}{{slideData.slide_img}}?{{shuiyanImgThumb}}">
                             </div>
                         {% endif %}
                     </div>
@@ -270,7 +270,28 @@
                 }
             })
         });
-    })
+    });
+    window.onbeforeunload = function(){
+	    cleanImg()
+    };
+
+    function cleanImg () {
+    	var imgUrl=$('#fileList').find('.thumbnail').attr('up_img_url');
+	    $.ajax({
+		    url: '/slideshow/cleanImg',
+		    type: 'get',
+		    data: {
+		    	'imgUrl':imgUrl
+            },
+		    dataType: "json",
+		    success: function (data) {
+
+		    },
+		    error: function (xhr, ajaxOptions, thrownError) {
+
+		    }
+	    })
+    }
 </script>
 
 {% endblock%}

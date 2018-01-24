@@ -33,8 +33,8 @@
                                 {% endif%}
                             </td>
                             <td>
-                                {% if list.slide_thumb %}
-                                <img src="{{list.slide_thumb}}" class="table-img">
+                                {% if list.slide_img %}
+                                <img src="{{qiniuImgHost}}{{list.slide_img}}?{{shuiyanImgThumb2}}" class="table-img">
                                 {% else %}
                                 <img class="table-img" src="/static/images/nopic.gif"/>
                                 {% endif %}
@@ -81,7 +81,9 @@
                         if(data.errno==0){
                             layer.close(loading);
                             layer.msg(data.errmsg);
-                            window.location.reload();
+	                        setTimeout(function () {
+		                        window.location.reload();
+	                        }, 2000)
                         }else {
                             layer.close(loading);
                             layer.msg(data.errmsg);

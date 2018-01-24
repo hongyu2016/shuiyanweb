@@ -54,8 +54,8 @@
                         <!--用来存放item-->
                         <div id="fileList" class="uploader-list">
                             {% if newsData.thumb.length>0 %}
-                            <div class="file-item thumbnail" up_img_url="{{newsData.thumb}}">
-                                <img src="{{newsData.thumb}}">
+                            <div class="file-item thumbnail" up_img_url_thumb="{{newsData.thumb}}">
+                                <img src="{{qiniuImgHost}}{{newsData.thumb}}?{{shuiyanImgThumb}}">
                             </div>
                             {% endif %}
                         </div>
@@ -112,7 +112,6 @@
                 var author=$('#author').val();
                 var copyfrom=$('#copyfrom').val();
                 var content=UE.getEditor('editor').getContent();
-	            //var img_path = $('#fileList').find('.file-item').attr('up_img_url');
 	            var img_path_thumb = $('#fileList').find('.file-item').attr('up_img_url_thumb');
 	            var isUploadImg=$('#fileList').find('.progress');//图片是否在上传中
                 if(!sort||sort==''){
@@ -141,7 +140,6 @@
                     content:content,
                     copyfrom:copyfrom,
                     editId:editId,
-	                //img_path: img_path?img_path:'',
 	                img_path_thumb:img_path_thumb?img_path_thumb:''  //只需要存缩略图
                 };
                 loading=layer.load(2);
@@ -183,7 +181,7 @@
 		        // swf文件路径
 		        swf: '/static/js/web-uploader/dist/Uploader.swf',
 		        // 文件接收服务端。
-		        server: '/news/uploadImg',
+		        server: '/news/uploadQiniu',
 		        // 选择文件的按钮。可选。
 		        // 内部根据当前运行是创建，可能是input元素，也可能是flash.
 		        pick: '#filePicker',
@@ -246,8 +244,8 @@
 	        // 文件上传成功，给item添加成功class, 用样式标记上传成功。
 	        uploader.on('uploadSuccess', function (file,response) {
 		        $('#' + file.id).addClass('upload-state-done').attr({
-			        'up_img_url':response.data.img_path,
-			        'up_img_url_thumb':response.data.img_path_thumb
+			        //'up_img_url':response.data.img_path,
+			        'up_img_url_thumb':response.data.key
 		        });
 	        });
 
@@ -279,7 +277,28 @@
 		        }
 	        };
 
-        })
+        });
+        window.onbeforeunload = function(){
+	        cleanImg()
+        };
+
+        function cleanImg () {
+	        var imgUrl=$('#fileList').find('.thumbnail').attr('up_img_url_thumb');
+	        $.ajax({
+		        url: '/news/cleanImg',
+		        type: 'get',
+		        data: {
+			        'imgUrl':imgUrl
+		        },
+		        dataType: "json",
+		        success: function (data) {
+
+		        },
+		        error: function (xhr, ajaxOptions, thrownError) {
+
+		        }
+	        })
+        }
     </script>
 
 {% endblock%}

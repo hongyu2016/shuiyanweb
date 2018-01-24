@@ -1,3 +1,8 @@
+/*
+ * 图片上传 上传至七牛，不在上传至本地文件夹
+ * 百度编辑器上传的图片目前还是只能存在本地目录，
+ * 轮播图和新闻的缩略图是存在七牛
+ * */
 //const ThinkUeditor=require('think-ueditor');
 const ThinkUeditor=require('../common_function/ueditor/index');  //引入本地的文件 方便修改配置 **百度编辑器
 const pagination = require('think-pagination');
@@ -5,6 +10,7 @@ const fs = require('fs');
 const path = require('path');
 const helper = require('think-helper');
 const Jimp = require("jimp");
+const qiniu=require('qiniu');
 //import commonFun from "../common_function/common_function.js";//自定义类 里面有自定义函数
 const Base = require('./base.js');
 
@@ -54,7 +60,7 @@ module.exports = class extends Base {
         this.json(ueditor.init());
     }
     /*
-    * 缩略图上传
+    * 缩略图上传到本地文件夹（弃用）
     * */
 	async uploadImgAction(){
 		let file=this.ctx.file('file');//获取文件
@@ -116,6 +122,50 @@ module.exports = class extends Base {
 			});
 		}
 	}
+	/*
+	 * 上传图片到七牛服务器
+	 * */
+	async uploadQiniuAction(){
+		let file=this.ctx.file('file');//获取文件
+		if(file && file.type === 'image/png' || file.type === 'image/jpeg'){
+			let localFile = file.path;//上传文件
+			const nameArr = file.name.split('.');
+			const YYYYMMDD = helper.datetime(Date.now(), 'YYYYMMDD');
+			const basename = 'news_'+YYYYMMDD+'_'+path.basename(localFile) + '.' + nameArr[nameArr.length - 1]; //新名称
+			// 文件上传
+			let slideshow=think.service('slideshow', 'admin');
+			let result=await slideshow.putfileQiniu(localFile, basename);
+			if(result.msg=='success'){
+				//上传成功
+
+				this.json({
+					success:true,
+					errmsg:'上传成功',
+					data:result.data
+				});
+			}else if(result.msg=='error_1'){
+				this.json({
+					success:true,
+					errmsg:'上传失败',
+					data:[]
+				});
+			}else{
+				this.json({
+					success:true,
+					errmsg:'上传失败',
+					data:result.data
+				});
+			}
+
+		}else {
+			this.json({
+				success:true,
+				errmsg:'上传失败',
+				data:[]
+			});
+		}
+
+	}
 
     /*
     * 提交新增/编辑文章
@@ -156,11 +206,26 @@ module.exports = class extends Base {
                 author:author,
                 content:content,
                 copyfrom:copyfrom,
-	            thumb:thumb  //取内容的第一张图片为缩略图
+	            thumb:thumb
             };
 
-            if(editId>0){//编辑文章
+            if(editId!=0 || editId!='0'){//编辑文章
+	            let newsThumb=await this.modelInstance.where({'article_id':editId}).field('thumb').find();
+	            if(thumb!=newsThumb.thumb){ //如果提交过来的图片路径和数据库的不一致，则是修改了图片
+		            // 检测文件是否存在
+		            /*let filePath=think.ROOT_PATH+'/www'+slide_img.slide_img;  //图片的路径
+		             if(fs.existsSync(filePath)) { //如果存在则删除图片
+		             fs.unlinkSync(filePath);
+		             }*/
+		            //从先删除已经存在的图片
+		            let slideshow=think.service('slideshow', 'admin');
+		            let result=await slideshow.deleteQiniuImg(newsThumb.thumb);
+
+	            }
+
+
                 let artitleId=await this.modelInstance.where({'article_id':editId}).editNews(data);
+
                 if(!artitleId){
                     this.fail(403,'编辑文章失败');
                 }
@@ -211,4 +276,20 @@ module.exports = class extends Base {
             }
         }
     }
+	/*
+	 * 关闭浏览器时若没有点击提交按钮，则清除已经上传的图片
+	 * */
+	async cleanImgAction(){
+		let imgUrl=this.get('imgUrl');
+		if(!imgUrl){
+			return false;
+		}
+		let slide_img=await this.modelInstance.where({'thumb':imgUrl}).select();
+
+		if(slide_img.length<=0){ //如果数据库里找不到，则是用户还没保存此文章，那么此时用户离开了浏览器，则需要删除七牛的已经上传的文件
+			let slideshow=think.service('slideshow', 'admin');
+			let result=await slideshow.deleteQiniuImg(imgUrl);
+		}
+
+	}
 };

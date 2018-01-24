@@ -29,7 +29,7 @@
                         <td>
                             {% if list.thumb %}
                             <div class="table-img-box">
-                                <img class="table-img" src="{{list.thumb}}"/>
+                                <img class="table-img" src="{{qiniuImgHost}}{{list.thumb}}?{{shuiyanImgThumb2}}"/>
                             </div>
                             {% else %}
                             <img class="table-img" src="/static/images/nopic.gif"/>

@@ -1,6 +1,10 @@
-exports.__esModule = true;
-
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+/*
+* 图片上传 上传至七牛，不在上传至本地文件夹
+* 百度编辑器上传的图片目前还是只能存在本地目录，
+* 轮播图和新闻的缩略图是存在七牛
+* */
 
 const pagination = require('think-pagination');
 const fs = require('fs');
@@ -59,7 +63,7 @@ module.exports = class extends Base {
         })();
     }
     /*
-    * 单图异步上传
+    * 单图异步上传到本地文件夹（弃用）
     * */
     uploadImgAction() {
         var _this3 = this;
@@ -130,29 +134,36 @@ module.exports = class extends Base {
         var _this4 = this;
 
         return _asyncToGenerator(function* () {
-            //this.ctx.respond = false;
-            let that = _this4;
-
             let file = _this4.ctx.file('file'); //获取文件
             if (file && file.type === 'image/png' || file.type === 'image/jpeg') {
-                let localFile = file.path;
+                let localFile = file.path; //上传文件
                 const nameArr = file.name.split('.');
-
                 const YYYYMMDD = helper.datetime(Date.now(), 'YYYYMMDD');
-                const basename = 'slide_' + YYYYMMDD + '_' + file.name + '.' + nameArr[nameArr.length - 1];
-
-                // key=basename;  //存储在七牛的新名称
-
-
+                const basename = 'slide_' + YYYYMMDD + '_' + path.basename(localFile) + '.' + nameArr[nameArr.length - 1]; //新名称
                 // 文件上传
+                let slideshow = think.service('slideshow', 'admin');
+                let result = yield slideshow.putfileQiniu(localFile, basename);
+                if (result.msg == 'success') {
+                    //上传成功
 
-                let result = yield uploadFile(localFile, basename);
-
-                _this4.json({
-                    success: true,
-                    errmsg: '上传成功',
-                    data: result.data
-                });
+                    _this4.json({
+                        success: true,
+                        errmsg: '上传成功',
+                        data: result.data
+                    });
+                } else if (result.msg == 'error_1') {
+                    _this4.json({
+                        success: true,
+                        errmsg: '上传失败',
+                        data: []
+                    });
+                } else {
+                    _this4.json({
+                        success: true,
+                        errmsg: '上传失败',
+                        data: result.data
+                    });
+                }
             } else {
                 _this4.json({
                     success: true,
@@ -160,11 +171,6 @@ module.exports = class extends Base {
                     data: []
                 });
             }
-            /*return that.json({
-             success:true,
-             errmsg:'',
-             data:'jsjsj'
-            });*/
         })();
     }
 
@@ -212,18 +218,20 @@ module.exports = class extends Base {
                     is_slide: is_slide
                 };
 
-                if (editId != 0) {
+                if (editId != 0 || editId != '0') {
                     //编辑
                     //首先先把本地已经上传的图片删掉 然后再更新数据库数据
                     let slide_img = yield _this5.modelInstance.where({ 'slide_id': editId }).field('slide_img').find();
                     if (img_path != slide_img.slide_img) {
                         //如果提交过来的图片路径和数据库的不一致，则是修改了图片
                         // 检测文件是否存在
-                        let filePath = think.ROOT_PATH + '/www' + slide_img.slide_img; //图片的路径
-                        if (fs.existsSync(filePath)) {
-                            //如果存在则删除图片
+                        /*let filePath=think.ROOT_PATH+'/www'+slide_img.slide_img;  //图片的路径
+                        if(fs.existsSync(filePath)) { //如果存在则删除图片
                             fs.unlinkSync(filePath);
-                        }
+                        }*/
+                        //从先删除已经存在的图片
+                        let slideshow = think.service('slideshow', 'admin');
+                        let result = yield slideshow.deleteQiniuImg(slide_img.slide_img);
                     }
 
                     //更新数据
@@ -267,20 +275,31 @@ module.exports = class extends Base {
         return _asyncToGenerator(function* () {
             if (_this6.isGet) {
                 let slideId = _this6.ctx.param('slide-id');
-                let slide_img = yield _this6.modelInstance.where({ 'slide_id': slideId }).field('slide_img,slide_thumb').find();
+                //let slide_img=await this.modelInstance.where({'slide_id':slideId}).field('slide_img,slide_thumb').find();
 
                 //循环遍历对象
-                if (slide_img) {
-                    for (let i in slide_img) {
-                        if (slide_img.hasOwnProperty(i) === true) {
-                            // 检测文件是否存在 删除大图和缩略图
-                            let filePath = think.ROOT_PATH + '/www' + slide_img[i]; //图片的路径
-                            if (fs.existsSync(filePath)) {
-                                //如果存在则删除图片
-                                fs.unlinkSync(filePath);
-                            }
-                        }
-                    }
+                /*if(slide_img){
+                 for (let i in slide_img) {
+                  if (slide_img.hasOwnProperty(i) === true) {
+                   // 检测文件是否存在 删除大图和缩略图
+                   let filePath=think.ROOT_PATH+'/www'+slide_img[i];  //图片的路径
+                   if(fs.existsSync(filePath)) { //如果存在则删除图片
+                    fs.unlinkSync(filePath);
+                   }
+                  }
+                 }
+                }*/
+                let slide_img = yield _this6.modelInstance.where({ 'slide_id': slideId }).field('slide_img').find();
+                //去七牛删除文件
+
+                let slideshow = think.service('slideshow', 'admin');
+
+                let result = yield slideshow.deleteQiniuImg(slide_img.slide_img); //只取 除域名外的部分
+                //当删除七牛图片成功时才删除数据库记录
+
+                if (result.msg != 'success') {
+                    _this6.fail(403, '删除轮播图失败');
+                    return false;
                 }
 
                 let dataId = yield _this6.modelInstance.where({ 'slide_id': slideId }).delete();
@@ -316,57 +335,25 @@ module.exports = class extends Base {
             }
         })();
     }
+    /*
+    * 关闭浏览器时若没有点击提交按钮，则清除已经上传的图片
+    * */
+    cleanImgAction() {
+        var _this8 = this;
+
+        return _asyncToGenerator(function* () {
+            let imgUrl = _this8.get('imgUrl');
+            if (!imgUrl) {
+                return false;
+            }
+            let slide_img = yield _this8.modelInstance.where({ 'slide_img': imgUrl }).select();
+
+            if (slide_img.length <= 0) {
+                //如果数据库里找不到，则是用户还没保存此文章，那么此时用户离开了浏览器，则需要删除七牛的已经上传的文件
+                let slideshow = think.service('slideshow', 'admin');
+                let result = yield slideshow.deleteQiniuImg(imgUrl);
+            }
+        })();
+    }
 
 };
-
-/*
-* 上传到七牛
-* */
-const uploadFile = exports.uploadFile = function (localFile, key) {
-    const accessKey = 'If1SWAP60HYq8YUtCWSvgNiL-dvIh_sjVgS3-YPc';
-    const secretKey = 'CBcrPNhdn17uTo5fKT3lx-bBgqRI5TFeDs-dizET';
-    const mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
-    let options = {
-        scope: 'iyuge' //空间名称
-    };
-    let putPolicy = new qiniu.rs.PutPolicy(options);
-    let uploadToken = putPolicy.uploadToken(mac); //创建一个token
-
-    let config = new qiniu.conf.Config();
-    // 空间对应的机房
-    config.zone = qiniu.zone.Zone_z0; //华东
-    // 是否使用https域名
-    //config.useHttpsDomain = true;
-    // 上传是否使用cdn加速
-    //config.useCdnDomain = true;
-
-    const formUploader = new qiniu.form_up.FormUploader(config);
-    const putExtra = new qiniu.form_up.PutExtra();
-
-    let returnInfo = {};
-    return new Promise(resolve => {
-        formUploader.putFile(uploadToken, key, localFile, putExtra, function (respErr, respBody, respInfo) {
-            if (respErr) {
-                resolve(returnInfo = {
-                    msg: 'error',
-                    data: []
-                });
-                throw respErr;
-            }
-            if (respInfo.statusCode == 200) {
-                resolve(returnInfo = {
-                    msg: 'success',
-                    data: respBody
-                });
-            } else {
-                console.log(respInfo.statusCode);
-                console.log(respBody);
-                resolve(returnInfo = {
-                    msg: 'error',
-                    data: respBody
-                });
-            }
-        });
-    });
-};
-//# sourceMappingURL=slideshow.js.map

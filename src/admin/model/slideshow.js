@@ -10,7 +10,7 @@ module.exports = class extends think.Model {
             .page(pageIndex,10)
             .order('slide_id ASC')
             .countSelect({
-                'field':'slide_id,slide_title,slide_thumb,slide_text,slide_jumpurl,is_slide'});
+                'field':'slide_id,slide_title,slide_thumb,slide_img,slide_text,slide_jumpurl,is_slide'});
     }
     addSlide(data){
         const date=think.datetime();

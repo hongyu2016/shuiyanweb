@@ -1,3 +1,9 @@
+/*
+* 图片上传 上传至七牛，不在上传至本地文件夹
+* 百度编辑器上传的图片目前还是只能存在本地目录，
+* 轮播图和新闻的缩略图是存在七牛
+* */
+
 const pagination = require('think-pagination');
 const fs = require('fs');
 const path = require('path');
@@ -46,7 +52,7 @@ module.exports = class extends Base {
         return this.display();
     }
     /*
-    * 单图异步上传
+    * 单图异步上传到本地文件夹（弃用）
     * */
     async uploadImgAction(){
         let file=this.ctx.file('file');//获取文件
@@ -113,29 +119,36 @@ module.exports = class extends Base {
     * 上传图片到七牛服务器
     * */
     async uploadQiniuAction(){
-	    //this.ctx.respond = false;
-	    let that=this;
-
 	    let file=this.ctx.file('file');//获取文件
 	    if(file && file.type === 'image/png' || file.type === 'image/jpeg'){
-		    let localFile = file.path;
+		    let localFile = file.path;//上传文件
 		    const nameArr = file.name.split('.');
-
 		    const YYYYMMDD = helper.datetime(Date.now(), 'YYYYMMDD');
-		    const basename = 'slide_'+YYYYMMDD+'_'+file.name + '.' + nameArr[nameArr.length - 1];
-
-		    // key=basename;  //存储在七牛的新名称
-
-
+		    const basename = 'slide_'+YYYYMMDD+'_'+path.basename(localFile) + '.' + nameArr[nameArr.length - 1]; //新名称
 		    // 文件上传
+		    let slideshow=think.service('slideshow', 'admin');
+		    let result=await slideshow.putfileQiniu(localFile, basename);
+		    if(result.msg=='success'){
+		    	//上传成功
 
-		    let result=await uploadFile(localFile,basename);
-
-		    this.json({
-			    success:true,
-			    errmsg:'上传成功',
-			    data:result.data
-		    });
+			    this.json({
+				    success:true,
+				    errmsg:'上传成功',
+				    data:result.data
+			    });
+		    }else if(result.msg=='error_1'){
+			    this.json({
+				    success:true,
+				    errmsg:'上传失败',
+				    data:[]
+			    });
+		    }else{
+			    this.json({
+				    success:true,
+				    errmsg:'上传失败',
+				    data:result.data
+			    });
+		    }
 
 	    }else {
 		    this.json({
@@ -144,11 +157,6 @@ module.exports = class extends Base {
 		     data:[]
 		     });
 	    }
-	    /*return that.json({
-		    success:true,
-		    errmsg:'',
-		    data:'jsjsj'
-	    });*/
 
     }
 
@@ -194,15 +202,19 @@ module.exports = class extends Base {
             };
 
 
-            if(editId!=0){//编辑
+            if(editId!=0 || editId!='0'){//编辑
                 //首先先把本地已经上传的图片删掉 然后再更新数据库数据
                 let slide_img=await this.modelInstance.where({'slide_id':editId}).field('slide_img').find();
                 if(img_path!=slide_img.slide_img){ //如果提交过来的图片路径和数据库的不一致，则是修改了图片
                     // 检测文件是否存在
-                    let filePath=think.ROOT_PATH+'/www'+slide_img.slide_img;  //图片的路径
+                    /*let filePath=think.ROOT_PATH+'/www'+slide_img.slide_img;  //图片的路径
                     if(fs.existsSync(filePath)) { //如果存在则删除图片
                         fs.unlinkSync(filePath);
-                    }
+                    }*/
+                    //从先删除已经存在的图片
+	                let slideshow=think.service('slideshow', 'admin');
+	                let result=await slideshow.deleteQiniuImg(slide_img.slide_img);
+
                 }
 
                 //更新数据
@@ -245,10 +257,10 @@ module.exports = class extends Base {
     async deleteAction(){
         if(this.isGet){
             let slideId=this.ctx.param('slide-id');
-            let slide_img=await this.modelInstance.where({'slide_id':slideId}).field('slide_img,slide_thumb').find();
+            //let slide_img=await this.modelInstance.where({'slide_id':slideId}).field('slide_img,slide_thumb').find();
 
             //循环遍历对象
-	        if(slide_img){
+	        /*if(slide_img){
 		        for (let i in slide_img) {
 			        if (slide_img.hasOwnProperty(i) === true) {
 				        // 检测文件是否存在 删除大图和缩略图
@@ -258,6 +270,18 @@ module.exports = class extends Base {
 				        }
 			        }
 		        }
+	        }*/
+	        let slide_img=await this.modelInstance.where({'slide_id':slideId}).field('slide_img').find();
+	        //去七牛删除文件
+
+	        let slideshow=think.service('slideshow', 'admin');
+
+	        let result=await slideshow.deleteQiniuImg(slide_img.slide_img);  //只取 除域名外的部分
+	        //当删除七牛图片成功时才删除数据库记录
+
+	        if(result.msg!='success'){
+		        this.fail(403,'删除轮播图失败');
+	        	return false;
 	        }
 
             let dataId=await this.modelInstance.where({'slide_id':slideId}).delete();
@@ -290,67 +314,22 @@ module.exports = class extends Base {
 		    this.success({data:thisRecord},'更改轮播图状态成功');
 	    }
     }
+    /*
+    * 关闭浏览器时若没有点击提交按钮，则清除已经上传的图片
+    * */
+    async cleanImgAction(){
+    	let imgUrl=this.get('imgUrl');
+    	if(!imgUrl){
+    		return false;
+	    }
+	    let slide_img=await this.modelInstance.where({'slide_img':imgUrl}).select();
+
+	    if(slide_img.length<=0){ //如果数据库里找不到，则是用户还没保存此文章，那么此时用户离开了浏览器，则需要删除七牛的已经上传的文件
+		    let slideshow=think.service('slideshow', 'admin');
+		    let result=await slideshow.deleteQiniuImg(imgUrl);
+	    }
+
+    }
 
 };
 
-/*
-* 上传到七牛
-* */
-export const uploadFile=function (localFile,key) {
-	const accessKey = 'If1SWAP60HYq8YUtCWSvgNiL-dvIh_sjVgS3-YPc';
-	const secretKey = 'CBcrPNhdn17uTo5fKT3lx-bBgqRI5TFeDs-dizET';
-	const mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
-	let options = {
-		scope: 'iyuge',  //空间名称
-	};
-	let putPolicy = new qiniu.rs.PutPolicy(options);
-	let uploadToken=putPolicy.uploadToken(mac); //创建一个token
-
-	let config = new qiniu.conf.Config();
-	// 空间对应的机房
-	config.zone = qiniu.zone.Zone_z0; //华东
-	// 是否使用https域名
-	//config.useHttpsDomain = true;
-	// 上传是否使用cdn加速
-	//config.useCdnDomain = true;
-
-	const formUploader = new qiniu.form_up.FormUploader(config);
-	const putExtra = new qiniu.form_up.PutExtra();
-
-	let returnInfo={};
-	return new Promise((resolve)=>{
-		formUploader.putFile(uploadToken, key, localFile, putExtra, function(respErr,respBody, respInfo){
-			if (respErr) {
-				resolve(
-					returnInfo={
-						msg:'error',
-						data:[]
-					}
-
-				);
-				throw respErr;
-			}
-			if (respInfo.statusCode == 200) {
-				resolve(
-					returnInfo={
-						msg:'success',
-						data:respBody
-					}
-				);
-
-			} else {
-				console.log(respInfo.statusCode);
-				console.log(respBody);
-				resolve(
-					returnInfo={
-						msg:'error',
-						data:respBody
-					}
-				)
-			}
-
-		});
-
-
-	})
-};
