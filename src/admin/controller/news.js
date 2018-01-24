@@ -137,7 +137,6 @@ module.exports = class extends Base {
 			let result=await slideshow.putfileQiniu(localFile, basename);
 			if(result.msg=='success'){
 				//上传成功
-
 				this.json({
 					success:true,
 					errmsg:'上传成功',
@@ -145,13 +144,13 @@ module.exports = class extends Base {
 				});
 			}else if(result.msg=='error_1'){
 				this.json({
-					success:true,
+					success:false,
 					errmsg:'上传失败',
 					data:[]
 				});
 			}else{
 				this.json({
-					success:true,
+					success:false,
 					errmsg:'上传失败',
 					data:result.data
 				});
@@ -159,7 +158,7 @@ module.exports = class extends Base {
 
 		}else {
 			this.json({
-				success:true,
+				success:false,
 				errmsg:'上传失败',
 				data:[]
 			});

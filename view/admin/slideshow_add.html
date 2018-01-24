@@ -26,7 +26,7 @@
             <label for="is-slide" class="col-md-2 col-sm-2 control-label">设置为首页轮播图</label>
             <div class="col-lg-8 col-md-8 col-sm-10">
                 <label style="font-weight: 100;padding-top: 7px;">
-                    <input type="checkbox" class="flat-red isslide" id="is-slide">
+                    <input type="checkbox" class="flat-red isslide" id="is-slide" {{ "checked" if slideData else "" }}/>
                     （首页轮播图最多允许为5张）
                 </label>
             </div>
@@ -152,11 +152,24 @@
 
         // 文件上传成功，给item添加成功class, 用样式标记上传成功。
         uploader.on('uploadSuccess', function (file,response) {
-            $('#' + file.id).addClass('upload-state-done').attr({
-                //'up_img_url':response.data.img_path,
-                //'up_img_url_thumb':response.data.img_path_thumb
-                'up_img_url':response.data.key
-            });
+        	if(response.success==true){
+		        $('#' + file.id).addClass('upload-state-done').attr({
+			        //'up_img_url':response.data.img_path,
+			        //'up_img_url_thumb':response.data.img_path_thumb
+			        'up_img_url':response.data.key
+		        });
+            }else{
+		        var $li = $('#' + file.id),
+			        $error = $li.find('div.error');
+
+		        // 避免重复创建
+		        if (!$error.length) {
+			        $error = $('<div class="error"></div>').appendTo($li);
+		        }
+
+		        $error.text('上传失败');
+            }
+
         });
 
         // 文件上传失败，显示上传出错。

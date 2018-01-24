@@ -54,7 +54,7 @@ module.exports = class extends Base {
         return _asyncToGenerator(function* () {
             let slideId = _this2.get('slide-id');
             if (slideId) {
-                //有文章id 则是编辑页面 从news表根据id查询数据
+                //有文章id 则是编辑页面 根据id查询数据
                 let slideData = yield _this2.modelInstance.where({ 'slide_id': slideId }).find();
                 _this2.assign('slideData', slideData);
             }

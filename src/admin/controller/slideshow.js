@@ -44,7 +44,7 @@ module.exports = class extends Base {
   * */
     async addAction(){
         let slideId=this.get('slide-id');
-        if(slideId){//有文章id 则是编辑页面 从news表根据id查询数据
+        if(slideId){//有文章id 则是编辑页面 根据id查询数据
             let slideData=await this.modelInstance.where({'slide_id':slideId}).find();
             this.assign('slideData',slideData);
         }
