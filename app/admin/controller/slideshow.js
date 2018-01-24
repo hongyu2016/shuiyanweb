@@ -153,20 +153,20 @@ module.exports = class extends Base {
                     });
                 } else if (result.msg == 'error_1') {
                     _this4.json({
-                        success: true,
+                        success: false,
                         errmsg: '上传失败',
                         data: []
                     });
                 } else {
                     _this4.json({
-                        success: true,
+                        success: false,
                         errmsg: '上传失败',
                         data: result.data
                     });
                 }
             } else {
                 _this4.json({
-                    success: true,
+                    success: false,
                     errmsg: '上传失败',
                     data: []
                 });

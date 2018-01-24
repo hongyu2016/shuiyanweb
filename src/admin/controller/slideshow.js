@@ -138,13 +138,13 @@ module.exports = class extends Base {
 			    });
 		    }else if(result.msg=='error_1'){
 			    this.json({
-				    success:true,
+				    success:false,
 				    errmsg:'上传失败',
 				    data:[]
 			    });
 		    }else{
 			    this.json({
-				    success:true,
+				    success:false,
 				    errmsg:'上传失败',
 				    data:result.data
 			    });
@@ -152,7 +152,7 @@ module.exports = class extends Base {
 
 	    }else {
 		    this.json({
-		     success:true,
+		     success:false,
 		     errmsg:'上传失败',
 		     data:[]
 		     });
