@@ -19,7 +19,7 @@ module.exports = class extends think.Controller {
             height: 35, // height of captcha
             //fontPath: './fonts/Comismsh.ttf', // your font path
             fontSize: 50, // captcha text size
-            charPreset: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789' // random character preset
+            charPreset: '0123456789' // random character preset
         };
         let captcha = new ThinkSvgCaptcha(options);
         let c = captcha.create(); // returns an object that has the following property: {data: 'svg path data', text: 'captcha text'}
