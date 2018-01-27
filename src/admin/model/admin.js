@@ -17,6 +17,7 @@ module.exports = class extends think.Model {
 			'admin_name':data.admin_name,
 	        'admin_email':data.admin_email,
 	        'role_id':data.role_id,
+	        'admin_pass':data.admin_pass,
 	        'create_time':date
         });
     }
@@ -26,7 +27,8 @@ module.exports = class extends think.Model {
             {
 	            'admin_name':data.admin_name,
 	            'admin_email':data.admin_email,
-	            'role_id':data.role_id
+	            'role_id':data.role_id,
+	            'admin_pass':data.admin_pass
             }
         )
     }

@@ -38,16 +38,18 @@ module.exports = class extends Base {
 	* 增加，编辑提交方法
 	* */
 	async doaddAction(){
-		if(this.isGet){
-			let editId=this.get('editId'),
-				admin_name=this.get('admin_name'),
-				admin_email=this.get('admin_email');
-			let role_id=this.get('role_id');
+		if(this.isPost){
+			let editId=this.post('editId'),
+				admin_name=this.post('admin_name'),
+				admin_email=this.post('admin_email');
+			let role_id=this.post('role_id');
+			let admin_pass=this.post('admin_pass');
 			let parms={
 				editId:editId,
 				admin_name:admin_name,
 				admin_email:admin_email,
-				role_id:role_id
+				role_id:role_id,
+				admin_pass:admin_pass
 			};
 			if(editId!=0 || editId!='0'){
 				//编辑

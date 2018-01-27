@@ -15,6 +15,12 @@
                 </div>
             </div>
             <div class="form-group">
+                <label for="password" class="col-md-2 col-sm-2 control-label">设置密码</label>
+                <div class="col-lg-4 col-md-6 col-sm-10">
+                    <input type="password" class="form-control" id="password" placeholder="设置密码">
+                </div>
+            </div>
+            <div class="form-group">
                 <label for="role" class="col-md-2 col-sm-2 control-label">设置角色</label>
                 <div class="col-lg-4 col-md-6 col-sm-10">
                     <select class="form-control" id="role">
@@ -31,12 +37,14 @@
             </div>
         </div>
     </form>
+    <script src="/static/js/jquery.md5.js"></script>
     <script>
         $(function () {
             $('#push-btn').off('click').on('click',function (e) {
                 e.preventDefault();
                 var admin_name=$.trim($('#name').val());
                 var admin_email=$.trim($('#email').val());
+                var password=$.trim($('#password').val());
                 var role_id=$('#role option:selected').attr('id');
 	            var editId=GetQueryString('id');//是否是编辑
 	            if(!editId){
@@ -46,9 +54,16 @@
                     layer.msg('请输入用户名称和邮箱');
                     return false;
                 }
+                var parms={
+	                'admin_name':admin_name,
+                    'admin_email':admin_email,
+                    'editId':editId,
+                    'role_id':role_id,
+                    'admin_pass':$.md5(password)
+                };
 
                 loading=layer.load(2);
-                $.get('/admin_user/doadd',{'admin_name':admin_name,'admin_email':admin_email,'editId':editId,'role_id':role_id},function (data) {
+                $.post('/admin_user/doadd',parms,function (data) {
                     if(data.success){
                         layer.close(loading);
                         layer.msg(data.errmsg);
