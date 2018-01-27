@@ -54,6 +54,10 @@
                     layer.msg('请输入用户名称和邮箱');
                     return false;
                 }
+                if(!role_id){
+	                layer.msg('请先建立角色');
+	                return false;
+                }
                 var parms={
 	                'admin_name':admin_name,
                     'admin_email':admin_email,

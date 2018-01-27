@@ -46,6 +46,7 @@
                     <td>{{list.create_time}}</td>
                     <td>
                         <button type="button" class="btn btn-info btn-sm view" data-id="{{list.role_id}}">角色成员</button>
+                        <button type="button" class="btn btn-success btn-sm auth" data-id="{{list.role_id}}">分配权限</button>
                         <button type="button" class="btn btn-info btn-sm edit" data-id="{{list.role_id}}">编辑</button>
                         <button type="button" class="btn btn-danger btn-sm enabled" data-id="{{list.role_id}}" data-status="{{list.status}}">{{'启用' if list.status=='1' else '禁用'}}</button>
                         <button type="button" class="btn btn-warning btn-sm delete" data-id="{{list.role_id}}">删除</button>
