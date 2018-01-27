@@ -1,0 +1,164 @@
+{% extends "./base.html" %}
+{% block main %}
+    <div class="operate">
+        <div class="btn-group">
+            <a href="/role/add?menu_id=4" class="btn btn-info btn-flat">添加角色</a>
+        </div>
+    </div>
+    <div class="box-body table-responsive no-padding">
+        <table class="table table-hover table-bordered">
+            <thead>
+                <tr>
+                    <td>
+                        序号
+                    </td>
+                    <td>
+                        角色名称
+                    </td>
+                    <td>
+                        角色描述
+                    </td>
+                    <td>
+                        状态
+                    </td>
+                    <td>
+                        创建时间
+                    </td>
+                    <td>
+                        操作
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+
+            {% for list in data%}
+                <tr>
+                    <td>{{loop.index}}</td> <!--当前循环数-->
+                    <td>{{list.role_name}}</td>
+                    <td>{{list.role_remark}}</td>
+                    <td>
+                        {% if list.status=='2' %}
+                        启用
+                        {% else %}
+                        <span class="text-red">禁用</span>
+                        {% endif %}
+                    </td>
+                    <td>{{list.create_time}}</td>
+                    <td>
+                        <button type="button" class="btn btn-info btn-sm view" data-id="{{list.role_id}}">角色成员</button>
+                        <button type="button" class="btn btn-info btn-sm edit" data-id="{{list.role_id}}">编辑</button>
+                        <button type="button" class="btn btn-danger btn-sm enabled" data-id="{{list.role_id}}" data-status="{{list.status}}">{{'启用' if list.status=='1' else '禁用'}}</button>
+                        <button type="button" class="btn btn-warning btn-sm delete" data-id="{{list.role_id}}">删除</button>
+                    </td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+    <div id="role-dom" style="display: none">
+        <ul class="role-member clearfix">
+
+        </ul>
+    </div>
+    <script>
+        $(function () {
+        	/*
+        	* 查看角色成员
+        	* */
+            $('.view').off('click').on('click',function (e) {
+            	var id=$(this).attr('data-id');
+            	var width,height;
+            	if(isPhone()){
+		            width='100%';
+		            height='60%'
+                }else{
+		            width='600px';
+		            height='50%'
+                }
+
+	            layer.open({
+		            type: 1,
+		            title:'角色成员',
+		            skin: 'layui-layer-rim', //加上边框
+		            area: [width, height], //宽高
+		            btn:['关闭'],
+		            shadeClose:true,
+		            btnAlign: 'c',
+		            content: $('#role-dom').html(),
+		            success:function (layero,index) {
+			            loading=layer.load(2);
+                        $.get('/role/viewMember',{'id':id},function (data) {
+                        	var dom;
+                        	layer.close(loading);
+                            if(data.success){
+                            	var list=data.data;
+                            	for(var i=0;i<list.length;i++){
+		                            dom='<li class="pull-left">'+list[i].admin_name+'</li>'
+                                }
+                            	$('.role-member',layero).html(dom)
+                            }
+                        },'json')
+		            }
+	            });
+            });
+            /*
+            * 编辑栏目
+            * */
+            $('.edit').off('click').on('click',function (e) {
+                var id=$(this).attr('data-id');
+                window.location.href='/role/add?menu_id=4&role-id='+id+'';
+            });
+            /*
+            * 禁用，启用
+            * */
+	        $('.enabled').off('click').on('click',function (e) {
+		        var id=$(this).attr('data-id');
+		        var status=$(this).attr('data-status');
+		        if(status=='1'){
+			        status=2
+                }else{
+			        status=1
+                }
+		        loading=layer.load(2);
+		        $.get('/role/doenable',{'id':id,'status':status},function (data) {
+			        layer.close(loading);
+			        if(data.success){
+				        layer.msg('修改状态成功');
+				        setTimeout(function (e) {
+                            window.location.reload();
+				        },2000)
+			        }else{
+			        	layer.msg('修改状态失败')
+                    }
+		        },'json')
+	        });
+            /*
+            * 删除栏目
+            * */
+            $('.delete').off('click').on('click',function (e) {
+                var that=this;
+                layer.confirm('您确定执行删除操作？', {
+                    btn: ['确定','取消']
+                }, function(){
+                    var id=$(that).attr('data-id');
+                    loading=layer.load(2);
+                    $.get('',{'sort-id':Number(id)},function (data) {
+                        if(data.errno==0){
+                            layer.close(loading);
+                            layer.msg(data.errmsg);
+                            $(that).closest('tr').remove();
+                        }else{
+                            layer.close(loading);
+                            layer.msg(data.errmsg);
+                        }
+                    },'json')
+                }, function(){
+
+                });
+
+            });
+        })
+    </script>
+
+{% endblock%}

@@ -3,15 +3,15 @@
     <form action="" method="get" class="form-horizontal">
         <div class="box-body">
             <div class="form-group">
-                <label for="link-name" class="col-md-2 col-sm-2 control-label">友情链接名称</label>
+                <label for="role-name" class="col-md-2 col-sm-2 control-label">角色名称</label>
                 <div class="col-lg-4 col-md-6 col-sm-10">
-                    <input type="text" class="form-control" id="link-name" placeholder="友情链接名称" value="{{data.friendlink_name}}">
+                    <input type="text" class="form-control" id="role-name" placeholder="请输入角色名称" value="{{data.role_name}}">
                 </div>
             </div>
             <div class="form-group">
-                <label for="link-url" class="col-md-2 col-sm-2 control-label">友情链接地址</label>
+                <label for="role-desc" class="col-md-2 col-sm-2 control-label">角色描述</label>
                 <div class="col-lg-4 col-md-6 col-sm-10">
-                    <input type="text" class="form-control" id="link-url" placeholder="格式 http://或者https:// 开头" value="{{data.friendlink_url}}">
+                    <input type="text" class="form-control" id="role-desc" placeholder="请输入角色描述" value="{{data.role_remark}}">
                 </div>
             </div>
         </div>
@@ -25,28 +25,24 @@
         $(function () {
             $('#push-btn').off('click').on('click',function (e) {
                 e.preventDefault();
-                var name=$('#link-name').val();
-                var url=$('#link-url').val();
-                var reg=/^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/;
-	            var editId=GetQueryString('friendlink-id');//是否是编辑
+                var name=$.trim($('#role-name').val());
+                var desc=$.trim($('#role-desc').val());
+	            var editId=GetQueryString('role-id');//是否是编辑
 	            if(!editId){
 		            editId=0
 	            }
-                if(!name || !url){
+                if(!name || !desc){
                     layer.msg('请输入友情链接名称和地址');
                     return false;
                 }
-                if(!reg.test(url)){
-	                layer.msg('请输入合法的链接地址');
-	                return false;
-                }
+
                 loading=layer.load(2);
-                $.get('/friendlink/addfriendlink',{'friendlink_name':name,'friendlink_url':url,'editId':editId},function (data) {
+                $.get('/role/doadd',{'role_name':name,'role_remark':desc,'editId':editId},function (data) {
                     if(data.success==true){
                         layer.close(loading);
                         layer.msg(data.errmsg);
 	                    setTimeout(function () {
-		                    window.location.href='/friendlink/index?menu_id=24';
+		                    window.location.href='/role/index?menu_id=4';
 	                    },2000)
                     }else{
                         layer.close(loading);

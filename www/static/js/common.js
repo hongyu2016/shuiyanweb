@@ -26,6 +26,25 @@ function showTime() {
     var fullTime=year+'年'+month+'月'+day+'日 '+hour+':'+min+':'+second
     $('#show-time').html(fullTime);
 }
+/*
+* 判断是否是手机访问
+* */
+function isPhone(){
+	var ua = navigator.userAgent;
+	var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+
+		isIphone =!ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+
+		isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+
+		isMobile = isIphone || isAndroid;
+	//判断
+	if(isMobile){
+		return true;
+	}else{
+		return false;
+	}
+}
 $(function () {
     var meneuId=GetQueryString('menu_id');
     var $sidebarMenu=$('.sidebar-menu');
@@ -41,11 +60,19 @@ $(function () {
     setInterval('showTime()',50);
     //修改密码
     $('.changepw').off('click').on('click',function (e) {
-
+	    var width,height;
+	    if(isPhone()){
+		    width='100%';
+		    height='60%'
+	    }else{
+		    width='600px';
+		    height='50%'
+	    }
         layer.open({
             type: 1,
+	        title:'修改密码',
             skin: 'layui-layer-rim', //加上边框
-            area: ['600px', '50%'], //宽高
+            area: [width, height], //宽高
             btn:['确定','取消'],
             shadeClose:true,
             btnAlign: 'c',

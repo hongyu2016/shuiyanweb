@@ -1,3 +1,6 @@
+ul,li{
+    list-style: none;
+}
 .welcome{
     padding-top: 15px;
     padding-bottom: 15px;
@@ -125,6 +128,14 @@
     -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
 }
+.role-member{
+    padding: 20px;
+}
+.role-member>li{
+    padding: 5px;
+    border: solid 1px #eee;
+}
+
 @media (max-width: 576px){
     .contact-content{
         max-width: 100px;
