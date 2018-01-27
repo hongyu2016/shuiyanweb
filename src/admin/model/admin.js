@@ -9,19 +9,24 @@ module.exports = class extends think.Model {
         return this
             .join('sy_role ON sy_admin.role_id=sy_role.role_id')
             .select({
-                'field':'admin_id,admin_name,admin_email,login_ip,stutas,login_time,sy_admin.create_time as admin_create_time,sy_role.create_time as role_create_time,role_name,role_remark'});
+                'field':'admin_id,admin_name,admin_email,login_ip,login_time,label,sy_admin.create_time as admin_create_time,sy_role.create_time as role_create_time,role_name,role_remark'});
     }
-    addArticle(data){
+	addAdmin(data){
         const date=think.datetime();
         return this.add({
-
+			'admin_name':data.admin_name,
+	        'admin_email':data.admin_email,
+	        'role_id':data.role_id,
+	        'create_time':date
         });
     }
-    editNews(data){
+    edit(data){
         const date=think.datetime();
         return this.update(
             {
-
+	            'admin_name':data.admin_name,
+	            'admin_email':data.admin_email,
+	            'role_id':data.role_id
             }
         )
     }

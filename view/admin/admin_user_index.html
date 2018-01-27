@@ -2,7 +2,7 @@
 {% block main %}
     <div class="operate">
         <div class="btn-group">
-            <a href="?menu_id=24" class="btn btn-info btn-flat">添加后台用户</a>
+            <a href="/admin_user/add?menu_id=2" class="btn btn-info btn-flat">添加后台用户</a>
         </div>
     </div>
     <div class="box-body table-responsive no-padding">
@@ -42,7 +42,7 @@
                     <td>{{list.admin_create_time}}</td>
                     <td>
                         <button type="button" class="btn btn-info btn-sm edit" data-id="{{list.admin_id}}">编辑</button>
-                        {% if list.admin_name!='admin'%}
+                        {% if list.label!='super'%}
                         <button type="button" class="btn btn-warning btn-sm delete" data-id="{{list.admin_id}}">删除</button>
                         {% endif %}
                     </td>
@@ -59,7 +59,7 @@
             * */
             $('.edit').off('click').on('click',function (e) {
                 var id=$(this).attr('data-id');
-                window.location.href='?menu_id=24&friendlink-id='+id+'';
+                window.location.href='/admin_user/add?menu_id=2&id='+id+'';
             });
             /*
             * 删除栏目

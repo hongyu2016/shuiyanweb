@@ -94,6 +94,28 @@ module.exports = class extends Base {
 			}
 		}
     }
+	/*
+	 * 删除角色
+	 * */
+	async deleteAction(){
+		if(this.isGet){
+			let id=this.get('id');
+			let data=await this.modelInstance.where({'role_id':id}).delete();
+			if(data){
+				this.json({
+					success:true,
+					errmsg:'删除角色成功',
+					data:data
+				});
+			}else{
+				this.json({
+					success:false,
+					errmsg:'删除角色失败',
+					data:[]
+				});
+			}
+		}
+	}
     /*
     * 查看角色成员
     * */
