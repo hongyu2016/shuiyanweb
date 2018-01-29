@@ -71,8 +71,8 @@
                 }, function(){
                     var id=$(that).attr('data-id');
                     loading=layer.load(2);
-                    $.get('',{'sort-id':Number(id)},function (data) {
-                        if(data.errno==0){
+                    $.get('/admin_user/delete',{'id':Number(id)},function (data) {
+                        if(data.success){
                             layer.close(loading);
                             layer.msg(data.errmsg);
                             $(that).closest('tr').remove();

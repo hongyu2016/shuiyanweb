@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2018-01-27 14:59:24
+Date: 2018-01-27 18:28:46
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -32,14 +32,31 @@ CREATE TABLE `sy_admin` (
   PRIMARY KEY (`admin_id`),
   UNIQUE KEY `shop_admin_adminuser_adminpass` (`admin_name`,`admin_pass`),
   UNIQUE KEY `shop_admin_adminuser_adminemail` (`admin_name`,`admin_email`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sy_admin
 -- ----------------------------
 INSERT INTO `sy_admin` VALUES ('1', 'admin', 'e10adc3949ba59abbe56e057f20f883e', '971976839@qq.com', '0', '1', '2018-01-25 17:00:30', null, 'super');
 INSERT INTO `sy_admin` VALUES ('2', 'user', 'e10adc3949ba59abbe56e057f20f883e', '214340687@qq.com', '0', '2', '2018-01-26 17:00:21', null, null);
-INSERT INTO `sy_admin` VALUES ('3', 'laojiu', '', '425507004@qq.com', '0', '1', '2018-01-27 14:59:04', null, null);
+INSERT INTO `sy_admin` VALUES ('3', 'laojiu', 'e10adc3949ba59abbe56e057f20f883e', '425507004@qq.com', '0', '1', '2018-01-27 14:59:04', null, null);
+INSERT INTO `sy_admin` VALUES ('4', 'user3', 'e10adc3949ba59abbe56e057f20f883e', '214340687@qq.com', '0', '6', '2018-01-27 15:09:16', null, null);
+
+-- ----------------------------
+-- Table structure for sy_authority
+-- ----------------------------
+DROP TABLE IF EXISTS `sy_authority`;
+CREATE TABLE `sy_authority` (
+  `auth_id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '权限id',
+  `auth_name` varchar(50) NOT NULL COMMENT '权限名称',
+  `menu_id` int(11) DEFAULT NULL,
+  `action` varchar(11) DEFAULT NULL COMMENT '操作方法（删除，添加，查看等）',
+  PRIMARY KEY (`auth_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of sy_authority
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for sy_contact
@@ -117,14 +134,14 @@ CREATE TABLE `sy_menu` (
 -- ----------------------------
 -- Records of sy_menu
 -- ----------------------------
-INSERT INTO `sy_menu` VALUES ('1', '添加后台用户', '', null, '7', 'fa fa-file');
-INSERT INTO `sy_menu` VALUES ('2', '后台用户列表', '/admin_user/index?menu_id=2', null, '7', 'fa fa-fire');
-INSERT INTO `sy_menu` VALUES ('3', '添加角色', '', null, '8', 'fa fa-flag');
-INSERT INTO `sy_menu` VALUES ('4', '管理角色', '/role/index?menu_id=4', null, '8', 'fa fa-gavel');
+INSERT INTO `sy_menu` VALUES ('1', '前台用户管理', '', null, '7', 'fa fa-file');
+INSERT INTO `sy_menu` VALUES ('2', '后台用户管理', '/admin_user/index?menu_id=2', null, '7', 'fa fa-fire');
+INSERT INTO `sy_menu` VALUES ('3', '权限管理', '/auth/index?menu_id=3', null, '8', 'fa fa-flag');
+INSERT INTO `sy_menu` VALUES ('4', '角色管理', '/role/index?menu_id=4', null, '8', 'fa fa-gavel');
 INSERT INTO `sy_menu` VALUES ('5', '添加一级菜单', '', null, '9', 'fa fa-group');
 INSERT INTO `sy_menu` VALUES ('6', '一级菜单管理', '', null, '9', 'fa fa-feed');
-INSERT INTO `sy_menu` VALUES ('7', '后台用户管理', '', null, '-1', 'fa fa-gift');
-INSERT INTO `sy_menu` VALUES ('8', '角色管理', '', null, '-1', 'fa fa-glass');
+INSERT INTO `sy_menu` VALUES ('7', '用户管理', '', null, '-1', 'fa fa-gift');
+INSERT INTO `sy_menu` VALUES ('8', '角色权限管理', '', null, '-1', 'fa fa-glass');
 INSERT INTO `sy_menu` VALUES ('9', '菜单管理', '', null, '-1', 'fa fa-sort');
 INSERT INTO `sy_menu` VALUES ('10', '通知公告', '/notice/index?menu_id=10', null, '22', 'fa fa-map');
 INSERT INTO `sy_menu` VALUES ('15', '水研新闻', '/news/index?menu_id=15', null, '22', 'fa fa-taxi');
@@ -251,15 +268,12 @@ INSERT INTO `sy_role` VALUES ('6', 'guest', '访客，在后台只允许查看�
 -- ----------------------------
 DROP TABLE IF EXISTS `sy_role_auth`;
 CREATE TABLE `sy_role_auth` (
-  `auth_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键 权限id',
+  `role_auth_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键 权限id',
   `role_id` int(11) NOT NULL COMMENT '角色ID',
-  `menu_id` int(11) NOT NULL COMMENT '菜单ID',
   `status` tinyint(1) DEFAULT '1' COMMENT '状态（0：未授权  1：已授权）',
-  `auto_handle` varchar(255) DEFAULT NULL COMMENT '该菜单下的添加，编辑，查看，删除操作',
-  PRIMARY KEY (`auth_id`),
-  KEY `SY_ROLE_AUTH_MENU` (`menu_id`),
+  `auth_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`role_auth_id`),
   KEY `SY_ROLE_AUTH_ROLE` (`role_id`),
-  CONSTRAINT `SY_ROLE_AUTH_MENU` FOREIGN KEY (`menu_id`) REFERENCES `sy_menu` (`menu_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `SY_ROLE_AUTH_ROLE` FOREIGN KEY (`role_id`) REFERENCES `sy_role` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

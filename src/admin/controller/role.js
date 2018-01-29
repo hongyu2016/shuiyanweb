@@ -2,6 +2,7 @@
  * Created by Administrator on 2017/11/17.
  */
 const Base=require('./base');
+import commonFun from "../common_function/common_function.js";//自定义类 里面有自定义函数
 module.exports = class extends Base {
     /*
     * 构造函数 便于使用model文件
@@ -146,6 +147,71 @@ module.exports = class extends Base {
 			}
 		}
     }
+    /*
+    * 分配角色
+    * */
+    async distributeAuthAction(){
+	    let commonFunion = new commonFun(); //需要new一下才能用
+    	if(this.isGet){
+    		let id=Number(this.get('id'));
+    		if(!id || !think.isNumber(id) || think.isNull(id)){
+			    this.json({
+				    success:false,
+				    errmsg:'id参数错误',
+				    data:[]
+			    });
+    			return false;
+		    }
+		    let data=await this.model('authority').select();
+		    let authData = commonFunion.formatAuthMenu(data);  //返回权限列表
+    		if(data){
+			    this.json({
+				    success:true,
+				    errmsg:'获取权限列表成功',
+				    data:authData
+			    });
 
+		    }else{
+			    this.json({
+				    success:false,
+				    errmsg:'获取权限列表失败',
+				    data:[]
+			    });
+		    }
+
+	    }
+    }
+    /*
+    * 设置，修改权限
+    * */
+    async doAuthAction(){
+    	if(this.isGet){
+    		let auth_id=this.get('auth_id');
+		    let role_id=this.get('role_id');
+		    if(!auth_id||!role_id){
+			    this.json({
+				    success:false,
+				    errmsg:'role_id或者auth_id不能为空',
+				    data:[]
+			    });
+			    return false;
+		    }
+		    let data=await this.modelInstance.where({'role_id':role_id}).update({'auth_rule':auth_id});
+		    if(data){
+			    this.json({
+				    success:true,
+				    errmsg:'修改权限成功',
+				    data:auth_id
+			    });
+		    }else{
+			    this.json({
+				    success:false,
+				    errmsg:'修改权限成功',
+				    data:[]
+			    });
+		    }
+
+	    }
+    }
 
 };
