@@ -1,0 +1,29 @@
+{
+    "version": 3,
+    "sources": [
+        "..\\..\\..\\src\\admin\\model\\role.js"
+    ],
+    "names": [
+        "module",
+        "exports",
+        "think",
+        "Model",
+        "pk",
+        "indexList",
+        "select",
+        "addRole",
+        "data",
+        "date",
+        "datetime",
+        "add",
+        "role_name",
+        "role_remark",
+        "edit",
+        "update"
+    ],
+    "mappings": "AAAA;;;AAGAA,OAAOC,OAAP,GAAiB,cAAcC,MAAMC,KAApB,CAA0B;AACvC,QAAIC,EAAJ,GAAS;AACL,eAAO,SAAP;AACH;AACJC,gBAAW;AACJ,eAAO,KACFC,MADE,EAAP;AAEH;AACJC,YAAQC,IAAR,EAAa;AACN,cAAMC,OAAKP,MAAMQ,QAAN,EAAX;AACA,eAAO,KAAKC,GAAL,CAAS;AACf,yBAAYH,KAAKI,SADF;AAEf,2BAAcJ,KAAKK,WAFJ;AAGf,sBAAS,CAHM;AAIf,2BAAcJ;AAJC,SAAT,CAAP;AAMH;AACDK,SAAKN,IAAL,EAAU;AACN,eAAO,KAAKO,MAAL,CACH;AACC,yBAAYP,KAAKI,SADlB;AAEC,2BAAcJ,KAAKK;AAFpB,SADG,CAAP;AAMH;AAxBsC,CAA3C",
+    "file": "..\\..\\..\\src\\admin\\model\\role.js",
+    "sourcesContent": [
+        "/**\n * Created by Administrator on 2017/11/21.\n */\nmodule.exports = class extends think.Model {\n    get pk() {\n        return 'role_id';\n    }\n\tindexList(){\n        return this\n            .select();\n    }\n\taddRole(data){\n        const date=think.datetime();\n        return this.add({\n\t        'role_name':data.role_name,\n\t        'role_remark':data.role_remark,\n\t        'status':2,\n\t        'create_time':date\n        });\n    }\n    edit(data){\n        return this.update(\n            {\n\t            'role_name':data.role_name,\n\t            'role_remark':data.role_remark\n            }\n        )\n    }\n};"
+    ]
+}

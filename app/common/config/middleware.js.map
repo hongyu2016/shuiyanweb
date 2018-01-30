@@ -1,0 +1,47 @@
+{
+    "version": 3,
+    "sources": [
+        "..\\..\\..\\src\\common\\config\\middleware.js"
+    ],
+    "names": [
+        "path",
+        "require",
+        "isDev",
+        "think",
+        "env",
+        "module",
+        "exports",
+        "handle",
+        "options",
+        "logRequest",
+        "sendResponseTime",
+        "enable",
+        "root",
+        "join",
+        "ROOT_PATH",
+        "publicPath",
+        "isCli",
+        "debug",
+        "error",
+        "err",
+        "console",
+        "log",
+        "templates",
+        "__dirname",
+        "uploadDir",
+        "defaultModule",
+        "defaultController",
+        "defaultAction",
+        "prefix",
+        "suffix",
+        "enableDefaultRouter",
+        "subdomainOffset",
+        "subdomain",
+        "denyModules"
+    ],
+    "mappings": "AAAA,MAAMA,OAAOC,QAAQ,MAAR,CAAb;AACA,MAAMC,QAAQC,MAAMC,GAAN,KAAc,aAA5B;AACAC,OAAOC,OAAP,GAAiB,CACb;AACIC,YAAQ,MADZ;AAEIC,aAAS;AACLC,oBAAYP,KADP;AAELQ,0BAAkBR;AAFb;AAFb,CADa,EAQb;AACIK,YAAQ,UADZ;AAEII,YAAQ,IAFZ,EAEkB;AACdH,aAAS;AACLI,cAAMZ,KAAKa,IAAL,CAAUV,MAAMW,SAAhB,EAA2B,KAA3B,CADD;AAELC,oBAAY;AAFP;AAHb,CARa,EAgBb;AACIR,YAAQ,OADZ;AAEII,YAAQ,CAACR,MAAMa,KAFnB;AAGIR,aAAS;AACLS,eAAOf,KADF,EACS;AACdgB,cAAMC,GAAN,EAAU;AACNC,oBAAQC,GAAR,CAAYF,GAAZ;AACH,SAJI;AAKL;AACAG,mBAAWtB,KAAKa,IAAL,CAAUU,SAAV,EAAqB,OAArB,CANN;;AAQL;AACAD,mBAAW;AACP,iBAAKtB,KAAKa,IAAL,CAAUV,MAAMW,SAAhB,EAA2B,qBAA3B,CADE;AAEP,iBAAKd,KAAKa,IAAL,CAAUV,MAAMW,SAAhB,EAA2B,qBAA3B,CAFE;AAGP,iBAAKd,KAAKa,IAAL,CAAUV,MAAMW,SAAhB,EAA2B,qBAA3B;AAHE;AATN;AAHb,CAhBa,EAmCb;AACIP,YAAQ,SADZ;AAEIC,aAAS;AACLgB,mBAAWxB,KAAKa,IAAL,CAAUV,MAAMW,SAAhB,EAA2B,KAA3B,CADN,CACwC;AADxC;AAFb,CAnCa,EAyCb;AACIP,YAAQ,QADZ;AAEIC,aAAS;AACLiB,uBAAe,OADV,EACmB;AACxBC,2BAAmB,OAFd;AAGLC,uBAAe,OAHV;AAILC,gBAAQ,EAJH;AAKLC,gBAAQ,CAAC,OAAD,CALH;AAMLC,6BAAqB,IANhB;AAOLC,yBAAiB,CAPZ;AAQLC,mBAAW,EARN;AASLC,qBAAa;AATR;AAFb,CAzCa,EAuDb,OAvDa,EAwDb,YAxDa,CAAjB",
+    "file": "..\\..\\..\\src\\common\\config\\middleware.js",
+    "sourcesContent": [
+        "const path = require('path');\nconst isDev = think.env === 'development';\nmodule.exports = [\n    {\n        handle: 'meta',\n        options: {\n            logRequest: isDev,\n            sendResponseTime: isDev\n        }\n    },\n    {\n        handle: 'resource',\n        enable: true, //原来是 isDev  开发下才开启静态资源\n        options: {\n            root: path.join(think.ROOT_PATH, 'www'),\n            publicPath: /^\\/(static|favicon\\.ico)/\n        }\n    },\n    {\n        handle: 'trace',\n        enable: !think.isCli,\n        options: {\n            debug: isDev, //关闭错误提示\n            error(err){\n                console.log(err);\n            },\n            //basic set as string, then put 404.html, 500.html into error folder\n            templates: path.join(__dirname, 'error'),\n\n            //customed set as object 指定错误页面\n            templates: {\n                404: path.join(think.ROOT_PATH, 'view/error/404.html'),\n                500: path.join(think.ROOT_PATH, 'view/error/500.html'),\n                502: path.join(think.ROOT_PATH, 'view/error/502.html')\n            }\n        }\n    },\n    {\n        handle: 'payload',\n        options: {\n            uploadDir: path.join(think.ROOT_PATH, 'tmp') //设置临时上传文件路径，否则使用系统tmp路径，导致rename报错\n        }\n    },\n    {\n        handle: 'router',\n        options: {\n            defaultModule: 'admin', //默认的模块\n            defaultController: 'index',\n            defaultAction: 'index',\n            prefix: [],\n            suffix: ['.html'],\n            enableDefaultRouter: true,\n            subdomainOffset: 2,\n            subdomain: {},\n            denyModules: []\n        }\n    },\n    'logic',\n    'controller'\n];\n"
+    ]
+}

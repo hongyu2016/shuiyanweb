@@ -1,0 +1,51 @@
+{
+    "version": 3,
+    "sources": [
+        "..\\..\\..\\src\\admin\\controller\\admin_user.js"
+    ],
+    "names": [
+        "Base",
+        "require",
+        "module",
+        "exports",
+        "constructor",
+        "args",
+        "modelInstance",
+        "model",
+        "indexAction",
+        "data",
+        "indexList",
+        "assign",
+        "display",
+        "addAction",
+        "id",
+        "get",
+        "role",
+        "select",
+        "where",
+        "join",
+        "find",
+        "doaddAction",
+        "isPost",
+        "editId",
+        "post",
+        "admin_name",
+        "admin_email",
+        "role_id",
+        "admin_pass",
+        "parms",
+        "edit",
+        "json",
+        "success",
+        "errmsg",
+        "addAdmin",
+        "deleteAction",
+        "isGet",
+        "delete"
+    ],
+    "mappings": "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",
+    "file": "..\\..\\..\\src\\admin\\controller\\admin_user.js",
+    "sourcesContent": [
+        "/**\n * Created by Administrator on 2017/11/17.\n */\nconst Base=require('./base');\nmodule.exports = class extends Base {\n    /*\n    * 构造函数 便于使用model文件\n    * */\n    constructor(...args) {\n        super(...args);//调用父级的 constructor 方法\n        this.modelInstance = this.model('admin'); //增加一个方法\n    }\n    /*\n    * 栏目列表\n    * */\n    async indexAction() {\n        //显示页面\n\t    let data=await this.modelInstance.indexList();\n\t    this.assign('data',data);\n        return this.display();\n    }\n    /*\n    * 增加，编辑显示页面\n    * */\n    async addAction(){\n    \tlet id=this.get('id');\n\t    let role=await this.model('role').select();\n\t    this.assign('role',role);\n    \tif(id){\n\n\t\t    let data=await this.modelInstance.where({'admin_id':id}).join('sy_role ON sy_admin.role_id=sy_role.role_id').find();\n\t\t    this.assign('data',data);\n\t    }\n\n\t    return this.display();\n    }\n\t/*\n\t* 增加，编辑提交方法\n\t* */\n\tasync doaddAction(){\n\t\tif(this.isPost){\n\t\t\tlet editId=this.post('editId'),\n\t\t\t\tadmin_name=this.post('admin_name'),\n\t\t\t\tadmin_email=this.post('admin_email');\n\t\t\tlet role_id=this.post('role_id');\n\t\t\tlet admin_pass=this.post('admin_pass');\n\t\t\tlet parms={\n\t\t\t\teditId:editId,\n\t\t\t\tadmin_name:admin_name,\n\t\t\t\tadmin_email:admin_email,\n\t\t\t\trole_id:role_id,\n\t\t\t\tadmin_pass:admin_pass\n\t\t\t};\n\t\t\tif(editId!=0 || editId!='0'){\n\t\t\t\t//编辑\n\t\t\t\tlet data=await this.modelInstance.where({'admin_id':editId}).edit(parms);\n\t\t\t\tif(data){\n\t\t\t\t\tthis.json({\n\t\t\t\t\t\tsuccess:true,\n\t\t\t\t\t\terrmsg:'编辑成功',\n\t\t\t\t\t\tdata:data\n\t\t\t\t\t});\n\t\t\t\t}else{\n\t\t\t\t\tthis.json({\n\t\t\t\t\t\tsuccess:false,\n\t\t\t\t\t\terrmsg:'编辑失败',\n\t\t\t\t\t\tdata:[]\n\t\t\t\t\t});\n\t\t\t\t}\n\t\t\t}else{\n\t\t\t\tlet data=await this.modelInstance.addAdmin(parms);\n\t\t\t\tif(data){\n\t\t\t\t\tthis.json({\n\t\t\t\t\t\tsuccess:true,\n\t\t\t\t\t\terrmsg:'新增成功',\n\t\t\t\t\t\tdata:data\n\t\t\t\t\t});\n\t\t\t\t}else{\n\t\t\t\t\tthis.json({\n\t\t\t\t\t\tsuccess:false,\n\t\t\t\t\t\terrmsg:'新增失败',\n\t\t\t\t\t\tdata:[]\n\t\t\t\t\t});\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\t/*\n\t* 删除用户\n\t* */\n\tasync deleteAction(){\n\t\tif(this.isGet){\n\t\t\tlet id=this.get('id');\n\t\t\tlet data=await this.modelInstance.where({'admin_id':id}).delete();\n\t\t\tif(data){\n\t\t\t\tthis.json({\n\t\t\t\t\tsuccess:true,\n\t\t\t\t\terrmsg:'删除角色成功',\n\t\t\t\t\tdata:data\n\t\t\t\t});\n\t\t\t}else{\n\t\t\t\tthis.json({\n\t\t\t\t\tsuccess:false,\n\t\t\t\t\terrmsg:'删除角色失败',\n\t\t\t\t\tdata:[]\n\t\t\t\t});\n\t\t\t}\n\t\t}\n\t}\n\n};\n"
+    ]
+}

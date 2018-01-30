@@ -1,0 +1,28 @@
+{
+    "version": 3,
+    "sources": [
+        "..\\..\\..\\src\\admin\\model\\admin_user.js"
+    ],
+    "names": [
+        "module",
+        "exports",
+        "think",
+        "Model",
+        "pk",
+        "indexList",
+        "join",
+        "select",
+        "addArticle",
+        "data",
+        "date",
+        "datetime",
+        "add",
+        "editNews",
+        "update"
+    ],
+    "mappings": "AAAA;;;AAGAA,OAAOC,OAAP,GAAiB,cAAcC,MAAMC,KAApB,CAA0B;AACvC,QAAIC,EAAJ,GAAS;AACL,eAAO,UAAP;AACH;AACJC,gBAAW;AACJ,eAAO,KACFC,IADE,CACG,6CADH,EAEFC,MAFE,CAEK;AACJ,qBAAQ,+KADJ,EAFL,CAAP;AAIH;AACDC,eAAWC,IAAX,EAAgB;AACZ,cAAMC,OAAKR,MAAMS,QAAN,EAAX;AACA,eAAO,KAAKC,GAAL,CAAS,EAAT,CAAP;AAGH;AACDC,aAASJ,IAAT,EAAc;AACV,cAAMC,OAAKR,MAAMS,QAAN,EAAX;AACA,eAAO,KAAKG,MAAL,CACH,EADG,CAAP;AAKH;AAvBsC,CAA3C",
+    "file": "..\\..\\..\\src\\admin\\model\\admin_user.js",
+    "sourcesContent": [
+        "/**\n * Created by Administrator on 2017/11/21.\n */\nmodule.exports = class extends think.Model {\n    get pk() {\n        return 'admin_id';\n    }\n\tindexList(){\n        return this\n            .join('sy_role ON sy_admin.role_id=sy_role.role_id')\n            .select({\n                'field':'admin_id,admin_name,admin_email,login_ip,stutas,login_time,hits,title,sy_admin.create_time as admin_create_time,sy_role.create_time as role_create_time,role_name,role_remark'});\n    }\n    addArticle(data){\n        const date=think.datetime();\n        return this.add({\n\n        });\n    }\n    editNews(data){\n        const date=think.datetime();\n        return this.update(\n            {\n\n            }\n        )\n    }\n};"
+    ]
+}

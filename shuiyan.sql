@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2018-01-27 18:28:46
+Date: 2018-01-30 15:49:42
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -32,15 +32,14 @@ CREATE TABLE `sy_admin` (
   PRIMARY KEY (`admin_id`),
   UNIQUE KEY `shop_admin_adminuser_adminpass` (`admin_name`,`admin_pass`),
   UNIQUE KEY `shop_admin_adminuser_adminemail` (`admin_name`,`admin_email`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sy_admin
 -- ----------------------------
 INSERT INTO `sy_admin` VALUES ('1', 'admin', 'e10adc3949ba59abbe56e057f20f883e', '971976839@qq.com', '0', '1', '2018-01-25 17:00:30', null, 'super');
 INSERT INTO `sy_admin` VALUES ('2', 'user', 'e10adc3949ba59abbe56e057f20f883e', '214340687@qq.com', '0', '2', '2018-01-26 17:00:21', null, null);
-INSERT INTO `sy_admin` VALUES ('3', 'laojiu', 'e10adc3949ba59abbe56e057f20f883e', '425507004@qq.com', '0', '1', '2018-01-27 14:59:04', null, null);
-INSERT INTO `sy_admin` VALUES ('4', 'user3', 'e10adc3949ba59abbe56e057f20f883e', '214340687@qq.com', '0', '6', '2018-01-27 15:09:16', null, null);
+INSERT INTO `sy_admin` VALUES ('3', 'laojiu', 'e10adc3949ba59abbe56e057f20f883e', '425507004@qq.com', '0', '2', '2018-01-27 14:59:04', null, null);
 
 -- ----------------------------
 -- Table structure for sy_authority
@@ -51,12 +50,51 @@ CREATE TABLE `sy_authority` (
   `auth_name` varchar(50) NOT NULL COMMENT '权限名称',
   `menu_id` int(11) DEFAULT NULL,
   `action` varchar(11) DEFAULT NULL COMMENT '操作方法（删除，添加，查看等）',
+  `controller` varchar(11) DEFAULT NULL COMMENT '控制器模块',
+  `parent_id` int(11) DEFAULT NULL COMMENT '上级的id',
+  `module` varchar(255) DEFAULT NULL COMMENT '模块',
   PRIMARY KEY (`auth_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sy_authority
 -- ----------------------------
+INSERT INTO `sy_authority` VALUES ('1', '用户管理', '7', null, null, '-1', 'admin');
+INSERT INTO `sy_authority` VALUES ('2', '前台用户管理', '1', null, null, '7', 'admin');
+INSERT INTO `sy_authority` VALUES ('3', '后台用户管理', '2', 'index', 'admin_user', '7', 'admin');
+INSERT INTO `sy_authority` VALUES ('4', '添加编辑后台用户', null, 'add', 'admin_user', '2', 'admin');
+INSERT INTO `sy_authority` VALUES ('5', '删除后台用户', null, 'delete', 'admin_user', '2', 'admin');
+INSERT INTO `sy_authority` VALUES ('6', '角色权限管理', '8', null, null, '-1', 'admin');
+INSERT INTO `sy_authority` VALUES ('7', '角色管理', '4', 'index', 'role', '8', 'admin');
+INSERT INTO `sy_authority` VALUES ('8', '添加编辑角色', null, 'add', 'role', '4', 'admin');
+INSERT INTO `sy_authority` VALUES ('9', '角色成员', null, 'viewMember', 'role', '4', 'admin');
+INSERT INTO `sy_authority` VALUES ('10', '分配角色', null, null, 'role', '4', 'admin');
+INSERT INTO `sy_authority` VALUES ('11', '禁用角色', null, 'doenable', 'role', '4', 'admin');
+INSERT INTO `sy_authority` VALUES ('12', '删除角色', null, 'delete', 'role', '4', 'admin');
+INSERT INTO `sy_authority` VALUES ('13', '菜单管理', '9', null, null, '-1', 'admin');
+INSERT INTO `sy_authority` VALUES ('14', '菜单列表', '6', null, null, '9', 'admin');
+INSERT INTO `sy_authority` VALUES ('15', '添加菜单', '5', null, null, '9', 'admin');
+INSERT INTO `sy_authority` VALUES ('16', '内容管理', '22', null, null, '-1', 'admin');
+INSERT INTO `sy_authority` VALUES ('17', '通知公告', '10', 'index', 'notice', '22', 'admin');
+INSERT INTO `sy_authority` VALUES ('18', '发布编辑公告', null, 'add', 'notice', '10', 'admin');
+INSERT INTO `sy_authority` VALUES ('19', '删除公告', null, 'delete', 'notice', '10', 'admin');
+INSERT INTO `sy_authority` VALUES ('20', '水研新闻', '15', 'index', 'news', '22', 'admin');
+INSERT INTO `sy_authority` VALUES ('21', '发布编辑新闻', null, 'add', 'news', '15', 'admin');
+INSERT INTO `sy_authority` VALUES ('22', '删除新闻', null, 'delete', 'news', '15', 'admin');
+INSERT INTO `sy_authority` VALUES ('23', '新闻分类', '19', 'index', 'news_sort', '22', 'admin');
+INSERT INTO `sy_authority` VALUES ('24', '添加编辑分类', null, 'add', 'news_sort', '19', 'admin');
+INSERT INTO `sy_authority` VALUES ('25', '删除分类', null, 'delete', 'news_sort', '19', 'admin');
+INSERT INTO `sy_authority` VALUES ('26', '图库管理', '20', 'index', 'slideshow', '22', 'admin');
+INSERT INTO `sy_authority` VALUES ('27', '添加编辑图片', null, 'add', 'slideshow', '20', 'admin');
+INSERT INTO `sy_authority` VALUES ('28', '设置轮播图', null, 'setslide', 'slideshow', '20', 'admin');
+INSERT INTO `sy_authority` VALUES ('29', '删除图片', null, 'delete', 'slideshow', '20', 'admin');
+INSERT INTO `sy_authority` VALUES ('30', '水研介绍', '21', 'add', 'introduce', '22', 'admin');
+INSERT INTO `sy_authority` VALUES ('31', '提交介绍', null, 'doadd', 'introduce', '21', 'admin');
+INSERT INTO `sy_authority` VALUES ('32', '联系我们', '23', 'index', 'contact', '22', 'admin');
+INSERT INTO `sy_authority` VALUES ('33', '友情链接', '24', 'index', 'friendlink', '22', 'admin');
+INSERT INTO `sy_authority` VALUES ('34', '添加编辑', null, 'add', 'friendlink', '24', 'admin');
+INSERT INTO `sy_authority` VALUES ('35', '删除', null, 'delete', 'friendlink', '24', 'admin');
+INSERT INTO `sy_authority` VALUES ('36', '系统设置', '16', null, null, '-1', 'admin');
 
 -- ----------------------------
 -- Table structure for sy_contact
@@ -138,8 +176,8 @@ INSERT INTO `sy_menu` VALUES ('1', '前台用户管理', '', null, '7', 'fa fa-f
 INSERT INTO `sy_menu` VALUES ('2', '后台用户管理', '/admin_user/index?menu_id=2', null, '7', 'fa fa-fire');
 INSERT INTO `sy_menu` VALUES ('3', '权限管理', '/auth/index?menu_id=3', null, '8', 'fa fa-flag');
 INSERT INTO `sy_menu` VALUES ('4', '角色管理', '/role/index?menu_id=4', null, '8', 'fa fa-gavel');
-INSERT INTO `sy_menu` VALUES ('5', '添加一级菜单', '', null, '9', 'fa fa-group');
-INSERT INTO `sy_menu` VALUES ('6', '一级菜单管理', '', null, '9', 'fa fa-feed');
+INSERT INTO `sy_menu` VALUES ('5', '添加菜单', '', null, '9', 'fa fa-group');
+INSERT INTO `sy_menu` VALUES ('6', '菜单列表', '', null, '9', 'fa fa-feed');
 INSERT INTO `sy_menu` VALUES ('7', '用户管理', '', null, '-1', 'fa fa-gift');
 INSERT INTO `sy_menu` VALUES ('8', '角色权限管理', '', null, '-1', 'fa fa-glass');
 INSERT INTO `sy_menu` VALUES ('9', '菜单管理', '', null, '-1', 'fa fa-sort');
@@ -253,33 +291,16 @@ CREATE TABLE `sy_role` (
   `role_remark` varchar(255) DEFAULT '' COMMENT '角色备注',
   `status` tinyint(4) NOT NULL DEFAULT '2' COMMENT '状态(0、删除 1、禁用 2、正常)',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `auth_rule` varchar(255) DEFAULT NULL COMMENT '权限，id逗号隔开',
   PRIMARY KEY (`role_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sy_role
 -- ----------------------------
-INSERT INTO `sy_role` VALUES ('1', '超级管理员', '超级管理员，拥有最高权限。', '2', null);
-INSERT INTO `sy_role` VALUES ('2', '编辑', '网站编辑，拥有内容编辑权限。', '2', '2018-01-26 10:11:43');
-INSERT INTO `sy_role` VALUES ('6', 'guest', '访客，在后台只允许查看，不允许删除，新增等操作', '2', '2018-01-27 14:10:42');
-
--- ----------------------------
--- Table structure for sy_role_auth
--- ----------------------------
-DROP TABLE IF EXISTS `sy_role_auth`;
-CREATE TABLE `sy_role_auth` (
-  `role_auth_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键 权限id',
-  `role_id` int(11) NOT NULL COMMENT '角色ID',
-  `status` tinyint(1) DEFAULT '1' COMMENT '状态（0：未授权  1：已授权）',
-  `auth_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`role_auth_id`),
-  KEY `SY_ROLE_AUTH_ROLE` (`role_id`),
-  CONSTRAINT `SY_ROLE_AUTH_ROLE` FOREIGN KEY (`role_id`) REFERENCES `sy_role` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of sy_role_auth
--- ----------------------------
+INSERT INTO `sy_role` VALUES ('1', '管理员', '管理员，拥有大部分权限。', '2', null, '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36');
+INSERT INTO `sy_role` VALUES ('2', '编辑', '网站编辑，拥有内容编辑权限。', '2', '2018-01-26 10:11:43', '16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35');
+INSERT INTO `sy_role` VALUES ('6', 'guest', '访客，在后台只允许查看，不允许删除，新增等操作', '1', '2018-01-27 14:10:42', '1,2,3,4,5');
 
 -- ----------------------------
 -- Table structure for sy_slideshow
