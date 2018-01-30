@@ -108,7 +108,8 @@ class commonFun{
 								menu_id:ary[i].menu_id,
 								auth_id:ary[i].auth_id,
 								parent_id:ary[i].parent_id,
-								open:true
+								open:false
+
 							};
 							tempAry.push(obj);
 						}
@@ -125,7 +126,8 @@ class commonFun{
 								auth_name:ary[j].auth_name,
 								menu_id:ary[j].menu_id,
 								auth_id:ary[j].auth_id,
-								parent_id:ary[j].parent_id
+								parent_id:ary[j].parent_id,
+								open:false
 							};
 							data[i].children=data[i].children||[];
 							data[i].children.push(obj);

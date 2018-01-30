@@ -85,6 +85,17 @@
     <script>
         $(function () {
         	/*
+        	* 获取权限列表
+        	*
+        	* */
+	        /*$.get('/role/distributeAuth',function (data) {
+		        var dom;
+		        if(data.success){
+			        $.fn.zTree.init($('#tree'), setting, data.data);
+		        }
+	        },'json');*/
+
+        	/*
         	* 查看角色成员
         	* */
             $('.view').off('click').on('click',function (e) {
@@ -211,36 +222,36 @@
 		            btnAlign: 'c',
 		            content: $('#auth-dom').html(),
 		            success:function (layero,index) {
+		            	//通过角色id获取该角色所拥有的权限 id 然后进行checkbox的选中
 			            loading=layer.load(2);
-			            $.get('/role/distributeAuth',{'id':id},function (data) {
+
+			            $.get('/role/distributeAuth',{'role_id':id},function (data) {
 				            var dom;
 				            layer.close(loading);
 				            if(data.success){
-					            $.fn.zTree.init($('#tree',layero), setting, data.data);
+					            $.fn.zTree.init($('#tree',layero), setting, data.data.authTree);
 
+					            var auth_id=data.data.authIds;  //获取 权限id
+					            var treeObj = $.fn.zTree.getZTreeObj("tree");
 
-					            var auth_id=$('#choose_auth').val();
+					            var nodes = treeObj.getNodes();
+					            var	nodes_array = treeObj.transformToArray (nodes);  //把标准json转换为简单json（一维数组）
 
-					            var treeObj = $.fn.zTree.getZTreeObj("tree",layero);
-					            var nodes = treeObj.getCheckedNodes(false);
+					            for (var i = 0; i < nodes_array.length; i++) {//循环所有节点数据
+						            var newAuth_id=auth_id.split(',');
+						            for(var j=0;j<newAuth_id.length;j++){//循环权限id与所有节点数据进行比较
+							            if(Number(newAuth_id[j])==nodes_array[i].auth_id){
 
-					            var pid= auth_id; /**此处数据前后必须拼接;*/
-
-					            for (var i = 0; i < nodes.length; i++) {
-
-						            if (pid.indexOf("," + nodes[i].auth_id + ",") != -1) {
-
-							            zTreeObj.expandNode(nodes[i], true); //展开选中的
-							            zTreeObj.checkNode(nodes[i], true);
+								            treeObj.expandNode(nodes_array[i], true); //展开选中的
+								            treeObj.checkNode(nodes_array[i], true); //勾选
+							            }
 						            }
+
 					            }
-
-
-					            //onCheck();
-
-
 				            }
-			            },'json')
+			            },'json');
+
+
 		            },
                     yes:function (index,layero) {
                         //获取ztree 选中的auth_id
