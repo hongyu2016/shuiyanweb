@@ -65,7 +65,8 @@
             * */
             $('.edit').off('click').on('click',function (e) {
                 var id=$(this).attr('data-id');
-                window.location.href='/slideshow/add?slide-id='+id+'';
+	            var menuId=GetQueryString('menu_id');
+                window.location.href='/slideshow/add?slide-id='+id+'&menu_id='+menuId;
             });
             /*
             * 删除轮播图

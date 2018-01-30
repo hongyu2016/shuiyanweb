@@ -55,7 +55,8 @@
             * */
             $('.edit').off('click').on('click',function (e) {
                 var id=$(this).attr('data-id');
-                window.location.href='/friendlink/add?menu_id=24&friendlink-id='+id+'';
+	            var menuId=GetQueryString('menu_id');
+                window.location.href='/friendlink/add?friendlink-id='+id+'&menu_id='+menuId;
             });
             /*
             * 删除栏目

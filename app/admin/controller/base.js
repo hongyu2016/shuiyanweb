@@ -41,6 +41,7 @@ module.exports = class extends think.Controller {
 			for (let i in myAuth) {
 				yunxuUrl += myAuth[i].module + '/' + myAuth[i].controller + '/' + myAuth[i].action + ','; //用，拼接成字符串
 			}
+			console.log(yunxuUrl);
 			if (yunxuUrl.indexOf(myurl) == -1) {
 				//没有权限
 				if (_this.ctx.isAjax()) {
@@ -48,7 +49,8 @@ module.exports = class extends think.Controller {
 					return _this.json({
 						success: false,
 						errmsg: '抱歉，您没有权限,请与系统管理员联系!',
-						errno: 1000
+						errno: 1000,
+						data: yunxuUrl
 					});
 				} else {
 					return _this.display("admin/error_nopermission");

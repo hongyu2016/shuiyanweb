@@ -130,7 +130,8 @@
             * */
             $('.edit').off('click').on('click',function (e) {
                 var id=$(this).attr('data-id');
-                window.location.href='/role/add?menu_id=4&role-id='+id+'';
+	            var menuId=GetQueryString('menu_id');
+                window.location.href='/role/add?menu_id=4&role-id='+id+'&menu_id='+menuId;
             });
             /*
             * 禁用，启用
