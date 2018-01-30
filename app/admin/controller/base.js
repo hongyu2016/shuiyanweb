@@ -31,6 +31,34 @@ module.exports = class extends think.Controller {
 					'userinfo': userinfo //赋值用户登陆session
 				});
 			}
+
+			//判断权限
+			let myurl = _this.ctx.module + '/' + _this.ctx.controller + '/' + _this.ctx.action; // 当前访问的实际模块控制器方法 admin/index/index
+			let role_id = yield _this.model('admin').where({ 'admin_id': userinfo.admin_id }).getField('role_id');
+			let auth_rule = yield _this.model('role').where({ 'role_id': role_id[0] }).getField('auth_rule');
+
+			let myAuth = yield _this.model('authority').where({ 'auth_id': ['IN', auth_rule[0]] }).select();
+
+			let yunxuUrl = '';
+			for (let i in myAuth) {
+				yunxuUrl += myAuth[i].module + '/' + myAuth[i].controller + '/' + myAuth[i].action + ',';
+			}
+			if (yunxuUrl.indexOf(myurl) == -1) {
+				//没有权限
+				if (_this.ctx.isAjax()) {
+					//判断是否为ajax请求
+					return _this.json({
+						success: false,
+						errmsg: '抱歉，您没有权限,请与系统管理员联系!',
+						errno: 1000
+					});
+				} else {
+					//return this.display("admin/error/nopermission");
+					console.log('my没有权限');
+				}
+			}
+
+			console.log(yunxuUrl);
 		})();
 	}
 };

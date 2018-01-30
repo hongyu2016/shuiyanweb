@@ -24,11 +24,29 @@
         "formatMenu",
         "shuiyanImgThumb",
         "shuiyanImgThumb2",
-        "assign"
+        "assign",
+        "myurl",
+        "action",
+        "role_id",
+        "where",
+        "admin_id",
+        "getField",
+        "auth_rule",
+        "myAuth",
+        "yunxuUrl",
+        "i",
+        "indexOf",
+        "isAjax",
+        "json",
+        "success",
+        "errmsg",
+        "errno",
+        "console",
+        "log"
     ],
-    "mappings": "AAAA;;;;;;;;AAA8D;AAC9DA,OAAOC,OAAP,GAAiB,cAAcC,MAAMC,UAApB,CAA+B;AACzCC,SAAN,GAAiB;AAAA;;AAAA;AAChB,OAAIC,WAAW,MAAM,MAAKC,OAAL,CAAa,UAAb,CAArB;AACA,OAAGJ,MAAMK,OAAN,CAAcF,QAAd,CAAH,EAA4B;AAC3B,QAAG,MAAKG,GAAL,CAASC,UAAT,IAAuB,OAA1B,EAAmC;AAClC,YAAO,MAAKC,QAAL,CAAc,cAAd,CAAP;AACA;AACD,IAJD,MAKK;AACJ,QAAIC,WAAW,MAAM,MAAKC,KAAL,CAAW,MAAX,EAAmBC,KAAnB,CAAyB,6BAAzB,EAAwDC,MAAxD,EAArB,CADI,CACmF;AACvF,QAAIC,eAAe,+BAAnB,CAFI,CAEgC;AACpC,QAAIC,UAAUD,aAAaE,UAAb,CAAwBN,QAAxB,CAAd;AACA,UAAMO,kBAAkB,gKAAxB,CAJI,CAIqL;AACzL,UAAMC,mBAAmB,0KAAzB;AACA,UAAKC,MAAL,CAAY;AACX,qBAAe,mCADJ;AAEX,wBAAmBF,eAFR,EAEyB;AACpC,yBAAmBC,gBAHR,EAG0B;AACrC,gBAAWH,OAJA,EAIS;AACpB,iBAAYX,QALD,CAKS;AALT,KAAZ;AAOA;AApBe;AAqBhB;AAtB8C,CAAhD",
+    "mappings": "AAAA;;;;;;;;AAA8D;AAC9DA,OAAOC,OAAP,GAAiB,cAAcC,MAAMC,UAApB,CAA+B;AACzCC,SAAN,GAAiB;AAAA;;AAAA;AAChB,OAAIC,WAAW,MAAM,MAAKC,OAAL,CAAa,UAAb,CAArB;AACA,OAAGJ,MAAMK,OAAN,CAAcF,QAAd,CAAH,EAA4B;AAC3B,QAAG,MAAKG,GAAL,CAASC,UAAT,IAAuB,OAA1B,EAAmC;AAClC,YAAO,MAAKC,QAAL,CAAc,cAAd,CAAP;AACA;AACD,IAJD,MAIM;AACL,QAAIC,WAAW,MAAM,MAAKC,KAAL,CAAW,MAAX,EAAmBC,KAAnB,CAAyB,6BAAzB,EAAwDC,MAAxD,EAArB,CADK,CACkF;AACvF,QAAIC,eAAe,+BAAnB,CAFK,CAE+B;AACpC,QAAIC,UAAUD,aAAaE,UAAb,CAAwBN,QAAxB,CAAd;AACA,UAAMO,kBAAkB,gKAAxB,CAJK,CAIoL;AACzL,UAAMC,mBAAmB,0KAAzB;AACA,UAAKC,MAAL,CAAY;AACX,qBAAe,mCADJ;AAEX,wBAAmBF,eAFR,EAEyB;AACpC,yBAAmBC,gBAHR,EAG0B;AACrC,gBAAWH,OAJA,EAIS;AACpB,iBAAYX,QALD,CAKS;AALT,KAAZ;AAOA;;AAED;AACA,OAAIgB,QAAM,MAAKb,GAAL,CAASR,MAAT,GAAgB,GAAhB,GAAoB,MAAKQ,GAAL,CAASC,UAA7B,GAAwC,GAAxC,GAA4C,MAAKD,GAAL,CAASc,MAA/D,CAtBgB,CAsBwD;AACxE,OAAIC,UAAQ,MAAM,MAAKX,KAAL,CAAW,OAAX,EAAoBY,KAApB,CAA0B,EAAC,YAAWnB,SAASoB,QAArB,EAA1B,EAA0DC,QAA1D,CAAmE,SAAnE,CAAlB;AACA,OAAIC,YAAU,MAAM,MAAKf,KAAL,CAAW,MAAX,EAAmBY,KAAnB,CAAyB,EAAC,WAAUD,QAAQ,CAAR,CAAX,EAAzB,EAAiDG,QAAjD,CAA0D,WAA1D,CAApB;;AAGA,OAAIE,SAAO,MAAM,MAAKhB,KAAL,CAAW,WAAX,EAAwBY,KAAxB,CAA8B,EAAC,WAAU,CAAC,IAAD,EAAMG,UAAU,CAAV,CAAN,CAAX,EAA9B,EAA+Db,MAA/D,EAAjB;;AAEA,OAAIe,WAAS,EAAb;AACA,QAAK,IAAIC,CAAT,IAAcF,MAAd,EAAqB;AACpBC,gBAAUD,OAAOE,CAAP,EAAU9B,MAAV,GAAiB,GAAjB,GAAqB4B,OAAOE,CAAP,EAAUrB,UAA/B,GAA0C,GAA1C,GAA8CmB,OAAOE,CAAP,EAAUR,MAAxD,GAA+D,GAAzE;AAEA;AACD,OAAGO,SAASE,OAAT,CAAiBV,KAAjB,KAAyB,CAAC,CAA7B,EAA+B;AAAG;AACjC,QAAG,MAAKb,GAAL,CAASwB,MAAT,EAAH,EAAqB;AAAG;AACvB,YAAO,MAAKC,IAAL,CAAU;AAChBC,eAAS,KADO;AAEhBC,cAAQ,qBAFQ;AAGhBC,aAAM;AAHU,MAAV,CAAP;AAKA,KAND,MAMK;AACJ;AACAC,aAAQC,GAAR,CAAY,QAAZ;AACA;AACD;;AAEDD,WAAQC,GAAR,CAAYT,QAAZ;AA/CgB;AAgDhB;AAjD8C,CAAhD",
     "file": "..\\..\\..\\src\\admin\\controller\\base.js",
     "sourcesContent": [
-        "import commonFun from \"../common_function/common_function.js\";//自定义类 里面有自定义函数\nmodule.exports = class extends think.Controller {\n\tasync __before() {\n\t\tlet userinfo = await this.session('userinfo');\n\t\tif(think.isEmpty(userinfo)) {\n\t\t\tif(this.ctx.controller != 'login') {\n\t\t\t\treturn this.redirect('/admin/login');\n\t\t\t}\n\t\t}\n\t\telse {\n\t\t\tlet menuList = await this.model('menu').order('menu_id ASC, menu_name DESC').select(); //从数据库取出菜单\n\t\t\tlet commonFunion = new commonFun(); //需要new一下才能用\n\t\t\tlet newMenu = commonFunion.formatMenu(menuList);\n\t\t\tconst shuiyanImgThumb = 'imageView2/1/w/320/h/320/interlace/1/q/75|watermark/2/text/5rC056CU5p2R/font/5qW35L2T/fontsize/500/fill/I0Y4RDdCOA==/dissolve/77/gravity/SouthEast/dx/10/dy/10';//七牛的缩略图处理\n\t\t\tconst shuiyanImgThumb2 = 'imageView2/1/w/320/h/160/interlace/1/q/75|watermark/2/text/5rC056CU5p2R/font/5qW35L2T/fontsize/500/fill/I0Y4RDdCOA==/dissolve/77/gravity/SouthEast/dx/10/dy/10|imageslim';\n\t\t\tthis.assign({\n\t\t\t\t'qiniuImgHost':'http://p2zln7xdx.bkt.clouddn.com/',\n\t\t\t\t'shuiyanImgThumb': shuiyanImgThumb, //缩略图1\n\t\t\t\t'shuiyanImgThumb2':shuiyanImgThumb2, //缩略图2\n\t\t\t\t'newMenu': newMenu, //赋值菜单\n\t\t\t\t'userinfo': userinfo//赋值用户登陆session\n\t\t\t});\n\t\t}\n\t}\n};\n"
+        "import commonFun from \"../common_function/common_function.js\";//自定义类 里面有自定义函数\nmodule.exports = class extends think.Controller {\n\tasync __before() {\n\t\tlet userinfo = await this.session('userinfo');\n\t\tif(think.isEmpty(userinfo)) {\n\t\t\tif(this.ctx.controller != 'login') {\n\t\t\t\treturn this.redirect('/admin/login');\n\t\t\t}\n\t\t}else {\n\t\t\tlet menuList = await this.model('menu').order('menu_id ASC, menu_name DESC').select(); //从数据库取出菜单\n\t\t\tlet commonFunion = new commonFun(); //需要new一下才能用\n\t\t\tlet newMenu = commonFunion.formatMenu(menuList);\n\t\t\tconst shuiyanImgThumb = 'imageView2/1/w/320/h/320/interlace/1/q/75|watermark/2/text/5rC056CU5p2R/font/5qW35L2T/fontsize/500/fill/I0Y4RDdCOA==/dissolve/77/gravity/SouthEast/dx/10/dy/10';//七牛的缩略图处理\n\t\t\tconst shuiyanImgThumb2 = 'imageView2/1/w/320/h/160/interlace/1/q/75|watermark/2/text/5rC056CU5p2R/font/5qW35L2T/fontsize/500/fill/I0Y4RDdCOA==/dissolve/77/gravity/SouthEast/dx/10/dy/10|imageslim';\n\t\t\tthis.assign({\n\t\t\t\t'qiniuImgHost':'http://p2zln7xdx.bkt.clouddn.com/',\n\t\t\t\t'shuiyanImgThumb': shuiyanImgThumb, //缩略图1\n\t\t\t\t'shuiyanImgThumb2':shuiyanImgThumb2, //缩略图2\n\t\t\t\t'newMenu': newMenu, //赋值菜单\n\t\t\t\t'userinfo': userinfo//赋值用户登陆session\n\t\t\t});\n\t\t}\n\n\t\t//判断权限\n\t\tlet myurl=this.ctx.module+'/'+this.ctx.controller+'/'+this.ctx.action;  // 当前访问的实际模块控制器方法 admin/index/index\n\t\tlet role_id=await this.model('admin').where({'admin_id':userinfo.admin_id}).getField('role_id');\n\t\tlet auth_rule=await this.model('role').where({'role_id':role_id[0]}).getField('auth_rule');\n\n\n\t\tlet myAuth=await this.model('authority').where({'auth_id':['IN',auth_rule[0]]}).select();\n\n\t\tlet yunxuUrl='';\n\t\tfor (let i in myAuth){\n\t\t\tyunxuUrl+=myAuth[i].module+'/'+myAuth[i].controller+'/'+myAuth[i].action+',';\n\n\t\t}\n\t\tif(yunxuUrl.indexOf(myurl)==-1){  //没有权限\n\t\t\tif(this.ctx.isAjax()){  //判断是否为ajax请求\n\t\t\t\treturn this.json({\n\t\t\t\t\tsuccess: false,\n\t\t\t\t\terrmsg: '抱歉，您没有权限,请与系统管理员联系!',\n\t\t\t\t\terrno:1000\n\t\t\t\t});\n\t\t\t}else{\n\t\t\t\t//return this.display(\"admin/error/nopermission\");\n\t\t\t\tconsole.log('my没有权限')\n\t\t\t}\n\t\t}\n\n\t\tconsole.log(yunxuUrl);\n\t}\n};\n"
     ]
 }

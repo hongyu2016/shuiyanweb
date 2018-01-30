@@ -6,8 +6,7 @@ module.exports = class extends think.Controller {
 			if(this.ctx.controller != 'login') {
 				return this.redirect('/admin/login');
 			}
-		}
-		else {
+		}else {
 			let menuList = await this.model('menu').order('menu_id ASC, menu_name DESC').select(); //从数据库取出菜单
 			let commonFunion = new commonFun(); //需要new一下才能用
 			let newMenu = commonFunion.formatMenu(menuList);
@@ -21,5 +20,33 @@ module.exports = class extends think.Controller {
 				'userinfo': userinfo//赋值用户登陆session
 			});
 		}
+
+		//判断权限
+		let myurl=this.ctx.module+'/'+this.ctx.controller+'/'+this.ctx.action;  // 当前访问的实际模块控制器方法 admin/index/index
+		let role_id=await this.model('admin').where({'admin_id':userinfo.admin_id}).getField('role_id');
+		let auth_rule=await this.model('role').where({'role_id':role_id[0]}).getField('auth_rule');
+
+
+		let myAuth=await this.model('authority').where({'auth_id':['IN',auth_rule[0]]}).select();
+
+		let yunxuUrl='';
+		for (let i in myAuth){
+			yunxuUrl+=myAuth[i].module+'/'+myAuth[i].controller+'/'+myAuth[i].action+',';
+
+		}
+		if(yunxuUrl.indexOf(myurl)==-1){  //没有权限
+			if(this.ctx.isAjax()){  //判断是否为ajax请求
+				return this.json({
+					success: false,
+					errmsg: '抱歉，您没有权限,请与系统管理员联系!',
+					errno:1000
+				});
+			}else{
+				//return this.display("admin/error/nopermission");
+				console.log('my没有权限')
+			}
+		}
+
+		console.log(yunxuUrl);
 	}
 };

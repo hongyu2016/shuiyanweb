@@ -39,41 +39,6 @@ class commonFun{
 	* 权限管理 查询权限表，重新组成权限树
 	* */
 	formatAuthMenu(list){
-		/*let arr = [];
-		list.map(function(item, index) {
-			if (item.parent_id == -1) {
-
-				let o = arr.find(x => {
-					return x.menu_id == item.menu_id
-				});
-				if (!o) {
-					o = {
-						children: []
-					};
-					arr.push(o)
-				}
-				Object.assign(o, item)
-
-
-			}else{
-
-				let o=arr.find(x=>{
-					return x.menu_id==item.parent_id;
-				});
-
-				if(o){
-					o.children.push(item)
-
-				}
-
-
-				/!*if(item.parent_id==item.menu_id){
-					console.log(item)
-				}*!/
-			}
-
-		});
-		return arr;*/
 
 		/*var aaa= [
 			{auth_name:'wwb',menu_id:111},
@@ -90,7 +55,9 @@ class commonFun{
 			let data=datalist?datalist:(function(ary){
 					let tempAry=[];
 					let idList=[];
-					ary.forEach(function(item){idList.push(item.menu_id)});
+					ary.forEach(function(item){
+						idList.push(item.menu_id)
+					});
 					function deb(menu_id,idList){
 						let flag=true;
 						for(let ida in idList){

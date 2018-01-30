@@ -85,17 +85,6 @@
     <script>
         $(function () {
         	/*
-        	* 获取权限列表
-        	*
-        	* */
-	        /*$.get('/role/distributeAuth',function (data) {
-		        var dom;
-		        if(data.success){
-			        $.fn.zTree.init($('#tree'), setting, data.data);
-		        }
-	        },'json');*/
-
-        	/*
         	* 查看角色成员
         	* */
             $('.view').off('click').on('click',function (e) {
@@ -121,14 +110,16 @@
 		            success:function (layero,index) {
 			            loading=layer.load(2);
                         $.get('/role/viewMember',{'id':id},function (data) {
-                        	var dom;
+                        	var dom='';
                         	layer.close(loading);
                             if(data.success){
                             	var list=data.data;
                             	for(var i=0;i<list.length;i++){
-		                            dom='<li class="pull-left">'+list[i].admin_name+'</li>'
+		                            dom+='<li class="pull-left">'+list[i].admin_name+'</li>'
                                 }
                             	$('.role-member',layero).html(dom)
+                            }else{
+                            	layer.msg(data.errmsg);
                             }
                         },'json')
 		            }
@@ -164,7 +155,7 @@
 						        window.location.reload();
 					        },2000)
 				        }else{
-					        layer.msg('修改状态失败')
+					        layer.msg(data.errmsg);
 				        }
 			        },'json')
 
@@ -211,6 +202,7 @@
 		            width='600px';
 		            height='60%'
 	            }
+	            var errno=0;
 
 	            layer.open({
 		            type: 1,
@@ -229,31 +221,34 @@
 				            var dom;
 				            layer.close(loading);
 				            if(data.success){
-					            $.fn.zTree.init($('#tree',layero), setting, data.data.authTree);
-
+					            $.fn.zTree.init($('#tree',layero), setting, data.data.authTree);//初始化ztree
 					            var auth_id=data.data.authIds;  //获取 权限id
-					            var treeObj = $.fn.zTree.getZTreeObj("tree");
-
-					            var nodes = treeObj.getNodes();
+					            var treeObj = $.fn.zTree.getZTreeObj("tree");//获取ztree对象
+					            var nodes = treeObj.getNodes();//获取所有节点
 					            var	nodes_array = treeObj.transformToArray (nodes);  //把标准json转换为简单json（一维数组）
-
 					            for (var i = 0; i < nodes_array.length; i++) {//循环所有节点数据
 						            var newAuth_id=auth_id.split(',');
 						            for(var j=0;j<newAuth_id.length;j++){//循环权限id与所有节点数据进行比较
 							            if(Number(newAuth_id[j])==nodes_array[i].auth_id){
-
 								            treeObj.expandNode(nodes_array[i], true); //展开选中的
 								            treeObj.checkNode(nodes_array[i], true); //勾选
 							            }
 						            }
 
 					            }
+				            }else{
+					            layer.msg(data.errmsg);
+					            errno=data.errno;//存储错误状态码
 				            }
 			            },'json');
 
 
 		            },
                     yes:function (index,layero) {
+		            	if(errno==1000){  //没有权限，直接关闭窗口
+                            layer.closeAll();
+                            return false;
+                        }
                         //获取ztree 选中的auth_id
                         var auth_id=$('#choose_auth').val();
 	                    loading=layer.load(2);
