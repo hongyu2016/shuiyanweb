@@ -25,14 +25,10 @@ module.exports = class extends think.Controller {
 		let myurl=this.ctx.module+'/'+this.ctx.controller+'/'+this.ctx.action;  // 当前访问的实际模块控制器方法 admin/index/index
 		let role_id=await this.model('admin').where({'admin_id':userinfo.admin_id}).getField('role_id');
 		let auth_rule=await this.model('role').where({'role_id':role_id[0]}).getField('auth_rule');
-
-
 		let myAuth=await this.model('authority').where({'auth_id':['IN',auth_rule[0]]}).select();
-
 		let yunxuUrl='';
 		for (let i in myAuth){
-			yunxuUrl+=myAuth[i].module+'/'+myAuth[i].controller+'/'+myAuth[i].action+',';
-
+			yunxuUrl+=myAuth[i].module+'/'+myAuth[i].controller+'/'+myAuth[i].action+','; //用，拼接成字符串
 		}
 		if(yunxuUrl.indexOf(myurl)==-1){  //没有权限
 			if(this.ctx.isAjax()){  //判断是否为ajax请求
@@ -42,11 +38,9 @@ module.exports = class extends think.Controller {
 					errno:1000
 				});
 			}else{
-				//return this.display("admin/error/nopermission");
-				console.log('my没有权限')
+				return this.display("admin/error_nopermission");
 			}
 		}
 
-		console.log(yunxuUrl);
 	}
 };

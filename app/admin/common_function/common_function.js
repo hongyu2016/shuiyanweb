@@ -150,4 +150,3 @@ class commonFun {
 	}
 }
 module.exports = commonFun;
-//# sourceMappingURL=common_function.js.map
