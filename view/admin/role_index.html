@@ -222,6 +222,7 @@
 				            var dom;
 				            layer.close(loading);
 				            if(data.success){
+					            $('#choose_auth').val(data.data.authIds);//存储权限列表id
 					            $.fn.zTree.init($('#tree',layero), setting, data.data.authTree);//初始化ztree
 					            var auth_id=data.data.authIds;  //获取 权限id
 					            var treeObj = $.fn.zTree.getZTreeObj("tree");//获取ztree对象

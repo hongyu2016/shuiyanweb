@@ -100,23 +100,96 @@ module.exports = class extends Base {
 		})();
 	}
 	/*
- * 删除用户
+ * 分配角色列表
  * */
-	deleteAction() {
+	roleListAction() {
 		var _this4 = this;
 
 		return _asyncToGenerator(function* () {
 			if (_this4.isGet) {
-				let id = _this4.get('id');
-				let data = yield _this4.modelInstance.where({ 'admin_id': id }).delete();
-				if (data) {
+				let id = _this4.get('admin_id');
+				if (!id) {
 					_this4.json({
+						success: false,
+						errmsg: 'id不能为空',
+						data: []
+					});
+					return false;
+				}
+				let role = yield _this4.model('role').select();
+				let role_id = yield _this4.modelInstance.where({ 'admin_id': id }).field('role_id').find();
+				if (role && role_id) {
+					_this4.json({
+						success: true,
+						errmsg: '获取成功',
+						data: {
+							roleList: role,
+							roleId: role_id.role_id
+						}
+					});
+				} else {
+					_this4.json({
+						success: false,
+						errmsg: '获取失败',
+						data: []
+					});
+				}
+			}
+		})();
+	}
+	/*
+ * 分配角色 提交
+ * */
+	distributeRoleAction() {
+		var _this5 = this;
+
+		return _asyncToGenerator(function* () {
+			if (_this5.isGet) {
+				let userId = _this5.get('admin_id');
+				let id = _this5.get('role_id');
+				if (!userId || !id) {
+					_this5.json({
+						success: false,
+						errmsg: 'role_id或者admin_id不能为空',
+						data: []
+					});
+					return false;
+				}
+				let data = yield _this5.modelInstance.where({ 'admin_id': userId }).update({ 'role_id': id });
+				if (data) {
+					_this5.json({
+						success: true,
+						errmsg: '修改成功',
+						data: data
+					});
+				} else {
+					_this5.json({
+						success: false,
+						errmsg: '修改失败',
+						data: []
+					});
+				}
+			}
+		})();
+	}
+	/*
+ * 删除用户
+ * */
+	deleteAction() {
+		var _this6 = this;
+
+		return _asyncToGenerator(function* () {
+			if (_this6.isGet) {
+				let id = _this6.get('id');
+				let data = yield _this6.modelInstance.where({ 'admin_id': id }).delete();
+				if (data) {
+					_this6.json({
 						success: true,
 						errmsg: '删除角色成功',
 						data: data
 					});
 				} else {
-					_this4.json({
+					_this6.json({
 						success: false,
 						errmsg: '删除角色失败',
 						data: []

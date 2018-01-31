@@ -33,14 +33,44 @@ module.exports = class extends think.Controller {
         if (this.isPost) {
             let username = this.post('username'); //获取用户名
             let password = this.post('password'); //获取密码
-            let data = await this.model('admin').where({admin_name: username, admin_pass: password}).find(); //查询数据库
-            if (think.isEmpty(data)) {
-                return this.fail(403, '账号密码错误！请重新填写');//登陆失败
-            } else {
-                this.session('userinfo', data);
-                this.success({username: username}, '登陆成功');
 
-            }
+	        if(!username ||!password){
+		        this.json({
+			        success:false,
+			        errmsg:'请输入用户名、密码',
+			        data:[]
+		        });
+		        return false;
+	        }
+
+            let data = await this.model('admin').where({admin_name: username, admin_pass: password}).find(); //查询数据库
+	        if (think.isEmpty(data)){
+		        this.json({
+			        success:false,
+			        errmsg:'账号密码错误！请重新填写',
+			        data:[]
+		        });
+		        return false;
+	        }
+	        //判断是否被禁用
+	        let role_status=await this.model('role').where({'role_id':data.role_id}).field('status').select();
+	        if(role_status[0].status==1){
+		        this.json({
+			        success:false,
+			        errmsg:'此用户已被禁用，请联系管理员',
+			        data:[]
+		        });
+		        return false;
+	        }else {
+		        this.session('userinfo', data);//存储session
+		        return this.json({
+			        success:true,
+			        errmsg:'登陆成功',
+			        data:{username: username}
+		        });
+
+	        }
+
         }
 
     }

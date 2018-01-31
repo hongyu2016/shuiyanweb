@@ -185,7 +185,7 @@
             }
             loading=layer.load(2);
             $.post('/admin/login/dologin',{username:userName,password:$.md5(passWord)},function (data) {
-                if(data.errno==0){
+                if(data.success){
                     if($('.remenber-user').prop('checked')){//存储用户名进cookie
                         $.cookie('username', userName, { expires: 7 });
                     }
@@ -193,7 +193,7 @@
 
                     window.location.href='/index';
                 }else{
-                    layer.msg('账号密码错误');
+                    layer.msg(data.errmsg);
                     layer.close(loading);
                 }
             },'json')

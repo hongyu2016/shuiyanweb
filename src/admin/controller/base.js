@@ -30,7 +30,6 @@ module.exports = class extends think.Controller {
 		for (let i in myAuth){
 			yunxuUrl+=myAuth[i].module+'/'+myAuth[i].controller+'/'+myAuth[i].action+','; //用，拼接成字符串
 		}
-		console.log(yunxuUrl)
 		if(yunxuUrl.indexOf(myurl)==-1){  //没有权限
 			if(this.ctx.isAjax()){  //判断是否为ajax请求
 				return this.json({

@@ -86,6 +86,73 @@ module.exports = class extends Base {
 		}
 	}
 	/*
+	* 分配角色列表
+	* */
+	async roleListAction(){
+		if(this.isGet){
+			let id=this.get('admin_id');
+			if(!id){
+				this.json({
+					success:false,
+					errmsg:'id不能为空',
+					data:[]
+				});
+				return false;
+			}
+			let role=await this.model('role').select();
+			let role_id=await this.modelInstance.where({'admin_id':id}).field('role_id').find();
+			if(role && role_id){
+				this.json({
+					success:true,
+					errmsg:'获取成功',
+					data:{
+						roleList:role,
+						roleId:role_id.role_id
+					}
+				});
+			}else{
+				this.json({
+					success:false,
+					errmsg:'获取失败',
+					data:[]
+				});
+			}
+		}
+
+	}
+	/*
+	* 分配角色 提交
+	* */
+	async distributeRoleAction(){
+		if(this.isGet){
+			let userId=this.get('admin_id');
+			let id=this.get('role_id');
+			if(!userId|| !id){
+				this.json({
+					success:false,
+					errmsg:'role_id或者admin_id不能为空',
+					data:[]
+				});
+				return false;
+			}
+			let data=await this.modelInstance.where({'admin_id':userId}).update({'role_id':id});
+			if(data){
+				this.json({
+					success:true,
+					errmsg:'修改成功',
+					data:data
+				});
+			}else{
+				this.json({
+					success:false,
+					errmsg:'修改失败',
+					data:[]
+				});
+			}
+		}
+
+	}
+	/*
 	* 删除用户
 	* */
 	async deleteAction(){
