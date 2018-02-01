@@ -277,15 +277,14 @@
 				        // 移除所有缩略图并将上传文件移出上传序列
 				        for (var i = 0; i < uploader.getFiles().length; i++) {
 					        // 将图片从上传序列移除
-					        uploader.removeFile(uploader.getFiles()[i]);
+					        uploader.removeFile(uploader.getFiles()[i],true);
 					        // 将图片从缩略图容器移除
 					        var $li = $('#' + uploader.getFiles()[i].id);
 					        $li.off().remove();
 				        }
-
+				        uploader.refresh();
 				        // 重置uploader，目前只重置了文件队列
 				        uploader.reset();
-
 			        })
                 }
 
@@ -311,15 +310,14 @@
 			        // 移除所有缩略图并将上传文件移出上传序列
 			        for (var i = 0; i < uploader.getFiles().length; i++) {
 				        // 将图片从上传序列移除
-				        uploader.removeFile(uploader.getFiles()[i]);
+				        uploader.removeFile(uploader.getFiles()[i],true);
 				        // 将图片从缩略图容器移除
 				        var $li = $('#' + uploader.getFiles()[i].id);
 				        $li.off().remove();
 			        }
-
+			        uploader.refresh();
 			        // 重置uploader，目前只重置了文件队列
 			        uploader.reset();
-
 		        })
 	        });
 
