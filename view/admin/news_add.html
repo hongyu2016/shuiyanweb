@@ -185,11 +185,13 @@
 		        // 选择文件的按钮。可选。
 		        // 内部根据当前运行是创建，可能是input元素，也可能是flash.
 		        pick: '#filePicker',
+                method:'POST',
+                duplicate:true,//设置是否可以重复上传
 		        // 只允许选择图片文件。
 		        accept: {
 			        title: 'Images',
 			        extensions: 'gif,jpg,jpeg,bmp,png',
-			        mimeTypes:'image/*,text/plain,application/msword,application/octet-stream,application/vnd.ms-excel,application/x-shockwave-flash'   //手机端可以打开相册
+			        mimeTypes:'image/*'   //手机端可以打开相册
 		        },
 		        thumb:{
 			        width: 210,
