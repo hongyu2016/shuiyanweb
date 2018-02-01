@@ -83,7 +83,9 @@
                             layer.close(loading);
                             layer.msg(data.errmsg);
                             //$(that).closest('tr').remove();
-                            window.location.reload();
+                            setTimeout(function (e) {
+	                            window.location.reload();
+                            },2000)
                         }else{
                             layer.close(loading);
                             layer.msg(data.errmsg);

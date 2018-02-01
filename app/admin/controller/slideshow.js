@@ -291,11 +291,9 @@ module.exports = class extends Base {
                 }*/
                 let slide_img = yield _this6.modelInstance.where({ 'slide_id': slideId }).field('slide_img').find();
                 //去七牛删除文件
-
                 let slideshow = think.service('slideshow', 'admin');
-
-                let result = yield slideshow.deleteQiniuImg(slide_img.slide_img); //只取 除域名外的部分
                 //当删除七牛图片成功时才删除数据库记录
+                let result = yield slideshow.deleteQiniuImg(slide_img.slide_img); //只取 除域名外的部分
 
                 if (result.msg != 'success') {
                     _this6.fail(403, '删除轮播图失败');

@@ -98,14 +98,15 @@
             accept: {
                 title: 'Images',
                 extensions: 'gif,jpg,jpeg,bmp,png',
-                mimeTypes: 'image/*'
+	            mimeTypes:'image/*,text/plain,application/msword,application/octet-stream,application/vnd.ms-excel,application/x-shockwave-flash'   //手机端可以打开相册
             },
             thumb:{
                 width: 210,
                 height: 210,
             },
             fileNumLimit:1,
-            fileSingleSizeLimit:3 * 1024 * 1024   // 5M
+            fileSingleSizeLimit:5 * 1024 * 1024,   // 5M
+	        timeout: 0
         });
         // 当有文件添加进来的时候
         uploader.on('fileQueued', function (file) {

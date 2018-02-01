@@ -132,6 +132,7 @@ module.exports = class extends Base {
 			const nameArr = file.name.split('.');
 			const YYYYMMDD = helper.datetime(Date.now(), 'YYYYMMDD');
 			const basename = 'news_'+YYYYMMDD+'_'+path.basename(localFile) + '.' + nameArr[nameArr.length - 1]; //新名称
+			console.log('文件路径',localFile)
 			// 文件上传
 			let slideshow=think.service('slideshow', 'admin');
 			let result=await slideshow.putfileQiniu(localFile, basename);
@@ -251,10 +252,10 @@ module.exports = class extends Base {
     	//删除文章时 需同时删除上传的图片
         if(this.isGet){
             let newsId=this.get('news-id');
-	        let news_img=await this.modelInstance.where({'article_id':newsId}).field('thumb').find();
+	        //let news_img=await this.modelInstance.where({'article_id':newsId}).field('thumb').find();
 
 	        //循环遍历对象
-	        if(news_img){
+	        /*if(news_img){
 		        for (let i in news_img) {
 			        if (news_img.hasOwnProperty(i) === true) {
 				        // 检测文件是否存在 删除大图和缩略图
@@ -264,7 +265,19 @@ module.exports = class extends Base {
 				        }
 			        }
 		        }
+	        }*/
+	        let news_img=await this.modelInstance.where({'article_id':newsId}).field('thumb').find();
+
+	        if(news_img.thumb){//如果存在缩略图，则去七牛云删除
+//去七牛删除文件
+		        let slideshow=think.service('slideshow', 'admin');
+		        //当删除七牛图片成功时才删除数据库记录
+		        let result=await slideshow.deleteQiniuImg(news_img.thumb);  //只取 除域名外的部分
+		        /*if(result.msg!='success'){
+			        this.fail(403,'删除缩略图失败');
+		        }*/
 	        }
+
 
             let dataId=await this.modelInstance.where({'article_id':newsId}).delete();
             if(!dataId){

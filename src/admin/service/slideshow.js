@@ -40,7 +40,6 @@ module.exports = class extends think.Service {
 
 		const formUploader = new qiniu.form_up.FormUploader(config);  //文件上传 表单上传
 		const putExtra = new qiniu.form_up.PutExtra();
-
 		function up(uploadToken,newname,filepath,putExtra) {
 			let deferred = think.defer();
 			let returnInfo={};
