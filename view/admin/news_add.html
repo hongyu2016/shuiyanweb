@@ -246,21 +246,47 @@
 
 	        // 文件上传成功，给item添加成功class, 用样式标记上传成功。
 	        uploader.on('uploadSuccess', function (file,response) {
+		        var $li = $('#' + file.id),
+			        $error = $li.find('div.error');
 		        if(response.success==true){
 			        $('#' + file.id).addClass('upload-state-done').attr({
 				        //'up_img_url':response.data.img_path,
 				        'up_img_url_thumb':response.data.key
 			        });
-                }else {
-			        var $li = $('#' + file.id),
-				        $error = $li.find('div.error');
+			        //显示成功信息
+			        // 避免重复创建
+			        if (!$error.length) {
+				        $error = $('<div class="error success"></div>').appendTo($li);
+			        }
 
+			        $error.text('上传成功');
+                }else {
+                    //显示错误信息
 			        // 避免重复创建
 			        if (!$error.length) {
 				        $error = $('<div class="error"></div>').appendTo($li);
 			        }
 
 			        $error.text('上传失败');
+			        //文件上传失败时，显示重置按钮
+			        var $filePicker=$('#filePicker');
+			        var $reset=$filePicker.find('button.rest-btn');
+			        $reset=$('<button type="button" class="btn btn-warning rest-btn">重置图片</button>').appendTo($filePicker);
+
+			        $reset.click(function (e) {
+				        // 移除所有缩略图并将上传文件移出上传序列
+				        for (var i = 0; i < uploader.getFiles().length; i++) {
+					        // 将图片从上传序列移除
+					        uploader.removeFile(uploader.getFiles()[i]);
+					        // 将图片从缩略图容器移除
+					        var $li = $('#' + uploader.getFiles()[i].id);
+					        $li.off().remove();
+				        }
+
+				        // 重置uploader，目前只重置了文件队列
+				        uploader.reset();
+
+			        })
                 }
 
 	        });
@@ -276,6 +302,25 @@
 		        }
 
 		        $error.text('上传失败');
+		        //文件上传失败时，显示重置按钮
+		        var $filePicker=$('#filePicker');
+		        var $reset=$filePicker.find('button.rest-btn');
+		        $reset=$('<button type="button" class="btn btn-warning rest-btn">重置图片</button>').appendTo($filePicker);
+
+		        $reset.click(function (e) {
+			        // 移除所有缩略图并将上传文件移出上传序列
+			        for (var i = 0; i < uploader.getFiles().length; i++) {
+				        // 将图片从上传序列移除
+				        uploader.removeFile(uploader.getFiles()[i]);
+				        // 将图片从缩略图容器移除
+				        var $li = $('#' + uploader.getFiles()[i].id);
+				        $li.off().remove();
+			        }
+
+			        // 重置uploader，目前只重置了文件队列
+			        uploader.reset();
+
+		        })
 	        });
 
 	        // 完成上传完了，成功或者失败，先删除进度条。
