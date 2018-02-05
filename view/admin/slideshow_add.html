@@ -195,6 +195,23 @@
 			        uploader.refresh();
 			        // 重置uploader，目前只重置了文件队列
 			        uploader.reset();
+		        })//文件上传失败时，显示重置按钮
+		        var $filePicker=$('#filePicker');
+		        var $reset=$filePicker.find('button.rest-btn');
+		        $reset=$('<button type="button" class="btn btn-warning rest-btn">重置图片</button>').appendTo($filePicker);
+
+		        $reset.click(function (e) {
+			        // 移除所有缩略图并将上传文件移出上传序列
+			        for (var i = 0; i < uploader.getFiles().length; i++) {
+				        // 将图片从上传序列移除
+				        uploader.removeFile(uploader.getFiles()[i],true);
+				        // 将图片从缩略图容器移除
+				        var $li = $('#' + uploader.getFiles()[i].id);
+				        $li.off().remove();
+			        }
+			        uploader.refresh();
+			        // 重置uploader，目前只重置了文件队列
+			        uploader.reset();
 		        })
             }
 
@@ -238,7 +255,7 @@
             if(code=='Q_EXCEED_NUM_LIMIT'){
                 layer.msg('只能上传一张图片')
             }else if(code=='F_EXCEED_SIZE'){
-                layer.msg('请上传3M以内的图片')
+                layer.msg('请上传5M以内的图片')
             }
             else{
                 layer.msg(code)

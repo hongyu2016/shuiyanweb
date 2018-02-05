@@ -1,6 +1,8 @@
 {% extends "./base.html" %}
 {% block main %}
-<link rel="stylesheet" href="/static/plugins/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
+<link rel="stylesheet" href="/static/plugins/ztree/css/awesomeStyle/awesome.css" type="text/css">
+
+<!--<link rel="stylesheet" href="/static/plugins/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">-->
 <style type="text/css">
     .ztree *{
         font-size: 14px;
@@ -11,6 +13,9 @@
         background-position:-144px 0;
         vertical-align:top;
         *vertical-align:middle
+    }
+    .ztree li span.ico_docu,.ztree li span.ico_open,.ztree li span.ico_close{
+        display: none;
     }
 </style>
 <script type="text/javascript" src="/static/plugins/ztree/jquery.ztree.all.min.js"></script>
@@ -273,6 +278,10 @@
     </script>
 <script>
 	var setting = {
+		view: {
+			showIcon: false,
+			showLine: true
+		},
 		check: {
 			enable: true,
 			chkboxType: { "Y": "ps", "N": "s" }
