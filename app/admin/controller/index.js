@@ -9,8 +9,13 @@ module.exports = class extends Base {
 
         return _asyncToGenerator(function* () {
             let articleNum = yield _this.model('news').count(); //查询文章总数
-            //this.ctx.body=articleNum;
+            let noticeNum = yield _this.model('notice').count(); //查询公告总数
+            let slideshowNum = yield _this.model('slideshow').count(); //查询图库总数
+            let contactNum = yield _this.model('contact').count(); //查询联系我们总数
             _this.assign('articleNum', articleNum);
+            _this.assign('noticeNum', noticeNum);
+            _this.assign('slideshowNum', slideshowNum);
+            _this.assign('contactNum', contactNum);
             return _this.display();
         })();
     }

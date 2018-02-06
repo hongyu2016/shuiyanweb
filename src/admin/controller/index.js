@@ -4,8 +4,13 @@ const cheerio = require('cheerio');//nodejs版本的jq
 module.exports = class extends Base {
     async indexAction() {
         let articleNum = await this.model('news').count(); //查询文章总数
-        //this.ctx.body=articleNum;
+	    let noticeNum = await this.model('notice').count(); //查询公告总数
+	    let slideshowNum = await this.model('slideshow').count(); //查询图库总数
+	    let contactNum = await this.model('contact').count(); //查询联系我们总数
         this.assign('articleNum',articleNum);
+	    this.assign('noticeNum',noticeNum);
+	    this.assign('slideshowNum',slideshowNum);
+	    this.assign('contactNum',contactNum);
         return this.display();
     }
     /*
