@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "author": "yuge",
   "scripts": {
-    "start": "node production.js",
+    "start": "node development.js",
     "test": "THINK_UNIT_TEST=1 nyc ava test/ && nyc report --reporter=html",
     "compile": "babel --no-babelrc src/ --presets think-node --out-dir app/",
     "lint": "eslint src/",

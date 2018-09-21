@@ -2,11 +2,12 @@
   "apps": [{
     "name": "shuiyanweb",
     "script": "production.js",
-    "cwd": "D:\node-test\shuiyanweb",
+    "cwd": "/root/code/shuiyancun_back",
     "exec_mode": "fork",
     "max_memory_restart": "1G",
     "autorestart": true,
     "node_args": [],
+    "watch": true,
     "args": [],
     "env": {
       

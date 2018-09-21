@@ -25,6 +25,6 @@
     "mappings": "AAAA;;;AAGAA,OAAOC,OAAP,GAAiB,cAAcC,MAAMC,KAApB,CAA0B;AACvCC,UAAQC,QAAR,EAAiBC,QAAjB,EAA0B;AACtB,UAAMC,OAAKL,MAAMM,QAAN,EAAX;AACA,WAAO,KAAKC,GAAL,CAAS,EAACC,WAAUL,QAAX,EAAoBM,aAAYL,QAAhC,EAAyCM,aAAYL,IAArD,EAAT,CAAP;AACH;AACJM,WAASC,MAAT,EAAgBT,QAAhB,EAAyBC,QAAzB,EAAkC;AACjC,WAAO,KAAKS,KAAL,CAAW,EAAC,WAAUD,MAAX,EAAX,EAA+BE,MAA/B,CAAsC,EAACN,WAAUL,QAAX,EAAoBM,aAAYL,QAAhC,EAAtC,CAAP;AACA;AAPyC,CAA3C",
     "file": "..\\..\\..\\src\\admin\\model\\news_sort.js",
     "sourcesContent": [
-        "/**\n * Created by Administrator on 2017/11/21.\n */\nmodule.exports = class extends think.Model {\n    addSort(sortName,userName){\n        const date=think.datetime();\n        return this.add({sort_name:sortName,create_user:userName,create_time:date});\n    }\n\teditSort(editId,sortName,userName){\n\t\treturn this.where({'sort_id':editId}).update({sort_name:sortName,create_user:userName});\n\t}\n};"
+        "/**\r\n * Created by Administrator on 2017/11/21.\r\n */\r\nmodule.exports = class extends think.Model {\r\n    addSort(sortName,userName){\r\n        const date=think.datetime();\r\n        return this.add({sort_name:sortName,create_user:userName,create_time:date});\r\n    }\r\n\teditSort(editId,sortName,userName){\r\n\t\treturn this.where({'sort_id':editId}).update({sort_name:sortName,create_user:userName});\r\n\t}\r\n};"
     ]
 }

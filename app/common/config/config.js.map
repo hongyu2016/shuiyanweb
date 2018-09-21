@@ -16,6 +16,6 @@
     "mappings": "AAAA;AACAA,OAAOC,OAAP,GAAiB;AACbC,aAAS,CADI;AAEbC,UAAKC,QAAQC,GAAR,CAAYC,IAAZ,IAAoB,IAFZ;AAGhBC,mBAAe;AAHC,CAAjB",
     "file": "..\\..\\..\\src\\common\\config\\config.js",
     "sourcesContent": [
-        "// default config\nmodule.exports = {\n    workers: 1,\n    port:process.env.PORT || 5000,\n\tstickyCluster: true\n};\n"
+        "// default config\r\nmodule.exports = {\r\n    workers: 1,\r\n    port:process.env.PORT || 5000,\r\n\tstickyCluster: true\r\n};\r\n"
     ]
 }

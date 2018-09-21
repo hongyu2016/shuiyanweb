@@ -284,7 +284,8 @@ module.exports = class extends Base {
  				errmsg: '获取权限列表成功',
  				data: data
  			});
- 			}
+ 
+ 		}
  		else {
  			this.json({
  				success: false,

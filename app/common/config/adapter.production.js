@@ -36,13 +36,17 @@ exports.model = {
     },
     mysql: {
         handle: mysql,
-        database: 'qdm115144345_db',
+        //database: 'qdm115144345_db',
+        database: 'shuiyan',
         prefix: 'sy_',
         encoding: 'utf8',
-        host: 'qdm115144345.my3w.com',
+        //host: 'qdm115144345.my3w.com',
+        host: 'localhost',
         port: '3306',
-        user: 'qdm115144345',
-        password: 'lhyzhuji2015',
+        //user: 'qdm115144345',
+        user: 'root',
+        //password: 'lhyzhuji2015',
+        password: 'root',
         dateStrings: true,
         insecureAuth: true //加上这个 避免 出现版本过低和不安全的报错
     }

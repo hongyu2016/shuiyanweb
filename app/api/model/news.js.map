@@ -14,9 +14,9 @@
         "page",
         "countSelect"
     ],
-    "mappings": "AAAAA,OAAOC,OAAP,GAAiB,cAAcC,MAAMC,KAApB,CAA0B;AAC1C,KAAIC,EAAJ,GAAS;AACR,SAAO,YAAP;AACA;AACDC,MAAKC,SAAL,EAAe;AACd,SAAO,KAAKC,IAAL,CAAUD,SAAV,EAAoB,EAApB,EAAwBE,WAAxB,EAAP;AACA;AANyC,CAA3C",
+    "mappings": "AAAAA,OAAOC,OAAP,GAAiB,cAAcC,MAAMC,KAApB,CAA0B;AAC1C,KAAIC,EAAJ,GAAS;AACR,SAAO,YAAP;AACA;AACDC,MAAKC,SAAL,EAAe;AACd,SAAO,KAAKC,IAAL,CAAUD,SAAV,EAAoB,CAApB,EAAuBE,WAAvB,EAAP;AACA;AANyC,CAA3C",
     "file": "..\\..\\..\\src\\api\\model\\news.js",
     "sourcesContent": [
-        "module.exports = class extends think.Model {\n\tget pk() {\n\t\treturn 'article_id';\n\t}\n\tlist(pageIndex){\n\t\treturn this.page(pageIndex,10).countSelect();\n\t}\n};\n"
+        "module.exports = class extends think.Model {\r\n\tget pk() {\r\n\t\treturn 'article_id';\r\n\t}\r\n\tlist(pageIndex){\r\n\t\treturn this.page(pageIndex,8).countSelect();\r\n\t}\r\n};\r\n"
     ]
 }

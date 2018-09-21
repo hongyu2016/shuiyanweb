@@ -39,10 +39,11 @@ exports.model = {
         database: 'shuiyan',
         prefix: 'sy_',
         encoding: 'utf8',
-        host: '127.0.0.1',
+        //host: '127.0.0.1',
+        host: '39.108.141.103',
         port: '3306',
-        user: 'root',
-        password: '123456',
+        user: 'yuge',
+        password: 'yuge',
         dateStrings: true,
         insecureAuth: true //加上这个 避免 出现版本过低和不安全的报错
     }
@@ -121,7 +122,7 @@ exports.websocket = {
     socketio: {
         handle: socketio,
         //allowOrigin: 'http://127.0.0.1:8080',  // 默认所有的域名都允许访问
-        path: '/api/websocket/getNotice', // 默认 '/socket.io'
+        path: '/socket.io', // 默认 '/socket.io' /api/websocket/getNotice
         adapter: null, // 默认无 adapter
         messages: [{
             open: '/api/websocket/open',
