@@ -152,3 +152,4 @@ module.exports = class extends think.Service {
 		})();
 	}
 };
+//# sourceMappingURL=slideshow.js.map

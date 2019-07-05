@@ -40,10 +40,10 @@ exports.model = {
         prefix: 'sy_',
         encoding: 'utf8',
         //host: '127.0.0.1',
-        host: '39.108.141.103',
+        host: '127.0.0.1',
         port: '3306',
-        user: 'yuge',
-        password: 'yuge',
+        user: 'root',
+        password: 'root',
         dateStrings: true,
         insecureAuth: true //加上这个 避免 出现版本过低和不安全的报错
     }

@@ -13,7 +13,7 @@ module.exports = class extends think.Controller {
 			const shuiyanImgThumb = 'imageView2/1/w/320/h/320/interlace/1/q/75|watermark/2/text/5rC056CU5p2R/font/5qW35L2T/fontsize/500/fill/I0Y4RDdCOA==/dissolve/77/gravity/SouthEast/dx/10/dy/10';//七牛的缩略图处理
 			const shuiyanImgThumb2 = 'imageView2/1/w/320/h/160/interlace/1/q/75|watermark/2/text/5rC056CU5p2R/font/5qW35L2T/fontsize/500/fill/I0Y4RDdCOA==/dissolve/77/gravity/SouthEast/dx/10/dy/10|imageslim';
 			this.assign({
-				'qiniuImgHost':'http://p2zln7xdx.bkt.clouddn.com/',
+				'qiniuImgHost':'http://qiniu.iyuge.cn/',
 				'shuiyanImgThumb': shuiyanImgThumb, //缩略图1
 				'shuiyanImgThumb2':shuiyanImgThumb2, //缩略图2
 				'newMenu': newMenu, //赋值菜单

@@ -1,0 +1,41 @@
+{
+    "version": 3,
+    "sources": [
+        "..\\..\\..\\src\\admin\\controller\\index.js"
+    ],
+    "names": [
+        "Base",
+        "require",
+        "request_p",
+        "cheerio",
+        "module",
+        "exports",
+        "indexAction",
+        "articleNum",
+        "model",
+        "count",
+        "noticeNum",
+        "slideshowNum",
+        "contactNum",
+        "assign",
+        "display",
+        "timingAction",
+        "isCli",
+        "fail",
+        "$",
+        "url",
+        "transform",
+        "load",
+        "body",
+        "ignoreWhitespace",
+        "content",
+        "html",
+        "console",
+        "log"
+    ],
+    "mappings": ";;AAAA,MAAMA,OAAOC,QAAQ,WAAR,CAAb;AACA,MAAMC,YAAUD,QAAQ,iBAAR,CAAhB,C,CAA6C;AAC7C,MAAME,UAAUF,QAAQ,SAAR,CAAhB,C,CAAmC;AACnCG,OAAOC,OAAP,GAAiB,cAAcL,IAAd,CAAmB;AAC1BM,eAAN,GAAoB;AAAA;;AAAA;AAChB,gBAAIC,aAAa,MAAM,MAAKC,KAAL,CAAW,MAAX,EAAmBC,KAAnB,EAAvB,CADgB,CACmC;AACtD,gBAAIC,YAAY,MAAM,MAAKF,KAAL,CAAW,QAAX,EAAqBC,KAArB,EAAtB,CAFmB,CAEiC;AACpD,gBAAIE,eAAe,MAAM,MAAKH,KAAL,CAAW,WAAX,EAAwBC,KAAxB,EAAzB,CAHmB,CAGuC;AAC1D,gBAAIG,aAAa,MAAM,MAAKJ,KAAL,CAAW,SAAX,EAAsBC,KAAtB,EAAvB,CAJmB,CAImC;AACnD,kBAAKI,MAAL,CAAY,YAAZ,EAAyBN,UAAzB;AACH,kBAAKM,MAAL,CAAY,WAAZ,EAAwBH,SAAxB;AACA,kBAAKG,MAAL,CAAY,cAAZ,EAA2BF,YAA3B;AACA,kBAAKE,MAAL,CAAY,YAAZ,EAAyBD,UAAzB;AACG,mBAAO,MAAKE,OAAL,EAAP;AATgB;AAUnB;AACD;;;;AAIMC,gBAAN,GAAoB;AAAA;;AAAA;AAChB;AACA,gBAAG,CAAC,OAAKC,KAAT,EAAgB,OAAO,OAAKC,IAAL,CAAU,IAAV,EAAgB,MAAhB,CAAP;AAChB,gBAAIC,IAAI,MAAMhB,UAAU;AACpBiB,qBAAI,mCADgB;AAEpBC,2BAAW;AAAA,2BAAQjB,QAAQkB,IAAR,CAAaC,IAAb,EAAkB;AACpCC,0CAAkB;AADkB,qBAAlB,CAAR;AAAA;AAFS,aAAV,CAAd;AAMA,gBAAIC,UAAUN,EAAE,QAAF,EAAYO,IAAZ,EAAd;AACAC,oBAAQC,GAAR,CAAYH,OAAZ;AAVgB;AAWnB;;AA3B+B,CAApC",
+    "file": "..\\..\\..\\src\\admin\\controller\\index.js",
+    "sourcesContent": [
+        "const Base = require('./base.js');\r\nconst request_p=require('request-promise');  //请求\r\nconst cheerio = require('cheerio');//nodejs版本的jq\r\nmodule.exports = class extends Base {\r\n    async indexAction() {\r\n        let articleNum = await this.model('news').count(); //查询文章总数\r\n\t    let noticeNum = await this.model('notice').count(); //查询公告总数\r\n\t    let slideshowNum = await this.model('slideshow').count(); //查询图库总数\r\n\t    let contactNum = await this.model('contact').count(); //查询联系我们总数\r\n        this.assign('articleNum',articleNum);\r\n\t    this.assign('noticeNum',noticeNum);\r\n\t    this.assign('slideshowNum',slideshowNum);\r\n\t    this.assign('contactNum',contactNum);\r\n        return this.display();\r\n    }\r\n    /*\r\n    * 定时任务\r\n    * */\r\n\r\n    async timingAction(){\r\n        // 如果不是定时任务调用，则拒绝 #定时爬取heroku当前地址  防止30分钟后休眠\r\n        if(!this.isCli) return this.fail(1000, 'deny');\r\n        let $ = await request_p({\r\n            url:'https://shuiyanweb.herokuapp.com/',\r\n            transform: body => cheerio.load(body,{\r\n\t            ignoreWhitespace: true\r\n            })\r\n        });\r\n        let content = $('.login').html();\r\n        console.log(content);\r\n    }\r\n    \r\n};\r\n"
+    ]
+}

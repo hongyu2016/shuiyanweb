@@ -1,0 +1,50 @@
+{
+    "version": 3,
+    "sources": [
+        "..\\..\\..\\..\\src\\admin\\common_function\\ueditor\\index.js"
+    ],
+    "names": [
+        "helper",
+        "require",
+        "path",
+        "fs",
+        "config",
+        "ThinkUeditor",
+        "constructor",
+        "ctx",
+        "init",
+        "param",
+        "action",
+        "file",
+        "filepath",
+        "nameArr",
+        "name",
+        "split",
+        "basename",
+        "length",
+        "YYYYMMDD",
+        "datetime",
+        "Date",
+        "now",
+        "staticPath",
+        "resolve",
+        "think",
+        "ROOT_PATH",
+        "uploadPath",
+        "relativePath",
+        "existsSync",
+        "mkdirSync",
+        "renameSync",
+        "state",
+        "url",
+        "title",
+        "original",
+        "module",
+        "exports"
+    ],
+    "mappings": "AAAA,MAAMA,SAASC,QAAQ,cAAR,CAAf;AACA,MAAMC,OAAOD,QAAQ,MAAR,CAAb;AACA,MAAME,KAAKF,QAAQ,IAAR,CAAX;;AAEA,MAAMG,SAASH,QAAQ,UAAR,CAAf;;AAEA,MAAMI,YAAN,CAAmB;AACjBC,cAAYC,GAAZ,EAAiB;AACf,SAAKA,GAAL,GAAWA,GAAX;AACD;;AAEDC,SAAO;AACL,UAAMC,QAAQ,KAAKF,GAAL,CAASE,KAAT,EAAd;;AAEA,QAAIA,MAAMC,MAAN,KAAiB,QAArB,EAA+B;AAC7B,aAAON,MAAP;AACD;;AAED,QAAIK,MAAMC,MAAN,KAAiB,aAAjB,IAAkCD,MAAMC,MAAN,KAAiB,YAAnD,IAAmED,MAAMC,MAAN,KAAiB,aAAxF,EAAuG;AACrG,YAAMC,OAAO,KAAKJ,GAAL,CAASI,IAAT,CAAc,QAAd,CAAb;AACA,YAAMC,WAAWD,KAAKT,IAAtB;AACA,YAAMW,UAAUF,KAAKG,IAAL,CAAUC,KAAV,CAAgB,GAAhB,CAAhB;AACA,YAAMC,WAAWd,KAAKc,QAAL,CAAcJ,QAAd,IAA0B,GAA1B,GAAgCC,QAAQA,QAAQI,MAAR,GAAiB,CAAzB,CAAjD;AACA,YAAMC,WAAWlB,OAAOmB,QAAP,CAAgBC,KAAKC,GAAL,EAAhB,EAA4B,UAA5B,CAAjB;AACA,YAAMC,aAAapB,KAAKqB,OAAL,CAAaC,MAAMC,SAAnB,EAA8B,YAA9B,CAAnB;AACA,YAAMC,aAAaxB,KAAKqB,OAAL,CAAaD,UAAb,EAAyB,QAAzB,CAAnB;AACA,YAAMK,eAAezB,KAAKqB,OAAL,CAAaG,UAAb,EAAyBR,QAAzB,CAArB;;AAEA;AACA,UAAI,CAACf,GAAGyB,UAAH,CAAcF,UAAd,CAAL,EAAgC;AAC9BvB,WAAG0B,SAAH,CAAaH,UAAb;AACD;;AAED,UAAI,CAACvB,GAAGyB,UAAH,CAAcD,YAAd,CAAL,EAAkC;AAChCxB,WAAG0B,SAAH,CAAaF,YAAb;AACD;;AAEDxB,SAAG2B,UAAH,CAAclB,QAAd,EAAwBV,KAAKqB,OAAL,CAAaI,YAAb,EAA4B,GAAEX,QAAS,EAAvC,CAAxB;;AAEA,aAAO;AACLe,eAAO,SADF;AAELC,aAAM,kBAAiBd,QAAS,IAAGF,QAAS,EAFvC;AAGLiB,eAAOjB,QAHF;AAILkB,kBAAUvB,KAAKG;AAJV,OAAP;AAMD;AACF;AAxCgB;;AA2CnBqB,OAAOC,OAAP,GAAiB/B,YAAjB",
+    "file": "..\\..\\..\\..\\src\\admin\\common_function\\ueditor\\index.js",
+    "sourcesContent": [
+        "const helper = require('think-helper');\r\nconst path = require('path');\r\nconst fs = require('fs');\r\n\r\nconst config = require('./config');\r\n\r\nclass ThinkUeditor {\r\n  constructor(ctx) {\r\n    this.ctx = ctx;\r\n  }\r\n\r\n  init() {\r\n    const param = this.ctx.param();\r\n\r\n    if (param.action === 'config') {\r\n      return config;\r\n    }\r\n\r\n    if (param.action === 'uploadimage' || param.action === 'uploadfile' || param.action === 'uploadvideo') {\r\n      const file = this.ctx.file('upfile');\r\n      const filepath = file.path;\r\n      const nameArr = file.name.split('.');\r\n      const basename = path.basename(filepath) + '.' + nameArr[nameArr.length - 1];\r\n      const YYYYMMDD = helper.datetime(Date.now(), 'YYYYMMDD');\r\n      const staticPath = path.resolve(think.ROOT_PATH, 'www/static');\r\n      const uploadPath = path.resolve(staticPath, 'upload');\r\n      const relativePath = path.resolve(uploadPath, YYYYMMDD);\r\n\r\n      // 文件夹不存在则创建\r\n      if (!fs.existsSync(uploadPath)) {\r\n        fs.mkdirSync(uploadPath);\r\n      }\r\n\r\n      if (!fs.existsSync(relativePath)) {\r\n        fs.mkdirSync(relativePath);\r\n      }\r\n\r\n      fs.renameSync(filepath, path.resolve(relativePath, `${basename}`));\r\n\r\n      return {\r\n        state: 'SUCCESS',\r\n        url: `/static/upload/${YYYYMMDD}/${basename}`,\r\n        title: basename,\r\n        original: file.name\r\n      };\r\n    }\r\n  }\r\n}\r\n\r\nmodule.exports = ThinkUeditor;\r\n"
+    ]
+}
