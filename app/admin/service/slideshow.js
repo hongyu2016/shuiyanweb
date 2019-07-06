@@ -16,7 +16,8 @@ const secretKey = 'CBcrPNhdn17uTo5fKT3lx-bBgqRI5TFeDs-dizET';
 const mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
 let bucket = 'iyuge';
 let options = {
-	scope: bucket //空间名称
+	scope: bucket, //空间名称
+	expires: 94608000 //token有效时间 三年
 };
 let putPolicy = new qiniu.rs.PutPolicy(options);
 let uploadToken = putPolicy.uploadToken(mac); //创建一个token
