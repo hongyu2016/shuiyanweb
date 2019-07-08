@@ -9,7 +9,7 @@ module.exports = class extends Base {
 		var _this = this;
 
 		return _asyncToGenerator(function* () {
-			let data = yield _this.model('notice').limit().select();
+			let data = yield _this.model('notice').limit().order('create_time DESC').select();
 			_this.emit('noticeList', data); //给当前 socket 发送事件
 			_this.broadcast('joined', '新的连接成功加入!'); //给所有的 socket 广播事件
 		})();
@@ -27,7 +27,7 @@ module.exports = class extends Base {
 
 			let thisVal = _this2.wsData;
 			if (thisVal == '更改通知数据') {
-				let data = yield _this2.model('notice').limit().select();
+				let data = yield _this2.model('notice').limit().order('create_time DESC').select();
 				_this2.broadcast('noticeList', data);
 			}
 		})();

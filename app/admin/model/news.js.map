@@ -1,0 +1,43 @@
+{
+    "version": 3,
+    "sources": [
+        "..\\..\\..\\src\\admin\\model\\news.js"
+    ],
+    "names": [
+        "module",
+        "exports",
+        "think",
+        "Model",
+        "pk",
+        "indexList",
+        "pageIndex",
+        "join",
+        "page",
+        "order",
+        "countSelect",
+        "addArticle",
+        "data",
+        "date",
+        "datetime",
+        "add",
+        "sort_id",
+        "sort",
+        "title",
+        "sub_title",
+        "subTitle",
+        "intro",
+        "content",
+        "author",
+        "thumb",
+        "copyfrom",
+        "create_time",
+        "editNews",
+        "update",
+        "update_time"
+    ],
+    "mappings": "AAAA;;;AAGAA,OAAOC,OAAP,GAAiB,cAAcC,MAAMC,KAApB,CAA0B;AACvC,QAAIC,EAAJ,GAAS;AACL,eAAO,YAAP;AACH;AACDC,cAAUC,SAAV,EAAoB;AAChB,eAAO,KACFC,IADE,CACG,sDADH,EAEFC,IAFE,CAEGF,SAFH,EAEa,EAFb,EAGFG,KAHE,CAGI,uBAHJ,EAIFC,WAJE,CAIU;AACT,qBAAQ,8JADC,EAJV,CAAP;AAMH;AACDC,eAAWC,IAAX,EAAgB;AACZ,cAAMC,OAAKX,MAAMY,QAAN,EAAX;AACA,eAAO,KAAKC,GAAL,CAAS;AACZC,qBAAQJ,KAAKK,IADD;AAEZC,mBAAMN,KAAKM,KAFC;AAGZC,uBAAUP,KAAKQ,QAHH;AAIZC,mBAAMT,KAAKS,KAJC;AAKZC,qBAAQV,KAAKU,OALD;AAMZC,oBAAOX,KAAKW,MANA;AAOfC,mBAAMZ,KAAKY,KAPI;AAQZC,sBAASb,KAAKa,QARF;AASZC,yBAAYb;AATA,SAAT,CAAP;AAWH;AACDc,aAASf,IAAT,EAAc;AACV,cAAMC,OAAKX,MAAMY,QAAN,EAAX;AACA,eAAO,KAAKc,MAAL,CACH;AACIZ,qBAAQJ,KAAKK,IADjB;AAEIC,mBAAMN,KAAKM,KAFf;AAGIC,uBAAUP,KAAKQ,QAHnB;AAIIC,mBAAMT,KAAKS,KAJf;AAKIC,qBAAQV,KAAKU,OALjB;AAMIC,oBAAOX,KAAKW,MANhB;AAOCC,mBAAMZ,KAAKY,KAPZ;AAQIC,sBAASb,KAAKa,QARlB;AASII,yBAAYhB;AAThB,SADG,CAAP;AAaH;AAzCsC,CAA3C",
+    "file": "..\\..\\..\\src\\admin\\model\\news.js",
+    "sourcesContent": [
+        "/**\r\n * Created by Administrator on 2017/11/21.\r\n */\r\nmodule.exports = class extends think.Model {\r\n    get pk() {\r\n        return 'article_id';\r\n    }\r\n    indexList(pageIndex){\r\n        return this\r\n            .join('sy_news_sort ON sy_news.sort_id=sy_news_sort.sort_id')\r\n            .page(pageIndex,10)\r\n            .order('news_create_time DESC')\r\n            .countSelect({\r\n                'field':'article_id,sort_name,thumb,update_time,intro,author,copyfrom,hits,title,sy_news_sort.create_time as sort_create_time,sy_news.create_time as news_create_time'});\r\n    }\r\n    addArticle(data){\r\n        const date=think.datetime();\r\n        return this.add({\r\n            sort_id:data.sort,\r\n            title:data.title,\r\n            sub_title:data.subTitle,\r\n            intro:data.intro,\r\n            content:data.content,\r\n            author:data.author,\r\n\t        thumb:data.thumb,\r\n            copyfrom:data.copyfrom,\r\n            create_time:date\r\n        });\r\n    }\r\n    editNews(data){\r\n        const date=think.datetime();\r\n        return this.update(\r\n            {\r\n                sort_id:data.sort,\r\n                title:data.title,\r\n                sub_title:data.subTitle,\r\n                intro:data.intro,\r\n                content:data.content,\r\n                author:data.author,\r\n\t            thumb:data.thumb,\r\n                copyfrom:data.copyfrom,\r\n                update_time:date\r\n            }\r\n        )\r\n    }\r\n};"
+    ]
+}

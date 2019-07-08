@@ -1,0 +1,23 @@
+{
+    "version": 3,
+    "sources": [
+        "..\\..\\..\\src\\api\\model\\news.js"
+    ],
+    "names": [
+        "module",
+        "exports",
+        "think",
+        "Model",
+        "pk",
+        "list",
+        "pageIndex",
+        "page",
+        "order",
+        "countSelect"
+    ],
+    "mappings": "AAAAA,OAAOC,OAAP,GAAiB,cAAcC,MAAMC,KAApB,CAA0B;AAC1C,KAAIC,EAAJ,GAAS;AACR,SAAO,YAAP;AACA;AACDC,MAAKC,SAAL,EAAe;AACd,SAAO,KAAKC,IAAL,CAAUD,SAAV,EAAoB,CAApB,EACNE,KADM,CACA,uBADA,EAENC,WAFM,EAAP;AAGA;AARyC,CAA3C",
+    "file": "..\\..\\..\\src\\api\\model\\news.js",
+    "sourcesContent": [
+        "module.exports = class extends think.Model {\r\n\tget pk() {\r\n\t\treturn 'article_id';\r\n\t}\r\n\tlist(pageIndex){\r\n\t\treturn this.page(pageIndex,8)\r\n\t\t.order('news_create_time DESC')\r\n\t\t.countSelect();\r\n\t}\r\n};\r\n"
+    ]
+}

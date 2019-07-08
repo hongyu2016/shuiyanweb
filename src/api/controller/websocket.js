@@ -4,7 +4,7 @@ module.exports = class extends Base {
 		super(...arg);
 	}
 	async openAction() {
-		let data=await this.model('notice').limit().select();
+		let data=await this.model('notice').limit().order('create_time DESC').select();
 		this.emit('noticeList', data);//给当前 socket 发送事件
 		this.broadcast('joined', '新的连接成功加入!');//给所有的 socket 广播事件
 	}
@@ -18,7 +18,7 @@ module.exports = class extends Base {
 
 		let thisVal=this.wsData;
 		if(thisVal=='更改通知数据'){
-			let data=await this.model('notice').limit().select();
+			let data=await this.model('notice').limit().order('create_time DESC').select();
 			this.broadcast('noticeList', data);
 		}
 

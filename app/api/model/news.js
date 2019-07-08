@@ -3,6 +3,6 @@ module.exports = class extends think.Model {
 		return 'article_id';
 	}
 	list(pageIndex) {
-		return this.page(pageIndex, 8).countSelect();
+		return this.page(pageIndex, 8).order('update_time DESC').countSelect();
 	}
 };
